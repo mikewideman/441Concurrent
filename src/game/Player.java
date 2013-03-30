@@ -47,7 +47,7 @@ public class Player implements Entity {
 	 */
 	public void beginMove(Direction direction){}
 	
-	/**Stops moved initiated by beginMove**/
+	/**Stops moved initiated by beginMove. Note that the player (for now) does not need to move diagonally.**/
 	public void stopMove() {
 	}
 	/** The player would like to fire **/
