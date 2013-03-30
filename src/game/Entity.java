@@ -17,6 +17,6 @@ public interface Entity {
 	
 	public Point2D getLocation();
 	
-	public Rectangle2D getBoundingBox();
+	public int getRadius();
 
 }
