@@ -1,56 +1,109 @@
 package game;
 import gui.EntitySprite;
 
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
+import java.awt.Point;
+import java.awt.Rectangle;
 
 
-public class Player implements Entity {
 
-	public void move() {
-		// TODO Auto-generated method stub
+
+public class Player implements Entity , Runnable {
+
+	private Board 			m_board;
+	private Point			m_location;
+	private EntitySprite 	m_sprite;
+	private Rectangle 		m_boundingBox;
+
+	
+	private final int SQUARE_SIZE = 50;
+	
+	private final int BULLET_SPAWN_DX = 0;
+	private final int BULLET_SPAWN_DY = -50;
+	
+	public Player( Board board, Point location )
+	{
+		m_board 	= board;
+		m_location 	= location;
+
 		
-	}
-
-	public void collidesWith(Entity entity) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void die() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public EntitySprite getSprite() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public Point2D getLocation() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public Rectangle2D getBoundingBox() {
-		// TODO Auto-generated method stub
-		return null;
+		recalcBoundingBox();
 	}
 	
-	/** The player would like to move here. Go if possible */
-	public void moveToLocation(int x, int y){
+	
+	//This method is called by the handler for keyboard input.
+	//It should not be confused with updateLocation, which is called by the board after all movement issues have been resolved.
+	public void moveToLocation( int x, int y )
+	{
+		//commenting out until board is implemented
+		//m_board.move( x, y );
+	}
+	
+	public void updateLocation( int x, int y )
+	{
+		m_location.move(x, y);
+		recalcBoundingBox();
+	}
+	
+	public void beginMove(Direction direction)
+	{
 		
 	}
-	/**The player would like to move continuously in the specified Direction.
-	 * Treat like a centipede or a bullet and proceed in that direction as long as possible or until stopMove() is called.
-	 * @param direction
-	 */
-	public void beginMove(Direction direction){}
 	
-	/**Stops moved initiated by beginMove**/
-	public void stopMove() {
+	public void endMove()
+	{
+		
 	}
-	/** The player would like to fire **/
-	public void fire(){}
+	
+	private void recalcBoundingBox()
+	{
+		int x = m_location.x - SQUARE_SIZE / 2;
+		int y = m_location.y - SQUARE_SIZE / 2;
+		m_boundingBox = new Rectangle( x, y, SQUARE_SIZE, SQUARE_SIZE );
+	}
+	
+	public void fire()
+	{
+		//commenting out until board is implemented
+		//m_board.createEntity( m_location.x + BULLET_SPAWN_DX, m_location.y + BULLET_SPAWN_DY, EntityTypes.BULLET );
+	}
+	
+	public void move() 
+	{
+		//Player movement is based on keyboard input and is not implemented in this method
+	}
+
+
+	public void collidesWith(Entity entity) 
+	{
+
+		
+	}
+
+	public void die() 
+	{
+		//commenting out until board is implemented
+		//m_board.move( -1, -1 );
+	}
+
+	
+	public EntitySprite getSprite()
+	{
+		return m_sprite;
+	}
+
+	
+	public Point getLocation() 
+	{
+		return m_location;
+	}
+
+	public Rectangle getBoundingBox() {
+		return m_boundingBox;
+	}
+
+
+	public void run() {
+		
+	}
 
 }
