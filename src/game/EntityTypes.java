@@ -1,3 +1,4 @@
+package game;
 /**
  * @author mike
  * This enum represents the different types of entities that are present in the game of centipede.
