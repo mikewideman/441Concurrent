@@ -1,5 +1,6 @@
 package gui;
-import game.*;
-public class EntitySprite {
+import java.awt.Component;
 
+import game.*;
+public abstract class EntitySprite extends Component{
 }

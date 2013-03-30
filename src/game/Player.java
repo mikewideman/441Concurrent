@@ -36,5 +36,21 @@ public class Player implements Entity {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	/** The player would like to move here. Go if possible */
+	public void moveToLocation(int x, int y){
+		
+	}
+	/**The player would like to move continuously in the specified Direction.
+	 * Treat like a centipede or a bullet and proceed in that direction as long as possible or until stopMove() is called.
+	 * @param direction
+	 */
+	public void beginMove(Direction direction){}
+	
+	/**Stops moved initiated by beginMove**/
+	public void stopMove() {
+	}
+	/** The player would like to fire **/
+	public void fire(){}
 
 }
