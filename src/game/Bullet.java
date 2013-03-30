@@ -1,41 +1,94 @@
+
 package game;
 import gui.EntitySprite;
-import gui.EntitySprite;
-
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 
 
-public class Bullet implements Entity{
+import java.awt.Point;
+import java.awt.Rectangle;
 
-	public void move() {
-		// TODO Auto-generated method stub
+
+
+public class Bullet implements Entity, Runnable {
+
+
+	private Board 			m_board;
+	private Point			m_location;
+	private EntitySprite 		m_sprite;
+	private Rectangle 		m_boundingBox;
+	private boolean			m_active;
+	
+	private final int HEIGHT 	= 50;
+	private final int WIDTH 	= 10;
+	
+	private final int MOVE_DX = 0;
+	private final int MOVE_DY = -10;
+	
+	public Bullet( Board board, Point location)
+	{
+		m_board 	= board;
+		m_location 	= location;
+		
+		recalcBoundingBox();
+	}
+	
+	public void move() 
+	{
+		//commented out until board is implemented
+		//m_board.move( m_location.x + MOVE_DX, m_location.y + MOVE_DY );
+	}
+
+	public void collidesWith(Entity entity)
+	{
 		
 	}
 
-	public void collidesWith(Entity entity) {
-		// TODO Auto-generated method stub
+	
+	public void die() 
+	{	
+		//commented out until board is implemented
+		//m_board.move( -1, -1 );
+	}
+
+	
+	public EntitySprite getSprite() 
+	{
+		return m_sprite;
+	}
+
+
+	public Point getLocation() 
+	{
+		return m_location;
+	}
+
+
+	public Rectangle getBoundingBox() 
+	{	
+		return m_boundingBox;
+	}
+
+
+	public void run() {
+		m_active = true;
+		while ( m_active )
+		{
+			move();
+			Thread.yield();
+		}
 		
 	}
-
-	public void die() {
-		// TODO Auto-generated method stub
-		
+	
+	private void recalcBoundingBox()
+	{
+		int x = m_location.x - WIDTH / 2;
+		int y = m_location.y - HEIGHT / 2;
+		m_boundingBox = new Rectangle( x, y, WIDTH, HEIGHT );
 	}
-
-	public EntitySprite getSprite() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public Point2D getLocation() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public Rectangle2D getBoundingBox() {
-		// TODO Auto-generated method stub
-		return null;
+	
+	public void updateLocation(int x, int y)
+	{
+		m_location.move(x, y);
+		recalcBoundingBox();
 	}
 
 }

@@ -28,10 +28,12 @@ class CentipedeCanvas extends JPanel {
 
 		for (Entity thing : theBoard.getAllEntities()) {
 			EntitySprite sprite = thing.getSprite();
-			Point2D loc = sprite.getDrawingLocation();
-			// int radius = thing.getRadius();
-			g2.drawImage(sprite.getImage(), (int) loc.getX(), (int) loc.getY(),
-					null);
+			if (sprite.shouldBeDrawn()){
+				Point2D loc = sprite.getDrawingLocation();
+				// int radius = thing.getRadius();
+				g2.drawImage(sprite.getImage(), (int) loc.getX(), (int) loc.getY(),
+						null);
+			}
 		}
 
 	}
