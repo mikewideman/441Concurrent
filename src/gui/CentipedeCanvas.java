@@ -5,6 +5,7 @@ import game.Entity;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.geom.Point2D;
 
 import javax.swing.JPanel;
@@ -29,9 +30,10 @@ class CentipedeCanvas extends JPanel {
 		for (Entity thing : theBoard.getAllEntities()) {
 			EntitySprite sprite = thing.getSprite();
 			if (sprite.shouldBeDrawn()){
-				Point2D loc = sprite.getDrawingLocation();
-				// int radius = thing.getRadius();
-				g2.drawImage(sprite.getImage(), (int) loc.getX(), (int) loc.getY(),
+				Point2D loc = this.getLocation();
+				//will be drawn to fill the bounding box
+				 Rectangle box = thing.getBoundingBox();
+				g2.drawImage(sprite.getImage(), (int) loc.getX()-box.width/2, (int) loc.getY()-box.height/2,box.width,box.height,
 						null);
 			}
 		}

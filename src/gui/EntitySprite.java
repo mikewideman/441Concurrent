@@ -17,10 +17,16 @@ public abstract class EntitySprite {
 	final String IMG_DIR = "img";
 //	protected static Map<String, Image> cache = new HashMap<String, Image>();
 
-	public EntitySprite(Entity entityToManage) throws IOException {
+	public EntitySprite(Entity entityToManage) {
 //		loadImages();
-		cacheImages();
+		try {
+			cacheImages();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
+	
 
 	/**
 	 * Get a correctly sized image to draw. It must be loaded when it returns.

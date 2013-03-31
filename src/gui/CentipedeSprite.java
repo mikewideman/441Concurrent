@@ -17,7 +17,7 @@ public class CentipedeSprite extends EntitySprite {
 	/**Cache for body image**/
 	private static Image bodyImage;
 
-	public CentipedeSprite(Centipede entityToManage) throws IOException {
+	public CentipedeSprite(Centipede entityToManage){
 		super(entityToManage);
 		centi = entityToManage;
 
