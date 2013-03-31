@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CentipedeSprite extends EntitySprite {
-	Centipede centi;
+	private Centipede centi;
 	/**Heads can point every direction**/
 	private static Map<Direction, Image> headCache;
 	/**Cache for body image**/
