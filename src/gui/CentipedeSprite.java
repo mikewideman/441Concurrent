@@ -36,7 +36,7 @@ public class CentipedeSprite extends EntitySprite {
 		return centi.getLocation().getX()>-1;//this seems dumb, but it's what's in the spec
 	}
 
-	protected void cacheImages() throws IOException {
+	protected void cacheImages(){
 		if (bodyImage == null) {// only need to do this once on class level
 			BufferedImage body = readImage("Body.bmp");
 			BufferedImage body1 = body.getSubimage(0, 0, body.getWidth() / 2,

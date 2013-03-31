@@ -12,9 +12,9 @@ import javax.swing.JPanel;
 
 /** A container for the game UI and any other UI elements */
 public class GUI extends JFrame {
-	public GUI(Board board, Player player) {
+	public GUI(Player player,Board board) {
 		super();
-		CentipedeCanvas canvas = new CentipedeCanvas(board);
+		GameCanvas canvas = new GameCanvas(board);
 		PlayerController controller = new PlayerController(player);
 
 		// the canvas has focus (I hope, swing focus is pretty unpredictable)
@@ -26,6 +26,8 @@ public class GUI extends JFrame {
 		this.setTitle("Centipede");
 		this.setSize(board.getWidth(), board.getHeight());
 		// note: may have to add size if other ui elements are added
+		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		add(canvas);
 
 	}
 

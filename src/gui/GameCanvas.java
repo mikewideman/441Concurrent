@@ -5,17 +5,18 @@ import game.Entity;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.geom.Point2D;
 
 import javax.swing.JPanel;
 
 /** The drawing of the actual game */
-class CentipedeCanvas extends JPanel {
+class GameCanvas extends JPanel {
 	private Board theBoard;
 	private AnimThread animator;
 
-	public CentipedeCanvas(Board board) {
+	public GameCanvas(Board board) {
 		this.theBoard = board;
 		animator = new AnimThread();
 		animator.start();
@@ -33,7 +34,12 @@ class CentipedeCanvas extends JPanel {
 				Point2D loc = this.getLocation();
 				//will be drawn to fill the bounding box
 				 Rectangle box = thing.getBoundingBox();
-				g2.drawImage(sprite.getImage(), (int) loc.getX()-box.width/2, (int) loc.getY()-box.height/2,box.width,box.height,
+				 System.out.println("drawign at "+box);
+				 Image img= sprite.getImage();
+				 if (img==null)
+					 System.out.println("Error: Image not loaded");
+				 else
+					 g2.drawImage(sprite.getImage(), box.x,box.y,box.width,box.height,
 						null);
 			}
 		}

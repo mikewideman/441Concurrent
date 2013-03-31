@@ -14,7 +14,7 @@ public class PlayerSprite extends EntitySprite {
 		this.myEntity=entityToManage;
 	}
 
-	protected void cacheImages() throws IOException {
+	protected void cacheImages(){
 		// TODO Auto-generated method stub
 		playerImg = readImage("Player.bmp");
 	}
