@@ -12,18 +12,21 @@ import javax.swing.JFrame;
 public class GUI extends JFrame {
 	public GUI(Player player, Board board) {
 		super();
+		
 		GameCanvas canvas = new GameCanvas(board);
 		PlayerController controller = new PlayerController(player);
 
-		// the canvas has focus (I hope, swing focus is pretty unpredictable)
-		// events on the canvas are player control actions
+		//listen for user input
 		canvas.addMouseListener(controller);
 		canvas.addMouseMotionListener(controller);
-		this.addKeyListener(controller);
+		this.addKeyListener(controller);//okay, so the canvas doesn't actually have focus
 
+		/*Window configuration */
 		this.setTitle("Centipede");
 		this.setSize(board.getWidth(), board.getHeight());
 		// note: may have to add size if other ui elements are added
+		this.setResizable(false);
+
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 
 		// Invisible cursor (set it to a blank image)
@@ -33,6 +36,7 @@ public class GUI extends JFrame {
 				cursorImg, new Point(0, 0), "blank cursor");
 		canvas.setCursor(blankCursor);
 
+		
 		add(canvas);
 
 	}
