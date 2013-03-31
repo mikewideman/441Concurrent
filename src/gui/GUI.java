@@ -21,7 +21,7 @@ public class GUI extends JFrame {
 		// events on the canvas are player control actions
 		canvas.addMouseListener(controller);
 		canvas.addMouseMotionListener(controller);
-		canvas.addKeyListener(controller);
+		this.addKeyListener(controller);
 
 		this.setTitle("Centipede");
 		this.setSize(board.getWidth(), board.getHeight());

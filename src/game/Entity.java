@@ -18,6 +18,10 @@ public interface Entity {
 	
 	public Point2D getLocation();
 		
+	/**The box to draw. 
+	 * As specified in the Rectangle doc, the location x,y is the upper left.
+	 * @return
+	 */
 	public Rectangle getBoundingBox();
 
 }

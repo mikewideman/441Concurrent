@@ -26,5 +26,8 @@ public class StubBoard extends Board {
 		// TODO Auto-generated method stub
 		return 500;
 	}
+	public void addPlayer(Player p){
+		entities.add(p);
+	}
 	
 }

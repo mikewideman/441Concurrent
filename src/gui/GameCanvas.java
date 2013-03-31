@@ -34,7 +34,6 @@ class GameCanvas extends JPanel {
 				Point2D loc = this.getLocation();
 				//will be drawn to fill the bounding box
 				 Rectangle box = thing.getBoundingBox();
-				 System.out.println("drawign at "+box);
 				 Image img= sprite.getImage();
 				 if (img==null)
 					 System.out.println("Error: Image not loaded");
@@ -47,7 +46,7 @@ class GameCanvas extends JPanel {
 	}
 
 	class AnimThread extends Thread {
-		final int fps = 60;
+		final int fps = 60;//sleep time
 
 		public void run() {
 			while (Thread.currentThread() == animator) {
