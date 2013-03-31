@@ -1,5 +1,6 @@
 
 package game;
+import gui.BulletSprite;
 import gui.EntitySprite;
 
 
@@ -27,6 +28,7 @@ public class Bullet implements Entity, Runnable {
 	{
 		m_board 	= board;
 		m_location 	= location;
+		m_sprite = new BulletSprite(this);
 		
 		recalcBoundingBox();
 	}

@@ -3,6 +3,7 @@ package game;
 import java.awt.Rectangle;
 import java.awt.Point;
 import gui.EntitySprite;
+import gui.MushroomSprite;
 
 
 public class Mushroom implements Entity, Runnable{
@@ -25,6 +26,7 @@ public class Mushroom implements Entity, Runnable{
 		m_board 	= board;
 		m_curHealth = MAX_HEALTH;
 		m_location 	= location;
+		m_sprite = new MushroomSprite(this);
 		
 		recalcBoundingBox();
 	}

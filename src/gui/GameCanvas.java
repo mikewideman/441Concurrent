@@ -35,9 +35,10 @@ class GameCanvas extends JPanel {
 				//will be drawn to fill the bounding box
 				 Rectangle box = thing.getBoundingBox();
 				 Image img= sprite.getImage();
-				 if (img==null)
-					 System.out.println("Error: Image not loaded");
-				 else
+//				 if (img==null)
+//					 System.out.println("Error: Image not loaded for "+thing);
+//				 else
+				 if (img !=null)
 					 g2.drawImage(sprite.getImage(), box.x,box.y,box.width,box.height,
 						null);
 			}

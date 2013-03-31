@@ -25,7 +25,7 @@ public class BulletSprite extends EntitySprite {
 	@Override
 	public Image getImage() {
 		// TODO Auto-generated method stub
-		return null;
+		return img;
 	}
 
 }

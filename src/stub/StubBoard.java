@@ -1,5 +1,6 @@
 package stub;
 
+import java.awt.Point;
 import java.util.Vector;
 
 import game.*;
@@ -12,6 +13,8 @@ public class StubBoard extends Board {
 		entities.add(new StubCentipede(this));
 		entities.add(new StubCentipede(this));
 		entities.add(new StubCentipede(this));
+		entities.add(new Bullet(this, new Point(300, 200)));
+		entities.add(new Mushroom(this, new Point(300, 220)));
 		
 	}
 	public Iterable<Entity> getAllEntities() {

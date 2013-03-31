@@ -31,7 +31,7 @@ public class MushroomSprite extends EntitySprite {
 		BufferedImage img = readImage("Mushroom.bmp");
 		//image is divided into sections == to the # lives left being the healthiest
 		int subimageWidth = img.getWidth()/LIVES;
-		for (int l = LIVES; l > 0; l++){
+		for (int l = LIVES; l > 0; l--){
 			BufferedImage lifeImg = img.getSubimage((LIVES-l)*subimageWidth, 0, subimageWidth, img.getHeight());
 			imgCache.put(l, lifeImg);
 		}
