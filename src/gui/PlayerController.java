@@ -9,8 +9,9 @@ import game.Direction;
 import game.Player;
 import java.awt.event.KeyListener;
 
-/** A user input listener that controls a player**/
-public class PlayerController implements KeyListener, MouseListener, MouseMotionListener {
+/** A user input listener that controls a player **/
+public class PlayerController implements KeyListener, MouseListener,
+		MouseMotionListener {
 	private Player thePlayer;
 
 	/**
@@ -42,7 +43,8 @@ public class PlayerController implements KeyListener, MouseListener, MouseMotion
 
 	public void keyReleased(KeyEvent e) {
 		int c = e.getKeyCode();
-		if (c==KeyEvent.VK_LEFT || c==KeyEvent.VK_RIGHT||c==KeyEvent.VK_UP||c==KeyEvent.VK_DOWN)
+		if (c == KeyEvent.VK_LEFT || c == KeyEvent.VK_RIGHT
+				|| c == KeyEvent.VK_UP || c == KeyEvent.VK_DOWN)
 			thePlayer.stopMove();
 
 	}
@@ -79,12 +81,12 @@ public class PlayerController implements KeyListener, MouseListener, MouseMotion
 
 	public void mouseDragged(MouseEvent arg0) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public void mouseMoved(MouseEvent e) {
 		thePlayer.moveToLocation(e.getX(), e.getY());
-		
+
 	}
 
 }
