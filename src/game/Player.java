@@ -95,6 +95,7 @@ public class Player implements Entity , Runnable {
 	public Point getLocation() 
 	{
 		return m_location;
+	}
 	/**Stops moved initiated by beginMove. Note that the player (for now) does not need to move diagonally.**/
 	public void stopMove() {
 	}
