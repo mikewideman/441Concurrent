@@ -1,9 +1,14 @@
 package gui;
 
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Point;
+import java.awt.Toolkit;
 import java.awt.geom.Point2D;
+import java.awt.image.BufferedImage;
+import java.awt.image.MemoryImageSource;
 
 import game.*;
 
@@ -27,6 +32,14 @@ public class GUI extends JFrame {
 		this.setSize(board.getWidth(), board.getHeight());
 		// note: may have to add size if other ui elements are added
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		
+		//Invisible cursor (set it to a blank image)
+		BufferedImage cursorImg = new BufferedImage(16, 16, BufferedImage.TYPE_INT_ARGB);
+		Cursor blankCursor = Toolkit.getDefaultToolkit().createCustomCursor(
+		    cursorImg, new Point(0, 0), "blank cursor");
+		canvas.setCursor(blankCursor);
+		
+		
 		add(canvas);
 
 	}
