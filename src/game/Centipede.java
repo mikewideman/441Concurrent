@@ -1,6 +1,7 @@
 package game;
 import gui.EntitySprite;
 
+import java.awt.Rectangle;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
@@ -39,7 +40,7 @@ public class Centipede implements Entity {
 		return null;
 	}
 
-	public Rectangle2D getBoundingBox() {
+	public Rectangle getBoundingBox() {
 		// TODO Auto-generated method stub
 		return null;
 	}

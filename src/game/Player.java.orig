@@ -1,6 +1,5 @@
 package game;
 import gui.EntitySprite;
-import gui.PlayerSprite;
 
 import java.awt.Point;
 import java.awt.Rectangle;
@@ -12,7 +11,7 @@ public class Player implements Entity , Runnable {
 
 	private Board 			m_board;
 	private Point			m_location;
-	private PlayerSprite 	m_sprite;
+	private EntitySprite 	m_sprite;
 	private Rectangle 		m_boundingBox;
 
 	
@@ -26,7 +25,6 @@ public class Player implements Entity , Runnable {
 		m_board 	= board;
 		m_location 	= location;
 
-		m_sprite = new PlayerSprite(this);
 		
 		recalcBoundingBox();
 	}
@@ -94,12 +92,13 @@ public class Player implements Entity , Runnable {
 	}
 
 	
+<<<<<<< HEAD
+	/**Stops moved initiated by beginMove. Note that the player (for now) does not need to move diagonally.**/
+	public void stopMove() {
+=======
 	public Point getLocation() 
 	{
 		return m_location;
-	}
-	/**Stops moved initiated by beginMove. Note that the player (for now) does not need to move diagonally.**/
-	public void stopMove() {
 	}
 
 	public Rectangle getBoundingBox() {
@@ -109,12 +108,7 @@ public class Player implements Entity , Runnable {
 
 	public void run() {
 		
-	}
-
-
-	public int getRadius() {
-		// TODO Auto-generated method stub
-		return 0;
+>>>>>>> 981dfeceaeff580650bbb7262815b1a77611dc10
 	}
 
 }
