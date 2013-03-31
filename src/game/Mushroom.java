@@ -84,5 +84,18 @@ public class Mushroom implements Entity, Runnable{
 			Thread.yield();
 		}
 	}
+	
+	/**
+	 * Lives left in this mushroom
+	 * According to the game:
+	 * 5 = full health
+	 * 1 = lowest health (still alive)
+	 * outside of interval [1, #Life images] will prevent drawing
+	 * @return
+	 */
+	public int getHealth()
+	{
+		return 5;
+	}
 
 }
