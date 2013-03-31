@@ -1,6 +1,7 @@
 package game;
 import gui.EntitySprite;
 
+import java.awt.Rectangle;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
@@ -16,7 +17,7 @@ public interface Entity {
 	public EntitySprite getSprite();
 	
 	public Point2D getLocation();
-	
-	public int getRadius();
+		
+	public Rectangle getBoundingBox();
 
 }
