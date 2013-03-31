@@ -1,6 +1,7 @@
 package gui;
 
 import java.awt.Image;
+import java.awt.Rectangle;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -18,8 +19,10 @@ public abstract class EntitySprite {
 
 	// protected static Map<String, Image> cache = new HashMap<String, Image>();
 
+	private Entity myEntity;
 	public EntitySprite(Entity entityToManage) {
 		// loadImages();
+		this.myEntity=entityToManage;
 		cacheImages();
 
 	}
@@ -30,7 +33,16 @@ public abstract class EntitySprite {
 	 */
 	public abstract Image getImage();
 
-	public abstract boolean shouldBeDrawn();
+	/**
+	 * Will not draw if location is negative. 
+	 * Subclasses should use a logical  AND with super and specify additional constraints.
+	 * @return
+	 */
+	public boolean shouldBeDrawn(){
+		//drawn if location is positive
+		Rectangle box = myEntity.getBoundingBox();
+		return myEntity != null && box.x>=0 && box.y>=0;
+	}
 
 	/**
 	 * Called during construction. Subclasses are required to cache images here

@@ -28,13 +28,4 @@ public class BulletSprite extends EntitySprite {
 		return null;
 	}
 
-	@Override
-	public boolean shouldBeDrawn() {
-		// TODO Auto-generated method stub
-		
-		//drawn if location is positive
-		Rectangle box = myEntity.getBoundingBox();
-		return myEntity != null && box.x>=0 && box.y>=0;
-	}
-
 }

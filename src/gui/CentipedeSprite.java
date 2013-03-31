@@ -31,11 +31,6 @@ public class CentipedeSprite extends EntitySprite {
 			return headCache.get(centi.getDirection());
 	}
 
-	public boolean shouldBeDrawn() {
-		// TODO Auto-generated method stub
-		return centi.getLocation().getX()>-1;//this seems dumb, but it's what's in the spec
-	}
-
 	protected void cacheImages(){
 		if (bodyImage == null) {// only need to do this once on class level
 			BufferedImage body = readImage("Body.bmp");
