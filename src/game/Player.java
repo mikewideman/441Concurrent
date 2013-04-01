@@ -14,12 +14,15 @@ public class Player implements Entity , Runnable {
 	private Point			m_location;
 	private PlayerSprite 	m_sprite;
 	private Rectangle 		m_boundingBox;
-
+	private Direction		m_direction;
+	private boolean			m_moving;
 	
 	private final int SQUARE_SIZE = 50;
+	private final int STEP_SIZE	  = 50; //distance moved in one turn
 	
 	private final int BULLET_SPAWN_DX = 0;
 	private final int BULLET_SPAWN_DY = -50;
+	
 	
 	public Player( Board board, Point location )
 	{
@@ -29,6 +32,7 @@ public class Player implements Entity , Runnable {
 		m_sprite = new PlayerSprite(this);
 		
 		recalcBoundingBox();
+		m_moving = false;
 	}
 	
 	
@@ -48,12 +52,13 @@ public class Player implements Entity , Runnable {
 	
 	public void beginMove(Direction direction)
 	{
-		
+		m_direction = direction;
+		m_moving 	= true;
 	}
 	
 	public void endMove()
 	{
-		
+		m_moving = false;
 	}
 	
 	private void recalcBoundingBox()
@@ -71,7 +76,16 @@ public class Player implements Entity , Runnable {
 	
 	public void move() 
 	{
-		//Player movement is based on keyboard input and is not implemented in this method
+		//business commented out until board is implemented
+		if( m_direction == Direction.LEFT )
+		{
+			//m_board.move( m_location.x - STEP_SIZE, m_location.y );
+		}
+		else if( m_direction == Direction.RIGHT )
+		{
+			//m_board.move( m_location.x + STEP_SIZE, m_location.y );			}
+		}
+
 	}
 
 
@@ -108,7 +122,11 @@ public class Player implements Entity , Runnable {
 
 
 	public void run() {
-		
+		while ( m_location.x != -1 ) 
+		{
+			move();
+			Thread.yield();
+		}
 	}
 
 
