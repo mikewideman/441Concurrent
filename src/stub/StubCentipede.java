@@ -20,7 +20,7 @@ public class StubCentipede extends Centipede {
 		super();
 		isHead = Math.random()<=0.5;
 		direction = Direction.values()[(int)(Math.random()*4)];
-		mySprite = new CentipedeSprite(this);
+		mySprite = new CentipedeSprite(this);	// "this" escapes!!
 		this.myBoard = b;
 
 	}
