@@ -128,8 +128,9 @@ public class Centipede implements Entity {
 		Centipede head = null;
 		Centipede curr = null;
 		for (int i=length-1; i>1; --i) {	// Build from tail up
-			Point segmentLocation = null;	/* 	Need to figure out how to
-												calculate points before */
+			// assuming we are building head at left, tail to right
+			Point segmentLocation = new Point(headLocation.x + SQUARE_SIZE * i,
+												headLocation.y);
 			curr = new Centipede(false, board, segmentLocation,
 									initialDirection, curr);
 			curr.m_sprite = new CentipedeSprite(curr);
