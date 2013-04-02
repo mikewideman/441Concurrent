@@ -87,12 +87,14 @@ public class Centipede implements Entity {
 
 	/**
 	 * Kill this segment. If there is a next segment, it becomes a new head.
+	 * If the segment killed is not a head, there will now be two Centipedes.
 	 */
 	public void die() {
 		if (this.m_nextSegment != null) {
 			
 		}
-		
+		// Problem: how does the previous segment know it has lost its next?
+		// Will we use a doubly linked list?
 	}
 
 	/*
@@ -139,8 +141,7 @@ public class Centipede implements Entity {
 		return head;
 	}
 	
-	private void recalcBoundingBox()
-	{
+	private void recalcBoundingBox() {
 		int x = m_location.x - SQUARE_SIZE / 2;
 		int y = m_location.y - SQUARE_SIZE / 2;
 		m_boundingBox = new Rectangle( x, y, SQUARE_SIZE, SQUARE_SIZE );
