@@ -9,7 +9,9 @@ import java.util.Map;
 
 public class CentipedeSprite extends EntitySprite {
 	private Centipede centi;
-	/** Heads can point every direction **/
+	/** Heads can point every direction 
+	 * Keep an image for each
+	**/
 	private static Map<Direction, Image> headCache;
 	/** Cache for body image **/
 	private static Image bodyImage;

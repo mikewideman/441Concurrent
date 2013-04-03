@@ -9,16 +9,17 @@ import javax.imageio.ImageIO;
 
 import game.*;
 
-/** Tied closely to the GUI, contains all information needed to display this **/
+/** Tied closely to the GUI, contains all information needed to display this Entity**/
 public abstract class EntitySprite {
+	
+	/**
+	 * The directory containing the images.
+	 */
 	final String IMG_DIR = "img";
 
-	// protected static Map<String, Image> cache = new HashMap<String, Image>();
-
 	private Entity myEntity;
-
+	
 	public EntitySprite(Entity entityToManage) {
-		// loadImages();
 		this.myEntity = entityToManage;
 		cacheImages();
 
@@ -44,7 +45,7 @@ public abstract class EntitySprite {
 
 	/**
 	 * Called during construction. Subclasses are required to cache images here
-	 * using their own impementations.
+	 * using their own implementations.
 	 * 
 	 * @return
 	 * @throws IOException
@@ -75,7 +76,8 @@ public abstract class EntitySprite {
 	// }
 
 	/**
-	 * Just a helper.
+	 * Just a helper for reading an image
+	 * @filename the name of the file in the images directory.
 	 */
 	protected BufferedImage readImage(String filename) {
 		BufferedImage img = null;
