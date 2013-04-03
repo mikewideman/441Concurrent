@@ -15,12 +15,12 @@ import java.awt.Rectangle;
 public class Bullet implements Entity, Runnable {
 
 
-	private Board 			m_board;
-	private Point			m_location;
-	private EntitySprite 	m_sprite;
-	private Rectangle 		m_boundingBox;
-	private boolean			m_active;
-	private EntityTypes		m_type;
+	private Board 					m_board;
+	private Point					m_location;
+	private EntitySprite 			m_sprite;
+	private Rectangle 				m_boundingBox;
+	private boolean					m_active;
+	private final EntityTypes		m_type;
 	
 	//The height/width of a bullet entity, in pixels. Useful for determining bounding box.
 	private final int HEIGHT 	= 50;

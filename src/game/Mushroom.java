@@ -9,12 +9,12 @@ import gui.MushroomSprite;
 public class Mushroom implements Entity, Runnable{
 
 
-	private Board 			m_board;
-	private int 			m_curHealth;
-	private Point			m_location;
-	private EntitySprite 	m_sprite;
-	private Rectangle 		m_boundingBox;
-	private EntityTypes		m_type;
+	private Board 					m_board;
+	private int 					m_curHealth;
+	private Point					m_location;
+	private EntitySprite 			m_sprite;
+	private Rectangle 				m_boundingBox;
+	private final EntityTypes		m_type;
 	
 	//Maximum and starting health of the mushroom.
 	private final int MAX_HEALTH 	= 4;

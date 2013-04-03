@@ -10,13 +10,13 @@ import java.awt.Rectangle;
 
 public class Player implements Entity , Runnable {
 
-	private Board 			m_board;
-	private Point			m_location;
-	private PlayerSprite 	m_sprite;
-	private Rectangle 		m_boundingBox;
-	private Direction		m_direction;
-	private boolean			m_moving;
-	private EntityTypes		m_type;
+	private Board 					m_board;
+	private Point					m_location;
+	private PlayerSprite 			m_sprite;
+	private Rectangle 				m_boundingBox;
+	private Direction				m_direction;
+	private boolean					m_moving;
+	private final EntityTypes		m_type;
 	
 	private final int SQUARE_SIZE = 50;
 	private final int STEP_SIZE	  = 50; //distance moved in one turn
