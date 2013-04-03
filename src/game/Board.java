@@ -91,21 +91,30 @@ public class Board {
         boolean wallCollision = false;
         ReentrantLock currentTile;
         ReentrantLock goalTile;
+        boolean startedOutOfBounds = false;
+        
+        
+     // catch things that have been created out of bounds.
+		if ((currLoc[0] < 0 || currLoc[0] >= (WIDTH_PIXELS)) 
+			|| (currLoc[1] < 0 || currLoc[1] >= (HEIGHT_PIXELS))) {
+			currentTile = getTile(0, 0);
+			startedOutOfBounds = true;
+		} else {
+			currentTile = getTile(currLoc[0], currLoc[1]);
+		}		
+		
+		
 		if ((x < 0 || x >= (WIDTH_PIXELS)) 
-			|| (y < 0 || y >= (HEIGHT_PIXELS))) {
+			|| (y < 0 || y >= (HEIGHT_PIXELS))) {//going out of bounds
 			wallCollision = true;
-			goalTile = getTile(currLoc[0], currLoc[1]);
+			if (startedOutOfBounds)//started out and going out, there's no hope for you. Cancel.
+				return;
+			goalTile = getTile(currLoc[0], currLoc[1]);//started out but going in.
 		} else {
 			goalTile = getTile(x, y);
 			
 		}
-		// catch things that have been created out of bounds.
-		if ((currLoc[0] < 0 || currLoc[0] >= (WIDTH_PIXELS)) 
-			|| (currLoc[1] < 0 || currLoc[1] >= (HEIGHT_PIXELS))) {
-			currentTile = getTile(0, 0);
-		} else {
-			currentTile = getTile(currLoc[0], currLoc[1]);
-		}		
+		
 
         // lock current tile and goal tile-- this will
         // prevent whoever is in the goal tile from moving away
@@ -179,7 +188,8 @@ public class Board {
     		(new Thread(newEntity)).start();//start the entity in it's own thread.
     		break;
     	case CENTIPEDE:
-    		newEntity = Centipede.generateChain(this, p, Centipede.DEFAULT_CHAIN_LENGTH, Direction.LEFT);
+//    		newEntity = Centipede.generateChain(this, p, Centipede.DEFAULT_CHAIN_LENGTH, Direction.LEFT);
+    		newEntity = Centipede.makeCentipede(Centipede.DEFAULT_CHAIN_LENGTH, this, new Point(x,y));
     		(new Thread(newEntity)).start();//start the entity in it's own thread.
     		break;
     	}

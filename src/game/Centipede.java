@@ -121,6 +121,41 @@ public class Centipede implements Entity {
 	}
 
 	/**
+	 * A factory method for Centipede. Builds a centipede placed horizontally
+	 * with its head at the left placed at the location specified and its tail
+	 * segments placed to the right. For our purposes the Centipede will always
+	 * start off moving left.
+	 * 
+	 * @param length			The number of segments.
+	 * @param board				The Board in which the Centipede will reside.
+	 * @param headLocation		The location where the head segment will be.
+	 * @return	the new Centipede
+	 */
+	//What is this? is this supposed to be static? Idk, I just wrote another one.
+	public static Centipede makeCentipede(	int length,
+											Board board,
+											Point headLocation	) {
+		Centipede head = null;
+		Centipede curr = null;
+		for (int i=length-1; i>1; --i) {	// Build from tail up
+			// assuming we are building head at left, tail to right
+			Point segmentLocation =
+							new Point(	headLocation.x + Board.TILE_SIZE * i,
+										headLocation.y);
+			curr = new Centipede(	false, board, segmentLocation,
+									Direction.LEFT, curr);
+			curr.m_sprite = new CentipedeSprite(curr);
+			curr.recalcBoundingBox();
+		}
+		head = new Centipede(		true, board, headLocation,
+									Direction.LEFT, curr);
+		head.m_sprite = new CentipedeSprite(head);
+		head.recalcBoundingBox();
+		return head;
+	}
+
+
+	/**
 	 * 
 	 * @return true if the segment is the head of the Centipede
 	 */
@@ -226,13 +261,29 @@ public class Centipede implements Entity {
 			 * Tell your next segment to move (since non-head segments don't
 			 * have a thread to do that for them)
 			 */
-			synchronized (this.m_nextSegment) {
-				if (this.m_nextSegment != null) {
-					this.m_nextSegment.move();
+			if (this.m_nextSegment!=null)
+				synchronized (this.m_nextSegment) {
+					if (this.m_nextSegment != null) {
+						this.m_nextSegment.move();
+					}
 				}
-			}
 		}
 	}
+
+	public void run() {
+		while ( !(this.m_isDead) )
+		{
+			move();
+			try {
+				Thread.sleep((long) ((1.0 / 360) * 1000));
+			} catch (InterruptedException e) {
+			}
+			Thread.yield();
+	
+		}
+		
+	}
+
 
 	/**
 	 * Collision with a Bullet results in a death of the segment. Collision
@@ -350,40 +401,6 @@ public class Centipede implements Entity {
 		return EntityTypes.CENTIPEDE;
 	}
 	
-	/**
-	 * A factory method for Centipede. Builds a centipede placed horizontally
-	 * with its head at the left placed at the location specified and its tail
-	 * segments placed to the right. For our purposes the Centipede will always
-	 * start off moving left.
-	 * 
-	 * @param length			The number of segments.
-	 * @param board				The Board in which the Centipede will reside.
-	 * @param headLocation		The location where the head segment will be.
-	 * @return	the new Centipede
-	 */
-	//What is this? is this supposed to be static? Idk, I just wrote another one.
-	public static Centipede makeCentipede(	int length,
-											Board board,
-											Point headLocation	) {
-		Centipede head = null;
-		Centipede curr = null;
-		for (int i=length-1; i>1; --i) {	// Build from tail up
-			// assuming we are building head at left, tail to right
-			Point segmentLocation =
-							new Point(	headLocation.x + Board.TILE_SIZE * i,
-										headLocation.y);
-			curr = new Centipede(	false, board, segmentLocation,
-									Direction.LEFT, curr);
-			curr.m_sprite = new CentipedeSprite(curr);
-			curr.recalcBoundingBox();
-		}
-		head = new Centipede(		true, board, headLocation,
-									Direction.LEFT, curr);
-		head.m_sprite = new CentipedeSprite(head);
-		head.recalcBoundingBox();
-		return head;
-	}
-	
 	private void recalcBoundingBox() {
 		int[] p = getLocation();
 		m_boundingBox =  Rectangle.fromCenter( 	p[0],
@@ -395,21 +412,6 @@ public class Centipede implements Entity {
 	public synchronized void updateLocation(int x, int y) {
 		this.m_location.x = x;
 		this.m_location.y = y;
-	}
-
-
-	public void run() {
-		while ( !(this.m_isDead) )
-		{
-			move();
-			try {
-				Thread.sleep((long) ((1.0 / 360) * 1000));
-			} catch (InterruptedException e) {
-			}
-			Thread.yield();
-
-		}
-		
 	}
 
 }
