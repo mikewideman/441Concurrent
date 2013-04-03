@@ -108,7 +108,7 @@ public class Centipede implements Entity {
 	public static Centipede generateChain(Board board, Point p, int nRemain, Direction dir, boolean isHead) {
 		Centipede nextInChain = null;
 		if (nRemain > 0)//if not the last in chain, generate more chain.
-			nextInChain = Centipede.generateChain(board, p, nRemain-1, dir, false);
+			nextInChain = Centipede.generateChain(board, new Point(p.x+Board.TILE_SIZE, p.y), nRemain-1, dir, false);
 		Centipede me = new Centipede(false, board, p, dir, nextInChain);
 		return me;
 		
@@ -191,10 +191,21 @@ public class Centipede implements Entity {
 	 */
 	public void die() {
 		if (this.m_nextSegment != null) {
-			
+			this.m_nextSegment.becomeHead();
 		}
-		// Problem: how does the previous segment know it has lost its next?
-		// Will we use a doubly linked list?
+		this.m_location=new Point(-1,-1);//this is how we die
+		m_board.createEntity(this.m_location.x, this.m_location.y, EntityTypes.MUSHROOM);
+		
+	}
+	
+	/**
+	 * Become a head.
+	 */
+	protected void becomeHead(){
+		this.m_isHead=true;
+	}
+	public boolean isDead(){
+		return this.m_location.getX()<0 && this.m_location.getY()<0;
 	}
 	
 	public EntitySprite getSprite() {
@@ -215,6 +226,7 @@ public class Centipede implements Entity {
 		return EntityTypes.CENTIPEDE;
 	}
 	
+	//What is this? is this supposed to be static? Idk, I just wrote another one.
 	public Centipede makeCentipede(	int length,
 									Board board,
 									Point headLocation,
@@ -242,10 +254,18 @@ public class Centipede implements Entity {
 		m_boundingBox =  Rectangle.fromUpperLeft( x, y, SQUARE_SIZE, SQUARE_SIZE );
 	}
 
-	@Override
 	public void updateLocation(int x, int y) {
 		this.m_location.x = x;
 		this.m_location.y = y;
+	}
+
+
+	public void run() {
+		while ( !isDead() )
+		{
+			move();
+		}
+		
 	}
 
 }

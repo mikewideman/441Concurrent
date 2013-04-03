@@ -5,7 +5,7 @@ import game.Rectangle;
 import java.awt.geom.Point2D;
 
 
-public interface Entity {
+public interface Entity extends Runnable{
 	
 	public void move();
 	

@@ -16,7 +16,8 @@ public class Driver {
 	
 	public static void main(String[] args) {
 		Board board = new Board();
-		board.createEntity(playerStartX, playerStartY, EntityTypes.PLAYER);
+		Player p = (Player) board.createEntity(playerStartX, playerStartY, EntityTypes.PLAYER);
+		board.createEntity(board.WIDTH_PIXELS, board.TILE_SIZE, EntityTypes.CENTIPEDE);
 		
 		GUI gui = new GUI(p,board);
 		gui.setVisible(true);

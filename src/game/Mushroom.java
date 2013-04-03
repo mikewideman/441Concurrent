@@ -5,7 +5,7 @@ import gui.EntitySprite;
 import gui.MushroomSprite;
 
 
-public class Mushroom implements Entity, Runnable{
+public class Mushroom implements Entity{
 
 
 	private Board 					m_board;

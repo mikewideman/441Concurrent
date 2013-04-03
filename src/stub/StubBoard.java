@@ -10,9 +10,9 @@ public class StubBoard extends Board {
 	public StubBoard() {
 		super();
 		entities = new Vector<Entity>();
-		entities.add(new StubCentipede(this));
-		entities.add(new StubCentipede(this));
-		entities.add(new StubCentipede(this));
+//		entities.add(new StubCentipede(this));
+//		entities.add(new StubCentipede(this));
+//		entities.add(new StubCentipede(this));
 		entities.add(new Bullet(this, new Point(300, 200)));
 		entities.add(new Mushroom(this, new Point(300, 220)));
 		

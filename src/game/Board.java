@@ -123,6 +123,7 @@ public class Board {
     /**
      * Place a new entity, such as a brand new mushroom,
      * centipede, etc, on the play board.
+     * Then run the entity;
      *
      * @param newEntity the new entity to add to the board
      */
@@ -143,6 +144,7 @@ public class Board {
     		newEntity = Centipede.generateChain(this, p, Centipede.DEFAULT_CHAIN_LENGTH, Direction.LEFT);
     		break;
     	}
+    	(new Thread(newEntity)).start();//start the entity in it's own thread.
     	return newEntity;
 
     }
