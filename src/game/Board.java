@@ -168,19 +168,25 @@ public class Board {
     		break;
     	case PLAYER:
     		newEntity = new Player(this, p);
+    		(new Thread(newEntity)).start();//start the entity in it's own thread.
     		break;
     	case BULLET:
     		newEntity = new Bullet(this, p);
+    		(new Thread(newEntity)).start();//start the entity in it's own thread.
     		break;
     	case CENTIPEDE:
     		newEntity = Centipede.generateChain(this, p, Centipede.DEFAULT_CHAIN_LENGTH, Direction.LEFT);
+    		(new Thread(newEntity)).start();//start the entity in it's own thread.
     		break;
     	}
     	entities.add(newEntity);
-    	(new Thread(newEntity)).start();//start the entity in it's own thread.
     	
     	return newEntity;
 
+    }
+    
+    public void removeEntity(Entity e) {
+    	entities.remove(e);
     }
 
     /**

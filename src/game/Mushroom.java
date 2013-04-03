@@ -73,7 +73,7 @@ public class Mushroom implements Entity{
 		m_curHealth--;
 		if ( m_curHealth <= 0 )
 		{
-			m_board.move( -1, -1, this );
+			m_board.removeEntity(this);
 		}
 	}
 
