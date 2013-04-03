@@ -32,6 +32,9 @@ public class Mushroom implements Entity, Runnable{
 		recalcBoundingBox();
 	}
 	
+	/**
+	 * Recalculates the bounding box for the mushroom based on current location.
+	 */
 	private void recalcBoundingBox()
 	{
 		int x = m_location.x - SQUARE_SIZE / 2;
