@@ -222,6 +222,12 @@ public class Centipede implements Entity {
 		}
 	}
 
+	/**
+	 * Collision with a Bullet results in a death of the segment. Collision
+	 * with a Mushroom results in a change in direction.
+	 * 
+	 * @param entity	the Entity with which the Centipede collided
+	 */
 	public void collidesWith(Entity entity) {
 		
 		if( entity.getType() == EntityTypes.BULLET )
@@ -299,6 +305,11 @@ public class Centipede implements Entity {
 		return new int[]{p.x,p.y};
 	}
 
+	/**
+	 * Get the bounding box of the Centipede.
+	 * 
+	 * @return	the bounding box
+	 */
 	public Rectangle getBoundingBox() {
 		// Rectangles are mutable
 		return (this.m_boundingBox);
