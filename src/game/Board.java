@@ -87,15 +87,24 @@ public class Board {
         // This should be fine with the below code,
         // since the locks are reentrant.
         boolean wallCollision = false;
+        ReentrantLock currentTile;
+        ReentrantLock goalTile;
 	if ((x < 0 || x >= (WIDTH_PIXELS)) 
-	|| (y < 0 || y >= (HEIGHT_PIXELS))) {
+		|| (y < 0 || y >= (HEIGHT_PIXELS))) {
 		wallCollision = true;
-		x = currLoc[0];
-		y = currLoc[1];
+		goalTile = getTile(currLoc[0], currLoc[1]);
+	} else {
+		goalTile = getTile(x, y);
+		
 	}
-
-        ReentrantLock currentTile = getTile(currLoc[0], currLoc[1]);
-	        ReentrantLock goalTile = getTile(x, y);
+	// catch things that have been created out of bounds.
+	if ((currLoc[0] < 0 || currLoc[0] >= (WIDTH_PIXELS)) 
+		|| (currLoc[1] < 0 || currLoc[1] >= (HEIGHT_PIXELS))) {
+		System.out.println("Warning: Started out of bounds.");
+		currentTile = getTile(0, 0);
+	} else {
+		currentTile = getTile(currLoc[0], currLoc[1]);
+	}		
 
         // lock current tile and goal tile-- this will
         // prevent whoever is in the goal tile from moving away
