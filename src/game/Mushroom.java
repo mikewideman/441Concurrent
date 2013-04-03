@@ -48,7 +48,10 @@ public class Mushroom implements Entity, Runnable{
 
 	public void collidesWith(Entity entity) 
 	{
-		
+		if( entity.getType() == EntityTypes.BULLET )
+		{
+			die();
+		}
 	}
 
 	public void die() 

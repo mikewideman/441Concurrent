@@ -15,6 +15,8 @@ public class Player implements Entity , Runnable {
 	private PlayerSprite 			m_sprite;
 	private Rectangle 				m_boundingBox;
 	private Direction				m_direction;
+	
+	//true if we're currently moving, false otherwise. This must never escape.
 	private boolean					m_moving;
 	private final EntityTypes		m_type;
 	
@@ -93,6 +95,14 @@ public class Player implements Entity , Runnable {
 
 	public void collidesWith(Entity entity) 
 	{
+		if( entity.getType() == EntityTypes.CENTIPEDE )
+		{
+			die();
+		}
+		else if ( entity.getType() == EntityTypes.MUSHROOM ) 
+		{
+			m_moving = false;
+		}
 		
 		
 	}
@@ -130,13 +140,6 @@ public class Player implements Entity , Runnable {
 			Thread.yield();
 		}
 	}
-
-
-	public int getRadius() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
 
 	public EntityTypes getType() {
 		return m_type;
