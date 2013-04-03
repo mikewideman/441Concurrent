@@ -267,9 +267,15 @@ public class Centipede implements Entity {
 
 
 	public void run() {
-		while ( !isDead() )
+		while ( true )
 		{
 			move();
+			try {
+				Thread.sleep((long) ((1.0 / 360) * 1000));
+			} catch (InterruptedException e) {
+			}
+			Thread.yield();
+
 		}
 		
 	}

@@ -7,7 +7,7 @@ public class BoardGenerator {
 	public static Board generateLevel(){
 		Board board = new Board();
 //		Player p = (Player) board.createEntity(playerStartX, playerStartY, EntityTypes.PLAYER);
-		board.createEntity(board.WIDTH_PIXELS, board.TILE_SIZE, EntityTypes.CENTIPEDE);
+		board.createEntity(board.WIDTH_PIXELS-20, board.TILE_SIZE*2, EntityTypes.CENTIPEDE);
 		return board;
 	}
 }
