@@ -68,5 +68,8 @@ public class Rectangle {
 	public int getHeight() {
 		return height;
 	}
+	public String toString(){
+		return "Rectangle: ("+x+","+y+") width: "+width+", height:"+height;
+	}
 	
 }

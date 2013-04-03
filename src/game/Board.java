@@ -36,8 +36,12 @@ public class Board {
     private ArrayList<Entity> entities;
 
 	public Board() {
-		tiles = new ReentrantLock[HEIGHT_PIXELS/TILE_SIZE][WIDTH_PIXELS/WIDTH_PIXELS];
+		tiles = new ReentrantLock[WIDTH_PIXELS/TILE_SIZE][HEIGHT_PIXELS/TILE_SIZE];
         entities = new ArrayList<Entity>();
+        for (int x = 0; x< tiles.length; x++){
+        	for (int y = 0; y < tiles[x].length; y++)
+        		tiles[x][y] = new ReentrantLock();
+        }
 	}
 
     /**
@@ -48,7 +52,10 @@ public class Board {
      * @return the reentrant lock guarding the tile
      */
     private ReentrantLock getTile(int x, int y) {
-        return tiles[x/TILE_SIZE][y/TILE_SIZE];
+//    	System.out.println("there are "+tiles.length+" tiles wide and "+tiles[0].length + "high");
+    	if (x<0) x=0;//Is this the right thing to do??? Idk, I didn't write Board. 
+    	if (y<0) y=0;//Why are are you trying to access negative indices?? I don't understand???
+        return tiles[x/TILE_SIZE%tiles.length][y/TILE_SIZE%tiles[0].length];
     }
 
     /**
@@ -96,7 +103,7 @@ public class Board {
             if (other != entity) {
                 int[] otherLoc = other.getLocation();
                 // again, compare by reference is fine for this
-                if (getTile(otherLoc[x], otherLoc[y]) == goalTile) {
+                if (getTile(otherLoc[0], otherLoc[1]) == goalTile) {
                     // resolve collisions for current occupants of the tile,
                     // but wait until the end to handle them for the moving
                     // entity to make the rare occasional chain reaction a little simpler.
@@ -144,7 +151,9 @@ public class Board {
     		newEntity = Centipede.generateChain(this, p, Centipede.DEFAULT_CHAIN_LENGTH, Direction.LEFT);
     		break;
     	}
+    	entities.add(newEntity);
     	(new Thread(newEntity)).start();//start the entity in it's own thread.
+    	
     	return newEntity;
 
     }
