@@ -3,6 +3,7 @@ package game;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
@@ -35,11 +36,11 @@ public class Board {
      * The board keeps track of all of the entities that are inside the field of
      * play for the purpose of tracking collisions.
      */
-    private ArrayList<Entity> entities;
+    private CopyOnWriteArrayList<Entity> entities;
 
 	public Board() {
 		tiles = new ReentrantLock[WIDTH_PIXELS/TILE_SIZE][HEIGHT_PIXELS/TILE_SIZE];
-        entities = new ArrayList<Entity>();
+        entities = new CopyOnWriteArrayList<Entity>();
         for (int x = 0; x< tiles.length; x++){
         	for (int y = 0; y < tiles[x].length; y++)
         		tiles[x][y] = new ReentrantLock();
@@ -90,22 +91,21 @@ public class Board {
         boolean wallCollision = false;
         ReentrantLock currentTile;
         ReentrantLock goalTile;
-	if ((x < 0 || x >= (WIDTH_PIXELS)) 
-		|| (y < 0 || y >= (HEIGHT_PIXELS))) {
-		wallCollision = true;
-		goalTile = getTile(currLoc[0], currLoc[1]);
-	} else {
-		goalTile = getTile(x, y);
-		
-	}
-	// catch things that have been created out of bounds.
-	if ((currLoc[0] < 0 || currLoc[0] >= (WIDTH_PIXELS)) 
-		|| (currLoc[1] < 0 || currLoc[1] >= (HEIGHT_PIXELS))) {
-		System.out.println("Warning: Started out of bounds.");
-		currentTile = getTile(0, 0);
-	} else {
-		currentTile = getTile(currLoc[0], currLoc[1]);
-	}		
+		if ((x < 0 || x >= (WIDTH_PIXELS)) 
+			|| (y < 0 || y >= (HEIGHT_PIXELS))) {
+			wallCollision = true;
+			goalTile = getTile(currLoc[0], currLoc[1]);
+		} else {
+			goalTile = getTile(x, y);
+			
+		}
+		// catch things that have been created out of bounds.
+		if ((currLoc[0] < 0 || currLoc[0] >= (WIDTH_PIXELS)) 
+			|| (currLoc[1] < 0 || currLoc[1] >= (HEIGHT_PIXELS))) {
+			currentTile = getTile(0, 0);
+		} else {
+			currentTile = getTile(currLoc[0], currLoc[1]);
+		}		
 
         // lock current tile and goal tile-- this will
         // prevent whoever is in the goal tile from moving away
@@ -119,22 +119,25 @@ public class Board {
 
         ArrayList<Entity> collisions = new ArrayList<Entity>();
         // find and resolve collections
-        for (Entity other : entities) {
-            // yes, compare by reference, can't
-            // collide with oneself.
-            if (other != entity) {
-                int[] otherLoc = other.getLocation();
-                // again, compare by reference is fine for this
-                if (getTile(otherLoc[0], otherLoc[1]) == goalTile) {
-                    // resolve collisions for current occupants of the tile,
-                    // but wait until the end to handle them for the moving
-                    // entity to make the rare occasional chain reaction a little simpler.
-                    // this won't be *perfect* for things like tiny bullets, but it'll be
-                    // acceptably close.
-                    other.collidesWith(entity);
-                    collisions.add(other);
-                }
-            }
+        synchronized(entities) {
+	        for (Entity other : entities) {
+	            // yes, compare by reference, can't
+	            // collide with oneself.
+	            if (other != entity) {
+	                int[] otherLoc = other.getLocation();
+	                // again, compare by reference is fine for this
+	                if (getTile(otherLoc[0], otherLoc[1]) == goalTile) {
+	                    // resolve collisions for current occupants of the tile,
+	                    // but wait until the end to handle them for the moving
+	                    // entity to make the rare occasional chain reaction a little simpler.
+	                    // this won't be *perfect* for things like tiny bullets, but it'll be
+	                    // acceptably close.
+	                	System.out.println(entity + " collided with " + other);
+	                    other.collidesWith(entity);
+	                    collisions.add(other);
+	                }
+	            }
+	        }
         }
 
         // We can unlock the goal tile now because the entity has now moved into that
@@ -169,19 +172,27 @@ public class Board {
     		break;
     	case PLAYER:
     		newEntity = new Player(this, p);
+    		(new Thread(newEntity)).start();//start the entity in it's own thread.
     		break;
     	case BULLET:
     		newEntity = new Bullet(this, p);
+    		(new Thread(newEntity)).start();//start the entity in it's own thread.
     		break;
     	case CENTIPEDE:
     		newEntity = Centipede.generateChain(this, p, Centipede.DEFAULT_CHAIN_LENGTH, Direction.LEFT);
+    		(new Thread(newEntity)).start();//start the entity in it's own thread.
     		break;
     	}
     	entities.add(newEntity);
-    	(new Thread(newEntity)).start();//start the entity in it's own thread.
     	
     	return newEntity;
 
+    }
+    
+    public void removeEntity(Entity e) {
+    	synchronized(entities) {
+    		entities.remove(e);
+    	}
     }
 
     /**

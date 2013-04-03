@@ -16,7 +16,7 @@ public class Mushroom implements Entity{
 	private final EntityTypes		m_type;
 	
 	//Maximum and starting health of the mushroom.
-	private final int MAX_HEALTH 	= 4;
+	private final int MAX_HEALTH 	= 5;
 	
 	//Length of one side of the Mushroom's bounding box (in pixels)
 	private final int SQUARE_SIZE 	= Board.TILE_SIZE;
@@ -73,7 +73,7 @@ public class Mushroom implements Entity{
 		m_curHealth--;
 		if ( m_curHealth <= 0 )
 		{
-			m_board.move( -1, -1, this );
+			m_board.removeEntity(this);
 		}
 	}
 
@@ -127,7 +127,7 @@ public class Mushroom implements Entity{
 	 */
 	public int getHealth()
 	{
-		return 5;
+		return this.m_curHealth;
 	}
 
 	

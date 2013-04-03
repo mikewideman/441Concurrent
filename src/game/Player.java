@@ -24,8 +24,10 @@ public class Player implements Entity , Runnable {
 	private final int STEP_SIZE	  = 50; //distance moved in one turn
 	
 	private final int BULLET_SPAWN_DX = 0;
-	private final int BULLET_SPAWN_DY = -50;
+	private final int BULLET_SPAWN_DY = -16;
 	
+	public static final int START_X = Board.WIDTH_PIXELS/2;
+	public static final int START_Y = Board.HEIGHT_PIXELS - (Board.TILE_SIZE * 2);
 	
 	public Player( Board board, Point location )
 	{

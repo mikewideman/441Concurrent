@@ -54,8 +54,10 @@ public class Bullet implements Entity, Runnable {
 	 */
 	public void collidesWith(Entity entity)
 	{
-		//bullets disappear when they collide with anything.
-		die();
+		if( entity.getType() != EntityTypes.PLAYER )
+		{
+			die();
+		}
 	}
 
 	/**
@@ -63,7 +65,8 @@ public class Bullet implements Entity, Runnable {
 	 */
 	public void die() 
 	{
-		updateLocation(-1, -1);			
+		m_board.removeEntity(this);
+		m_active = false;
 	}
 
 	/**
