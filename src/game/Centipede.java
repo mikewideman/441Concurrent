@@ -304,15 +304,15 @@ public class Centipede implements Entity {
 		else if ( entity.getType() == EntityTypes.MUSHROOM ) 
 		{
 			synchronized(this.m_direction) {//does this synchronization do anything? (is it synchronized on direction anywhere else?)
-				if(this.m_direction == Direction.DOWN) {
+				/*if(this.m_direction == Direction.DOWN) {
 					if (this.m_movingLeftward) {
 						this.m_direction = Direction.RIGHT;
 					} else {
 						this.m_direction = Direction.LEFT;
 					}
-				} else {
+				} else {*/ //You may want to not run into things downward, because it's probably what you ran into before
 					this.m_direction = Direction.DOWN;
-				}
+//				}
 			}
 		}
 		

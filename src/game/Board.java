@@ -119,6 +119,14 @@ public class Board {
         currentTile.lock();
         goalTile.lock();
 
+        /*
+         * NOT SURE I GET THIS.
+         * So you lock the currentTile, then IMMEDIATELY unlock it? 
+         * Also you go to the location before the collision handling, 
+         * 	so they will just encounter the same collision on every request.
+         * If a centipede runs into a mushroom and turns, it will still be in the mushroom on the next call.
+         * 
+         */
         // okay, move where you wanted to move,
         // and unlock the space you no longer occupy.
         entity.updateLocation(x, y);
