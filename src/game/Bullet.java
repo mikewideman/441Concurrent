@@ -28,7 +28,7 @@ public class Bullet implements Entity, Runnable {
 	
 	//The distance moved by a bullet in each step
 	private final int MOVE_DX = 0;
-	private final int MOVE_DY = -10;
+	private final int MOVE_DY = -1;
 	
 	public Bullet( Board board, Point location)
 	{
@@ -99,7 +99,12 @@ public class Bullet implements Entity, Runnable {
 		while ( m_active )
 		{
 			move();
+			try {
+				Thread.sleep((long) ((1.0 / 360) * 1000));
+			} catch (InterruptedException e) {
+			}
 			Thread.yield();
+
 		}
 		
 	}
