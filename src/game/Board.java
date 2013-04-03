@@ -18,7 +18,7 @@ public class Board {
      * Values are based on size of the actual arcade game's play area.
 	 */
 	public static final int TILE_SIZE = 16;
-    public static final int WIDTH_PIXELS = 240;
+	public static final int WIDTH_PIXELS = 240;
 	public static final int HEIGHT_PIXELS = 256;
 
     /**
@@ -52,10 +52,9 @@ public class Board {
      * @return the reentrant lock guarding the tile
      */
     private ReentrantLock getTile(int x, int y) {
-//    	System.out.println("there are "+tiles.length+" tiles wide and "+tiles[0].length + "high");
-    	if (x<0) x=0;//Is this the right thing to do??? Idk, I didn't write Board. 
-    	if (y<0) y=0;//Why are are you trying to access negative indices?? I don't understand???
-        return tiles[x/TILE_SIZE%tiles.length][y/TILE_SIZE%tiles[0].length];
+    	// if x or y are < TILE_SIZE,
+    	// this truncates the division and indexes 0.
+        return tiles[x/TILE_SIZE][y/TILE_SIZE];
     }
 
     /**
