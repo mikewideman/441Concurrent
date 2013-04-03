@@ -46,7 +46,7 @@ public class Player implements Entity , Runnable {
 	public void moveToLocation( int x, int y )
 	{
 		//commenting out until board is implemented
-		//m_board.move( x, y );
+		m_board.move( x, y, this );
 	}
 	
 	/**
@@ -92,7 +92,7 @@ public class Player implements Entity , Runnable {
 	public void fire()
 	{
 		//commenting out until board is implemented
-		//m_board.createEntity( m_location.x + BULLET_SPAWN_DX, m_location.y + BULLET_SPAWN_DY, EntityTypes.BULLET );
+		m_board.createEntity( m_location.x + BULLET_SPAWN_DX, m_location.y + BULLET_SPAWN_DY, EntityTypes.BULLET );
 	}
 	
 	/**
