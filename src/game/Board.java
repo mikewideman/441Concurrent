@@ -1,97 +1,121 @@
 package game;
+
+import java.util.Collections;
+import java.util.Vector;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
+
+/**
+ * IN CASE OF EMERGENCY
+ * This Board processes move requests sequentially. It's not concurrent, but it should work in a pinch.
+ * @author julianboilen
+ *
+ */
 public class Board {
-	
-	private ArrayList<Quad> quads;
+
+	Vector<Entity> allEntities;
+	BlockingQueue<MoveRequest> requests;
+	private final int QUEUE_SIZE = Integer.MAX_VALUE;
 
 	public Board() {
-		quads = new ArrayList<Quad>();
+		allEntities = new Vector<Entity>();
+		requests = new LinkedBlockingQueue<MoveRequest>(QUEUE_SIZE);
+		
+		(new Thread(new Runnable(){
+
+			public void run() { processRequests();}})).start();//run the process loop in another thread
+	}
+
+	// the meat of the heart
+	public void move(int x, int y, Entity entity) {
+		MoveRequest req = new MoveRequest(entity, x, y);
+		requests.offer(req);
+	}
+
+	// process requests (run in another thread)
+	private void processRequests() {
+		Mushroom theWall = new Mushroom(this, new java.awt.Point(0, 0));
+		while (true) {
+			try {
+				MoveRequest req = requests.take();// blocks if no elements
+				Entity entity = req.getEntity();
+				Rectangle oldLoc = entity.getBoundingBox();
+				Rectangle newLoc = Rectangle.fromCenter(req.getX(), req.getY(),
+						oldLoc.getWidth(), oldLoc.getHeight());
+				if (newLoc.getX() < 0 || newLoc.getX() > getWidth()
+						|| newLoc.getY() < 0 || newLoc.getY() > getHeight()) {// collided
+					// with
+					// the
+					// wall
+					entity.collidesWith(theWall);
+				} else {// not the wall? let's see what else you could run in to
+					boolean collidedWithAnotherEntity = false;
+					for (Entity e : allEntities) {// check the other entities
+						if (e != entity && newLoc.contains(e.getBoundingBox())) {
+							collidedWithAnotherEntity = true;
+							e.collidesWith(entity);
+							entity.collidesWith(e);
+							// now go talk it out, you two
+						}// end each entity
+					}
+					if (!collidedWithAnotherEntity) {
+						// no collisions
+						entity.updateLocation(newLoc.getX(), newLoc.getY());
+					}// end no collisions
+				}// end not wall
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+		}
 	}
 
 	/** get the width of the board in pixels **/
 	public int getWidth() {
-		return 0;
-	}
-	/** get the height of the board in pixels **/
-	public int getHeight() {
-		return 0;
-	}
-	
-	public void move(int x, int y, Entity entity) {
-		
-		/*
-		 * At some point we have to lock on the entity in order to give it an
-		 * update as to its current location (and direction). If a collision is
-		 * going to occur at this point, we can't have our cake and eat it too:
-		 * it won't be possible to getLocation() of the other entity to detect
-		 * the collision if it's being locked. Board has to keep track of the
-		 * locations to which the Entities are requesting to move, so that it
-		 * can detect a collision.
-		 */
-		
-		int size = quads.size();
-		if (size) {
-			// figure out which one of the quads
-			// this Entity wants to move inside of.
-			for (int i = 0; i < size; i++) {
-				if quads[i].containsPoint(x, y) {
-					if (quads[i].isOccupied()) {
-						// split quads and redistribute stuff
-					} else {
-						// add the Entity to the quad
-						quads[i].addOccupant(entity);
-					}
-					return;
-				}
-			}
-		} else {
-			// no quads, go ahead and create
-			// one that encompasses the entire board.
-			Quad quad = new Quad(0, 0, this.width, this.height, entity);
-			this.quads.add(quad);
-		}
+		return 500;
 	}
 
-	//while iterating over the entities, will the state be consistent?
-	//, or could they have move while drawing them??
-	public Iterable<Entity> getAllEntities() {
+	/** get the height of the board in pixels **/
+	public int getHeight() {
+		return 500;
+	}
+
+	public Entity createEntity(int x, int y, EntityTypes type) {
+		//TODO: DO it;
+		switch (type){
+		}
 		return null;
 	}
 
-	class Quad {
+//consistent state as long as entity updates location atomically
+	public Iterable<Entity> getAllEntities() {
+		return Collections.unmodifiableList(allEntities);
+	}
 
-		private int x;
-		private int y;
-		private int width;
-		private int height;
-		private ArrayList<Entity> occupants;
+	class MoveRequest {
+		private Entity entity;
+		private int x, y;
 
-		private Quad(int x, int y, int w, int h, Entity occupant) {
+		public MoveRequest(Entity entity, int x, int y) {
+			super();
+			this.entity = entity;
 			this.x = x;
 			this.y = y;
-			this.width = w;
-			this.height = h;
-			this.occupants = new ArrayList<Entity>();
-			this.occupants.add(occupant);
 		}
 
-		public boolean containsPoint(int x, int y) {
-			return ((x >= this.x) && (x <= (this.x + this.width))
-				&& (y >= this.y) && (y <= (this.y + this.height)));
+		public Entity getEntity() {
+			return entity;
 		}
 
-		public boolean isOccupied() {
-			return (occupants.size() > 0);
+		public int getX() {
+			return x;
 		}
 
-		public void addOccupant(Entity e) {
-			this.occupants.add(e);
-			// deal with collisions
-		}
-
-		public static Quad makeQuad(int x, int y, int w, int h, Entity occupant) {
-			Quad newQuad = new Quad(x, y, w, h, occupant);
-			return newQuad;
+		public int getY() {
+			return y;
 		}
 
 	}
+
 }
