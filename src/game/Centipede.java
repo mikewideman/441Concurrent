@@ -93,14 +93,10 @@ public class Centipede implements Entity {
 		// Problem: how does the previous segment know it has lost its next?
 		// Will we use a doubly linked list?
 	}
-
-	/*
-	 * These will also let our private data escape!
-	 */
 	
 	public EntitySprite getSprite() {
-		// TODO Auto-generated method stub
-		return null;
+		// Sprites are immutable
+		return this.m_sprite;
 	}
 
 	public Point2D getLocation() {
@@ -109,13 +105,8 @@ public class Centipede implements Entity {
 	}
 
 	public Rectangle getBoundingBox() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public int getRadius() {
-		// TODO Auto-generated method stub
-		return 0;
+		// Rectangles are mutable
+		return new Rectangle(this.m_boundingBox);
 	}
 	
 	public Centipede makeCentipede(	int length,
