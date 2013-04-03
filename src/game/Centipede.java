@@ -65,21 +65,21 @@ public class Centipede implements Entity {
 						Point loc,
 						Direction dir,
 						Centipede nextSeg	) {
-		this.m_isHead 			= isHead;
-		this.m_movingLeftward 	= true;
-		this.m_board 			= board;
-		this.m_location 		= loc;
-		this.m_direction 		= dir;
-		this.m_nextSegment 		= nextSeg;
+		this.m_isHead			= isHead;
+		this.m_movingLeftward	= true;
+		this.m_board			= board;
+		this.m_location			= loc;
+		this.m_direction		= dir;
+		this.m_nextSegment		= nextSeg;
 		this.m_isDead			= false;
-		this.m_speedFactor 		= Board.TILE_SIZE;
-		this.m_speedCount 		= DEFAULT_SPEED_COUNT;
-		this.m_vertAmount 		= 0;
+		this.m_speedFactor		= Board.TILE_SIZE;
+		this.m_speedCount		= DEFAULT_SPEED_COUNT;
+		this.m_vertAmount		= 0;
 		
 		// Set by the factory method
 		//TODO: WHYY?????
-		this.m_sprite = null;
-		this.m_boundingBox = null;
+		this.m_sprite			= null;
+		this.m_boundingBox		= null;
 		
 		/*
 		 * You CANNOT let "this" escape. -Andrew
