@@ -23,7 +23,7 @@ public class GUI extends JFrame {
 
 		/*Window configuration */
 		this.setTitle("Centipede");
-		this.setSize(board.getWidth(), board.getHeight());
+		this.setSize(board.WIDTH_PIXELS, board.HEIGHT_PIXELS);
 		// note: may have to add size if other ui elements are added
 		this.setResizable(false);
 
