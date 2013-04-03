@@ -160,9 +160,9 @@ public class Board {
     /**
      * Return a list of all the entities currently on the board.
      *
-     * @return a synchronized list of all entities
+     * @return an immutable list of all entities
      */
     public Iterable<Entity> getAllEntities() {
-		return Collections.synchronizedList(entities);//TODO: synchronized or immutable???
+		return Collections.unmodifiableList(entities); // best if this can't be changed.
     }
 }
