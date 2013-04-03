@@ -144,7 +144,7 @@ public class Centipede implements Entity {
 	 * A Centipede will move in a line, notifying its children segments to move
 	 * along with it.
 	 */
-	public void move() {
+	private void move() {
 		if (this.m_isDead) {
 			/*
 			 *  Are we going to delete the dead segments or are we going to

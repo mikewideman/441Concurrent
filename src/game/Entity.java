@@ -13,7 +13,7 @@ public interface Entity extends Runnable{
 	 * anything about move().
 	 */
 	//TODO: remove this method
-	public void move();
+	//public void move();
 	
 	public void collidesWith(Entity entity);
 	
