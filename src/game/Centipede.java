@@ -127,78 +127,86 @@ public class Centipede implements Entity {
 	}
 	
 	public void move() {
-		if (--this.m_speedCount == 0) {
-			if (this.m_speedFactor != Board.TILE_SIZE) {
-				++this.m_speedFactor;
+		if (this.isDead()) {
+			/*
+			 *  Are we going to delete the dead segments or are we going to
+			 *  dummify them?
+			 */
+			
+		} else {
+			if (--this.m_speedCount == 0) {
+				if (this.m_speedFactor != Board.TILE_SIZE) {
+					++this.m_speedFactor;
+				}
+				this.m_speedCount = DEFAULT_SPEED_COUNT;
 			}
-			this.m_speedCount = DEFAULT_SPEED_COUNT;
-		}
-		
-		/*
-		 * Might want a different calculation here - the idea is to start at 1
-		 * and slowly increase
-		 */
-		int moveAmount = Board.TILE_SIZE / this.m_speedFactor;
-		
-		switch(this.m_direction) {
-			case LEFT:
-				this.m_board.move(	this.m_location.x - moveAmount,
-									this.m_location.y,
-									this);
-				break;
-			case RIGHT:
-				this.m_board.move(	this.m_location.x + moveAmount,
-									this.m_location.y,
-									this);
-				break;
-			case DOWN:
-				boolean vertChangeBiggerThanTileSize = 
-										((this.m_vertAmount + moveAmount)
-											> Board.TILE_SIZE);
-				moveAmount = (vertChangeBiggerThanTileSize)
-									? Board.TILE_SIZE-this.m_vertAmount
-									: moveAmount;
-				this.m_vertAmount = (vertChangeBiggerThanTileSize) ?
-									0
-									: this.m_vertAmount + moveAmount;
-				this.m_board.move(	this.m_location.x,
-									this.m_location.y + moveAmount,
-									this);
-				break;
-			case UP:
-				vertChangeBiggerThanTileSize =
-										((this.m_vertAmount + moveAmount)
-											> Board.TILE_SIZE);
-				moveAmount = (vertChangeBiggerThanTileSize)
-									? Board.TILE_SIZE-this.m_vertAmount
-									: moveAmount;
-				this.m_vertAmount = (vertChangeBiggerThanTileSize)
-									? 0
-									: this.m_vertAmount + moveAmount;
-				this.m_board.move(	this.m_location.x,
-									this.m_location.y - moveAmount,
-									this);
-				break;
-		}
-		
-		// need to change direction after moving down a box size
-		if (this.m_vertAmount == 0 && (
-				this.m_direction == Direction.DOWN ||
-				this.m_direction == Direction.UP )) {
-			if (this.m_movingLeftward) {
-				this.m_direction = Direction.RIGHT;
-			} else {
-				this.m_direction = Direction.LEFT;
+			
+			/*
+			 * Might want a different calculation here - the idea is to start at 1
+			 * and slowly increase
+			 */
+			int moveAmount = Board.TILE_SIZE / this.m_speedFactor;
+			
+			switch(this.m_direction) {
+				case LEFT:
+					this.m_board.move(	this.m_location.x - moveAmount,
+										this.m_location.y,
+										this);
+					break;
+				case RIGHT:
+					this.m_board.move(	this.m_location.x + moveAmount,
+										this.m_location.y,
+										this);
+					break;
+				case DOWN:
+					boolean vertChangeBiggerThanTileSize = 
+											((this.m_vertAmount + moveAmount)
+												> Board.TILE_SIZE);
+					moveAmount = (vertChangeBiggerThanTileSize)
+										? Board.TILE_SIZE-this.m_vertAmount
+										: moveAmount;
+					this.m_vertAmount = (vertChangeBiggerThanTileSize) ?
+										0
+										: this.m_vertAmount + moveAmount;
+					this.m_board.move(	this.m_location.x,
+										this.m_location.y + moveAmount,
+										this);
+					break;
+				case UP:
+					vertChangeBiggerThanTileSize =
+											((this.m_vertAmount + moveAmount)
+												> Board.TILE_SIZE);
+					moveAmount = (vertChangeBiggerThanTileSize)
+										? Board.TILE_SIZE-this.m_vertAmount
+										: moveAmount;
+					this.m_vertAmount = (vertChangeBiggerThanTileSize)
+										? 0
+										: this.m_vertAmount + moveAmount;
+					this.m_board.move(	this.m_location.x,
+										this.m_location.y - moveAmount,
+										this);
+					break;
 			}
-			this.m_movingLeftward = !(this.m_movingLeftward);
-		}
-				
-		/*
-		 * Tell your next segment to move (since non-head segments don't
-		 * have a thread to do that for them)
-		 */
-		if (this.m_nextSegment != null) {
-			this.m_nextSegment.move();
+			
+			// need to change direction after moving down a box size
+			if (this.m_vertAmount == 0 && (
+					this.m_direction == Direction.DOWN ||
+					this.m_direction == Direction.UP )) {
+				if (this.m_movingLeftward) {
+					this.m_direction = Direction.RIGHT;
+				} else {
+					this.m_direction = Direction.LEFT;
+				}
+				this.m_movingLeftward = !(this.m_movingLeftward);
+			}
+					
+			/*
+			 * Tell your next segment to move (since non-head segments don't
+			 * have a thread to do that for them)
+			 */
+			if (this.m_nextSegment != null) {
+				this.m_nextSegment.move();
+			}
 		}
 	}
 
@@ -234,6 +242,8 @@ public class Centipede implements Entity {
 		}
 		this.m_location=new Point(-1,-1);//this is how we die
 		m_board.createEntity(this.m_location.x, this.m_location.y, EntityTypes.MUSHROOM);
+		
+		// we have to notify the previous segment that its next segment is dead.
 		
 	}
 	
