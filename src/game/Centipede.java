@@ -54,10 +54,7 @@ public class Centipede implements Entity {
 	}
 	
 	public Direction getDirection(){
-		// THIS IS BAD
-		// Need to return an unmodifiable version, but can't construct enums
-		return this.m_direction;
-		
+		return Direction.valueOf(this.m_direction.toString());
 	}
 	
 	public void move() {
