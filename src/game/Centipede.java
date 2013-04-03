@@ -76,11 +76,14 @@ public class Centipede implements Entity {
 		
 		// Set by the factory method
 		//TODO: WHYY?????
-//		this.m_sprite = null;
-//		this.m_boundingBox = null;
+		this.m_sprite = null;
+		this.m_boundingBox = null;
 		
-		recalcBoundingBox();
-		this.m_sprite = new CentipedeSprite(this);
+		/*
+		 * You CANNOT let "this" escape. -Andrew
+		 */
+		//recalcBoundingBox();
+		//this.m_sprite = new CentipedeSprite(this);
 	}
 	
 	
@@ -264,24 +267,35 @@ public class Centipede implements Entity {
 		return EntityTypes.CENTIPEDE;
 	}
 	
+	/**
+	 * A factory method for Centipede. Builds a centipede placed horizontally
+	 * with its head at the left placed at the location specified and its tail
+	 * segments placed to the right. For our purposes the Centipede will always
+	 * start off moving left.
+	 * 
+	 * @param length			The number of segments.
+	 * @param board				The Board in which the Centipede will reside.
+	 * @param headLocation		The location where the head segment will be.
+	 * @return	the new Centipede
+	 */
 	//What is this? is this supposed to be static? Idk, I just wrote another one.
 	public static Centipede makeCentipede(	int length,
 											Board board,
-											Point headLocation,
-											Direction initialDirection	) {
+											Point headLocation	) {
 		Centipede head = null;
 		Centipede curr = null;
 		for (int i=length-1; i>1; --i) {	// Build from tail up
 			// assuming we are building head at left, tail to right
-			Point segmentLocation = new Point(
-											headLocation.x + Board.TILE_SIZE * i,
-											headLocation.y);
-			curr = new Centipede(false, board, segmentLocation,
-									initialDirection, curr);
+			Point segmentLocation =
+							new Point(	headLocation.x + Board.TILE_SIZE * i,
+										headLocation.y);
+			curr = new Centipede(	false, board, segmentLocation,
+									Direction.LEFT, curr);
 			curr.m_sprite = new CentipedeSprite(curr);
 			curr.recalcBoundingBox();
 		}
-		head = new Centipede(true, board, headLocation, initialDirection, curr);
+		head = new Centipede(		true, board, headLocation,
+									Direction.LEFT, curr);
 		head.m_sprite = new CentipedeSprite(head);
 		head.recalcBoundingBox();
 		return head;
