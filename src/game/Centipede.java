@@ -14,6 +14,12 @@ import java.awt.geom.Point2D;
 public class Centipede implements Entity {
 	
 	private boolean 			m_isHead;
+	
+	/**
+	 * True if a centipede is moving leftward (if it is moving down, it will
+	 * need to turn right)
+	 */
+	private boolean				m_movingLeftward;
 	private Board				m_board;
 	private Point				m_location;
 	private EntitySprite		m_sprite;
@@ -55,6 +61,7 @@ public class Centipede implements Entity {
 						Direction dir,
 						Centipede nextSeg	) {
 		this.m_isHead = isHead;
+		this.m_movingLeftward = true;
 		this.m_board = board;
 		this.m_location = loc;
 		this.m_direction = dir;
@@ -85,25 +92,44 @@ public class Centipede implements Entity {
 		int moveAmount = SQUARE_SIZE / this.m_speedFactor;
 		switch(this.m_direction) {
 			case LEFT:
-				
+				this.m_board.move(this.m_location.x - moveAmount,
+									this.m_location.y, this);
 				break;
 			case RIGHT:
-				
+				this.m_board.move(this.m_location.x + moveAmount,
+									this.m_location.y, this);
 				break;
-				
 			case DOWN:
-				
+				this.m_board.move(this.m_location.x,
+									this.m_location.y + moveAmount, this);
 				break;
-				
 			case UP:
-				
+				this.m_board.move(this.m_location.x,
+									this.m_location.y - moveAmount, this);
 				break;
 		}
+		// need to change direction after moving down a box size
 		
 	}
 
 	public void collidesWith(Entity entity) {
-		// TODO Auto-generated method stub
+		
+		if( entity.getType() == EntityTypes.BULLET )
+		{
+			die();
+		}
+		else if ( entity.getType() == EntityTypes.MUSHROOM ) 
+		{
+			if(this.m_direction == Direction.DOWN) {
+				if (this.m_movingLeftward) {
+					this.m_direction = Direction.RIGHT;
+				} else {
+					this.m_direction = Direction.LEFT;
+				}
+			} else {
+				this.m_direction = Direction.DOWN;
+			}
+		}
 		
 	}
 
