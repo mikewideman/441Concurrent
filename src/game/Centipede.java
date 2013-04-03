@@ -4,7 +4,6 @@ import gui.EntitySprite;
 
 import java.awt.Point;
 import game.Rectangle;
-import java.awt.geom.Point2D;
 
 /**
  * A class which represents a Centipede segment. Centipedes are essentially
@@ -29,7 +28,7 @@ public class Centipede implements Entity {
 	private Centipede			m_nextSegment;
 	
 	/**
-	 * The factor by which the square size will be divided to provide movement
+	 * The factor by which the tile size will be divided to provide movement
 	 * rate.
 	 */
 	private int					m_speedFactor;
@@ -49,9 +48,7 @@ public class Centipede implements Entity {
 	/**
 	 * The default decrement counter value.
 	 */
-	private final int			DEFAULT_SPEED_COUNT = 1000;
-	
-	private final int			SQUARE_SIZE = Board.TILE_SIZE;
+	private final static int	DEFAULT_SPEED_COUNT = 1000;
 	
 	/**
 	 * Construction of a Centipede requires a factory method in order to
@@ -73,7 +70,7 @@ public class Centipede implements Entity {
 		this.m_location = loc;
 		this.m_direction = dir;
 		this.m_nextSegment = nextSeg;
-		this.m_speedFactor = SQUARE_SIZE;
+		this.m_speedFactor = Board.TILE_SIZE;
 		this.m_speedCount = DEFAULT_SPEED_COUNT;
 		this.m_vertAmount = 0;
 		
@@ -128,44 +125,78 @@ public class Centipede implements Entity {
 	
 	public void move() {
 		if (--this.m_speedCount == 0) {
-			if (this.m_speedFactor != SQUARE_SIZE) {
+			if (this.m_speedFactor != Board.TILE_SIZE) {
 				++this.m_speedFactor;
 			}
 			this.m_speedCount = DEFAULT_SPEED_COUNT;
 		}
-		int moveAmount = SQUARE_SIZE / this.m_speedFactor;
+		
+		/*
+		 * Might want a different calculation here - the idea is to start at 1
+		 * and slowly increase
+		 */
+		int moveAmount = Board.TILE_SIZE / this.m_speedFactor;
+		
 		switch(this.m_direction) {
 			case LEFT:
-				this.m_board.move(this.m_location.x - moveAmount,
-									this.m_location.y, this);
+				this.m_board.move(	this.m_location.x - moveAmount,
+									this.m_location.y,
+									this);
 				break;
 			case RIGHT:
-				this.m_board.move(this.m_location.x + moveAmount,
-									this.m_location.y, this);
+				this.m_board.move(	this.m_location.x + moveAmount,
+									this.m_location.y,
+									this);
 				break;
 			case DOWN:
-				boolean vertChangeBiggerThanSquare = 
-							((this.m_vertAmount + moveAmount) > SQUARE_SIZE);
-				moveAmount = (vertChangeBiggerThanSquare) ?
-									SQUARE_SIZE-this.m_vertAmount : moveAmount;
-				this.m_vertAmount = (vertChangeBiggerThanSquare) ?
-									0 : this.m_vertAmount + moveAmount;
-				this.m_board.move(this.m_location.x,
-									this.m_location.y + moveAmount, this);
+				boolean vertChangeBiggerThanTileSize = 
+										((this.m_vertAmount + moveAmount)
+											> Board.TILE_SIZE);
+				moveAmount = (vertChangeBiggerThanTileSize)
+									? Board.TILE_SIZE-this.m_vertAmount
+									: moveAmount;
+				this.m_vertAmount = (vertChangeBiggerThanTileSize) ?
+									0
+									: this.m_vertAmount + moveAmount;
+				this.m_board.move(	this.m_location.x,
+									this.m_location.y + moveAmount,
+									this);
 				break;
 			case UP:
-				vertChangeBiggerThanSquare = 
-							((this.m_vertAmount + moveAmount) > SQUARE_SIZE);
-				moveAmount = (vertChangeBiggerThanSquare) ?
-									SQUARE_SIZE-this.m_vertAmount : moveAmount;
-				this.m_vertAmount = (vertChangeBiggerThanSquare) ?
-									0 : this.m_vertAmount + moveAmount;
-				this.m_board.move(this.m_location.x,
-									this.m_location.y - moveAmount, this);
+				vertChangeBiggerThanTileSize =
+										((this.m_vertAmount + moveAmount)
+											> Board.TILE_SIZE);
+				moveAmount = (vertChangeBiggerThanTileSize)
+									? Board.TILE_SIZE-this.m_vertAmount
+									: moveAmount;
+				this.m_vertAmount = (vertChangeBiggerThanTileSize)
+									? 0
+									: this.m_vertAmount + moveAmount;
+				this.m_board.move(	this.m_location.x,
+									this.m_location.y - moveAmount,
+									this);
 				break;
 		}
-		// need to change direction after moving down a box size
 		
+		// need to change direction after moving down a box size
+		if (this.m_vertAmount == 0 && (
+				this.m_direction == Direction.DOWN ||
+				this.m_direction == Direction.UP )) {
+			if (this.m_movingLeftward) {
+				this.m_direction = Direction.RIGHT;
+			} else {
+				this.m_direction = Direction.LEFT;
+			}
+			this.m_movingLeftward = !(this.m_movingLeftward);
+		}
+				
+		/*
+		 * Tell your next segment to move (since non-head segments don't
+		 * have a thread to do that for them)
+		 */
+		if (this.m_nextSegment != null) {
+			this.m_nextSegment.move();
+		}
 	}
 
 	public void collidesWith(Entity entity) {
@@ -234,16 +265,17 @@ public class Centipede implements Entity {
 	}
 	
 	//What is this? is this supposed to be static? Idk, I just wrote another one.
-	public Centipede makeCentipede(	int length,
-									Board board,
-									Point headLocation,
-									Direction initialDirection	) {
+	public static Centipede makeCentipede(	int length,
+											Board board,
+											Point headLocation,
+											Direction initialDirection	) {
 		Centipede head = null;
 		Centipede curr = null;
 		for (int i=length-1; i>1; --i) {	// Build from tail up
 			// assuming we are building head at left, tail to right
-			Point segmentLocation = new Point(headLocation.x + SQUARE_SIZE * i,
-												headLocation.y);
+			Point segmentLocation = new Point(
+											headLocation.x + Board.TILE_SIZE * i,
+											headLocation.y);
 			curr = new Centipede(false, board, segmentLocation,
 									initialDirection, curr);
 			curr.m_sprite = new CentipedeSprite(curr);
@@ -257,7 +289,10 @@ public class Centipede implements Entity {
 	
 	private void recalcBoundingBox() {
 		int[] p = getLocation();
-		m_boundingBox =  Rectangle.fromCenter( p[0], p[1], SQUARE_SIZE, SQUARE_SIZE );
+		m_boundingBox =  Rectangle.fromCenter( 	p[0],
+												p[1],
+												Board.TILE_SIZE,
+												Board.TILE_SIZE);
 	}
 
 	public void updateLocation(int x, int y) {
