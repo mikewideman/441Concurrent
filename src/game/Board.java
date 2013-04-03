@@ -126,8 +126,24 @@ public class Board {
      *
      * @param newEntity the new entity to add to the board
      */
-    public void addEntity(Entity newEntity) {
-        entities.add(newEntity);
+    public Entity createEntity(int x, int y, EntityTypes type) {
+    	Entity newEntity = null;
+    	java.awt.Point p = new java.awt.Point(x,y);
+    	switch (type) {
+    	case MUSHROOM:
+    		newEntity = new Mushroom(this, p);
+    		break;
+    	case PLAYER:
+    		newEntity = new Player(this, p);
+    		break;
+    	case BULLET:
+    		newEntity = new Bullet(this, p);
+    		break;
+    	case CENTIPEDE:
+    		newEntity = Centipede.generateChain(this, p, Centipede.DEFAULT_CHAIN_LENGTH, Direction.LEFT);
+    		break;
+    	}
+    	return newEntity;
 
     }
 
