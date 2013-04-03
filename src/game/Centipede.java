@@ -145,7 +145,7 @@ public class Centipede implements Entity {
 	 * along with it.
 	 */
 	public void move() {
-		if (this.isDead()) {
+		if (this.m_isDead) {
 			/*
 			 *  Are we going to delete the dead segments or are we going to
 			 *  dummify them?
@@ -281,10 +281,10 @@ public class Centipede implements Entity {
 			this.m_location = new Point(-1,-1);//this is how we die
 		}
 		this.m_board.createEntity(this.m_location.x, this.m_location.y, EntityTypes.MUSHROOM);
-		
+		//TODO: this.m_board.removeEntity()
 		
 		this.m_isDead = true;
-		// we have to notify the previous segment that its next segment is dead.
+		//TODO: notify the previous segment that its next segment is dead.
 		
 	}
 	
@@ -304,13 +304,14 @@ public class Centipede implements Entity {
 	 * 
 	 * @return true if this is the case.
 	 */
-	public boolean isDead(){
+	/*public boolean isDead(){
 		boolean isDead;
 		synchronized(this.m_location) {
 			isDead = ((this.m_location.getX()<0) && (this.m_location.getY()<0));
 		}
 		return isDead;
 	}
+	*/
 	
 	/**
 	 * @return the reference to the Sprite representing this segment.
@@ -398,7 +399,7 @@ public class Centipede implements Entity {
 
 
 	public void run() {
-		while ( !isDead() )
+		while ( !(this.m_isDead) )
 		{
 			move();
 		}
