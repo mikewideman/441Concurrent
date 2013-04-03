@@ -108,36 +108,8 @@ public class Centipede implements Entity {
 		return new Rectangle(this.m_boundingBox);
 	}
 	
-<<<<<<< HEAD
-	public Centipede makeCentipede(	int length,
-									Board board,
-									Point headLocation,
-									Direction initialDirection	) {
-		Centipede head = null;
-		Centipede curr = null;
-		for (int i=length-1; i>1; --i) {	// Build from tail up
-			// assuming we are building head at left, tail to right
-			Point segmentLocation = new Point(headLocation.x + SQUARE_SIZE * i,
-												headLocation.y);
-			curr = new Centipede(false, board, segmentLocation,
-									initialDirection, curr);
-			curr.m_sprite = new CentipedeSprite(curr);
-			curr.recalcBoundingBox();
-		}
-		head = new Centipede(true, board, headLocation, initialDirection, curr);
-		head.m_sprite = new CentipedeSprite(head);
-		head.recalcBoundingBox();
-		return head;
-	}
-	
-	private void recalcBoundingBox() {
-		int x = m_location.x - SQUARE_SIZE / 2;
-		int y = m_location.y - SQUARE_SIZE / 2;
-		m_boundingBox = new Rectangle( x, y, SQUARE_SIZE, SQUARE_SIZE );
-=======
 	public EntityTypes getType() {
 		return EntityTypes.CENTIPEDE;
->>>>>>> centipede-dev
 	}
 	
 	public Centipede makeCentipede(	int length,
@@ -166,7 +138,5 @@ public class Centipede implements Entity {
 		int y = m_location.y - SQUARE_SIZE / 2;
 		m_boundingBox = new Rectangle( x, y, SQUARE_SIZE, SQUARE_SIZE );
 	}
-
-	
 
 }
