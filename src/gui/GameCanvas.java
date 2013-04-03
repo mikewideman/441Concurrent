@@ -3,9 +3,14 @@ package gui;
 import game.Board;
 import game.Entity;
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.Point;
+import java.awt.Toolkit;
+import java.awt.image.BufferedImage;
+
 import game.Rectangle;
 import javax.swing.JPanel;
 
@@ -16,6 +21,16 @@ class GameCanvas extends JPanel {
 
 	public GameCanvas(Board board) {
 		this.theBoard = board;
+
+		// Invisible cursor (set it to a blank image)
+		BufferedImage cursorImg = new BufferedImage(16, 16,
+				BufferedImage.TYPE_INT_ARGB);
+		Cursor blankCursor = Toolkit.getDefaultToolkit().createCustomCursor(
+				cursorImg, new Point(0, 0), "blank cursor");
+		this.setCursor(blankCursor);
+
+		
+		
 		animator = new AnimThread();
 		animator.start();
 	}

@@ -76,7 +76,7 @@ public class Board {
         // that it's not going to move while it's moving.
         int[] currLoc = entity.getLocation();
         ReentrantLock currentTile = getTile(currLoc[0], currLoc[1]);
-        ReentrantLock goalTile = getTile(x, y);
+	        ReentrantLock goalTile = getTile(x, y);
 
         // lock current tile and goal tile-- this will
         // prevent whoever is in the goal tile from moving away
