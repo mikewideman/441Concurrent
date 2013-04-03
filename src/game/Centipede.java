@@ -122,7 +122,7 @@ public class Centipede implements Entity {
 	 * 
 	 * @return true if the segment is the head of the Centipede
 	 */
-	public boolean isHead(){
+	public synchronized boolean isHead() {
 		return this.m_isHead;
 	}
 	
@@ -131,7 +131,11 @@ public class Centipede implements Entity {
 	 * @return the (value of the) direction in which this Centipede is traveling
 	 */
 	public Direction getDirection(){
-		return Direction.valueOf(this.m_direction.toString());
+		String value;
+		synchronized (this.m_direction) {
+			value = this.m_direction.toString();
+		}
+		return Direction.valueOf(value);
 	}
 	
 	/**
@@ -159,6 +163,10 @@ public class Centipede implements Entity {
 			 */
 			int moveAmount = Board.TILE_SIZE / this.m_speedFactor;
 			
+			/*
+			 * Ideally, this method is being called sequentially, so there
+			 * ought to be no need to synchronize on the Direction.
+			 */
 			switch(this.m_direction) {
 				case LEFT:
 					this.m_board.move(	this.m_location.x - moveAmount,
@@ -216,8 +224,10 @@ public class Centipede implements Entity {
 			 * Tell your next segment to move (since non-head segments don't
 			 * have a thread to do that for them)
 			 */
-			if (this.m_nextSegment != null) {
-				this.m_nextSegment.move();
+			synchronized (this.m_nextSegment) {
+				if (this.m_nextSegment != null) {
+					this.m_nextSegment.move();
+				}
 			}
 		}
 	}
@@ -228,6 +238,9 @@ public class Centipede implements Entity {
 	 * 
 	 * @param entity	the Entity with which the Centipede collided
 	 */
+	/*
+	 * We should consider passing the EntityType instead for safety's sake.
+	 */
 	public void collidesWith(Entity entity) {
 		
 		if( entity.getType() == EntityTypes.BULLET )
@@ -236,14 +249,16 @@ public class Centipede implements Entity {
 		}
 		else if ( entity.getType() == EntityTypes.MUSHROOM ) 
 		{
-			if(this.m_direction == Direction.DOWN) {
-				if (this.m_movingLeftward) {
-					this.m_direction = Direction.RIGHT;
+			synchronized(this.m_direction) {
+				if(this.m_direction == Direction.DOWN) {
+					if (this.m_movingLeftward) {
+						this.m_direction = Direction.RIGHT;
+					} else {
+						this.m_direction = Direction.LEFT;
+					}
 				} else {
-					this.m_direction = Direction.LEFT;
+					this.m_direction = Direction.DOWN;
 				}
-			} else {
-				this.m_direction = Direction.DOWN;
 			}
 		}
 		
@@ -254,11 +269,15 @@ public class Centipede implements Entity {
 	 * If the segment killed is not a head, there will now be two Centipedes.
 	 */
 	public void die() {
-		if (this.m_nextSegment != null) {
-			this.m_nextSegment.becomeHead();
-			//this.m_nextSegment.m_isHead = true;	this is also possible
+		synchronized (this.m_nextSegment) {
+			if (this.m_nextSegment != null) {
+				this.m_nextSegment.becomeHead();
+				//this.m_nextSegment.m_isHead = true;	this is also possible
+			}
 		}
-		this.m_location=new Point(-1,-1);//this is how we die
+		synchronized(this) {
+			this.m_location = new Point(-1,-1);//this is how we die
+		}
 		m_board.createEntity(this.m_location.x, this.m_location.y, EntityTypes.MUSHROOM);
 		
 		// we have to notify the previous segment that its next segment is dead.
@@ -272,8 +291,8 @@ public class Centipede implements Entity {
 	 * 	m_isHead is accessible to Centipede.
 	 * 	we could afford not to use this method.
 	 */
-	protected void becomeHead(){
-		this.m_isHead=true;
+	protected synchronized void becomeHead(){
+		this.m_isHead = true;
 	}
 	
 	/**
@@ -282,7 +301,11 @@ public class Centipede implements Entity {
 	 * @return true if this is the case.
 	 */
 	public boolean isDead(){
-		return ((this.m_location.getX()<0) && (this.m_location.getY()<0));
+		boolean isDead;
+		synchronized(this.m_location) {
+			isDead = ((this.m_location.getX()<0) && (this.m_location.getY()<0));
+		}
+		return isDead;
 	}
 	
 	/**
@@ -301,7 +324,7 @@ public class Centipede implements Entity {
 	//TODO: I'm confused, isn't this supposed to be center, or is it upper left???
 	public int[] getLocation() {
 //		return new int[]{this.m_boundingBox.getX(), this.m_boundingBox.getY()};
-		Point p = m_location;
+		Point p = m_location;		// synchronization, reference issue
 		return new int[]{p.x,p.y};
 	}
 
@@ -311,7 +334,7 @@ public class Centipede implements Entity {
 	 * @return	the bounding box
 	 */
 	public Rectangle getBoundingBox() {
-		// Rectangles are mutable
+		// Our rectangles are immutable - thread safe
 		return (this.m_boundingBox);
 	}
 	
@@ -364,7 +387,7 @@ public class Centipede implements Entity {
 												Board.TILE_SIZE);
 	}
 
-	public void updateLocation(int x, int y) {
+	public synchronized void updateLocation(int x, int y) {
 		this.m_location.x = x;
 		this.m_location.y = y;
 	}
