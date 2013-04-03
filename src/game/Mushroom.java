@@ -14,6 +14,7 @@ public class Mushroom implements Entity, Runnable{
 	private Point			m_location;
 	private EntitySprite 	m_sprite;
 	private Rectangle 		m_boundingBox;
+	private EntityTypes		m_type;
 	
 	//Maximum and starting health of the mushroom.
 	private final int MAX_HEALTH 	= 4;
@@ -27,7 +28,7 @@ public class Mushroom implements Entity, Runnable{
 		m_curHealth = MAX_HEALTH;
 		m_location 	= location;
 		m_sprite = new MushroomSprite(this);
-		
+		m_type = EntityTypes.MUSHROOM;
 		recalcBoundingBox();
 	}
 	
@@ -67,9 +68,9 @@ public class Mushroom implements Entity, Runnable{
 	}
 
 
-	public Point getLocation()
+	public int[] getLocation()
 	{
-		return m_location;
+		return new int[]{m_location.x, m_location.y};
 	}
 
 
@@ -98,6 +99,11 @@ public class Mushroom implements Entity, Runnable{
 	public int getHealth()
 	{
 		return 5;
+	}
+
+	
+	public EntityTypes getType() {
+		return m_type;
 	}
 
 }

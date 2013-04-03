@@ -16,6 +16,7 @@ public class Player implements Entity , Runnable {
 	private Rectangle 		m_boundingBox;
 	private Direction		m_direction;
 	private boolean			m_moving;
+	private EntityTypes		m_type;
 	
 	private final int SQUARE_SIZE = 50;
 	private final int STEP_SIZE	  = 50; //distance moved in one turn
@@ -29,6 +30,7 @@ public class Player implements Entity , Runnable {
 		m_board 	= board;
 		m_location 	= location;
 
+		m_type = EntityTypes.PLAYER;
 		m_sprite = new PlayerSprite(this);
 		
 		recalcBoundingBox();
@@ -91,7 +93,7 @@ public class Player implements Entity , Runnable {
 
 	public void collidesWith(Entity entity) 
 	{
-
+		
 		
 	}
 
@@ -108,9 +110,9 @@ public class Player implements Entity , Runnable {
 	}
 
 	
-	public Point getLocation() 
+	public int[] getLocation() 
 	{
-		return m_location;
+		return new int[]{m_location.x, m_location.y};
 	}
 	/**Stops moved initiated by beginMove. Note that the player (for now) does not need to move diagonally.**/
 	public void stopMove() {
@@ -133,6 +135,11 @@ public class Player implements Entity , Runnable {
 	public int getRadius() {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+
+
+	public EntityTypes getType() {
+		return m_type;
 	}
 
 }

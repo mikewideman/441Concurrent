@@ -15,12 +15,14 @@ public interface Entity {
 	
 	public EntitySprite getSprite();
 	
-	public Point2D getLocation();
+	public int[] getLocation();
 		
 	/**The box to draw. 
 	 * As specified in the Rectangle doc, the location x,y is the upper left.
 	 * @return
 	 */
 	public Rectangle getBoundingBox();
+	
+	public EntityTypes getType();
 
 }
