@@ -26,6 +26,7 @@ public class Centipede implements Entity {
 	private Rectangle			m_boundingBox;
 	private Direction			m_direction;
 	private Centipede			m_nextSegment;
+	private boolean				m_isDead;
 	
 	/**
 	 * The factor by which the tile size will be divided to provide movement
@@ -64,15 +65,16 @@ public class Centipede implements Entity {
 						Point loc,
 						Direction dir,
 						Centipede nextSeg	) {
-		this.m_isHead = isHead;
-		this.m_movingLeftward = true;
-		this.m_board = board;
-		this.m_location = loc;
-		this.m_direction = dir;
-		this.m_nextSegment = nextSeg;
-		this.m_speedFactor = Board.TILE_SIZE;
-		this.m_speedCount = DEFAULT_SPEED_COUNT;
-		this.m_vertAmount = 0;
+		this.m_isHead 			= isHead;
+		this.m_movingLeftward 	= true;
+		this.m_board 			= board;
+		this.m_location 		= loc;
+		this.m_direction 		= dir;
+		this.m_nextSegment 		= nextSeg;
+		this.m_isDead			= false;
+		this.m_speedFactor 		= Board.TILE_SIZE;
+		this.m_speedCount 		= DEFAULT_SPEED_COUNT;
+		this.m_vertAmount 		= 0;
 		
 		// Set by the factory method
 		//TODO: WHYY?????
@@ -278,8 +280,10 @@ public class Centipede implements Entity {
 		synchronized(this) {
 			this.m_location = new Point(-1,-1);//this is how we die
 		}
-		m_board.createEntity(this.m_location.x, this.m_location.y, EntityTypes.MUSHROOM);
+		this.m_board.createEntity(this.m_location.x, this.m_location.y, EntityTypes.MUSHROOM);
 		
+		
+		this.m_isDead = true;
 		// we have to notify the previous segment that its next segment is dead.
 		
 	}
