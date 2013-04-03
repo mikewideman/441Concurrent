@@ -1,5 +1,9 @@
 package game;
 public class Board {
+	/**The standard width and height of a grid cell on the board. 
+	 * All entities should use this, not their own definition 
+	 */
+	public static final int SQUARE_SIZE = 50;
 	
 	private ArrayList<Quad> quads;
 
