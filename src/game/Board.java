@@ -95,8 +95,7 @@ public class Board {
         
         
      // catch things that have been created out of bounds.
-		if ((currLoc[0] < 0 || currLoc[0] >= (WIDTH_PIXELS)) 
-			|| (currLoc[1] < 0 || currLoc[1] >= (HEIGHT_PIXELS))) {
+		if (isOOB(currLoc[0], currLoc[1])) {
 			currentTile = getTile(0, 0);
 			startedOutOfBounds = true;
 		} else {
@@ -104,8 +103,7 @@ public class Board {
 		}		
 		
 		
-		if ((x < 0 || x >= (WIDTH_PIXELS)) 
-			|| (y < 0 || y >= (HEIGHT_PIXELS))) {//going out of bounds
+		if (isOOB(x,y)) {//going out of bounds
 			wallCollision = true;
 			if (startedOutOfBounds)//started out and going out, there's no hope for you. Cancel.
 				return;
@@ -135,7 +133,8 @@ public class Board {
 	            if (other != entity) {
 	                int[] otherLoc = other.getLocation();
 	                // again, compare by reference is fine for this
-	                if (getTile(otherLoc[0], otherLoc[1]) == goalTile) {
+	                //dont consider oob collisions, it's not worth it
+	                if (!isOOB(otherLoc[0], otherLoc[1]) && getTile(otherLoc[0], otherLoc[1]) == goalTile) {
 	                    // resolve collisions for current occupants of the tile,
 	                    // but wait until the end to handle them for the moving
 	                    // entity to make the rare occasional chain reaction a little simpler.
@@ -163,6 +162,17 @@ public class Board {
         if (wallCollision) {
         	entity.collidesWith(new Mushroom(this, new Point())); 
 		}
+	}
+	
+	/**
+	 * Are these coordinates outside the Board?
+	 * @param x
+	 * @param y
+	 * @return
+	 */
+	public static boolean isOOB(int x, int y){
+		return (x < 0 || x >= (WIDTH_PIXELS)) 
+		|| (y < 0 || y >= (HEIGHT_PIXELS));
 	}
 
     /**
