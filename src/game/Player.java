@@ -3,7 +3,7 @@ import gui.EntitySprite;
 import gui.PlayerSprite;
 
 import java.awt.Point;
-import java.awt.Rectangle;
+import game.Rectangle;
 
 
 
@@ -69,7 +69,7 @@ public class Player implements Entity , Runnable {
 	{
 		int x = m_location.x - SQUARE_SIZE / 2;
 		int y = m_location.y - SQUARE_SIZE / 2;
-		m_boundingBox = new Rectangle( x, y, SQUARE_SIZE, SQUARE_SIZE );
+		m_boundingBox = Rectangle.fromUpperLeft( x, y, SQUARE_SIZE, SQUARE_SIZE );
 	}
 	
 	public void fire()

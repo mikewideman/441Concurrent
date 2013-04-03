@@ -3,7 +3,7 @@ import gui.CentipedeSprite;
 import gui.EntitySprite;
 
 import java.awt.Point;
-import java.awt.Rectangle;
+import game.Rectangle;
 import java.awt.geom.Point2D;
 
 /**
@@ -100,12 +100,12 @@ public class Centipede implements Entity {
 	}
 
 	public int[] getLocation() {
-		return new int[]{this.m_boundingBox.x, this.m_boundingBox.y};
+		return new int[]{this.m_boundingBox.getX(), this.m_boundingBox.getY()};
 	}
 
 	public Rectangle getBoundingBox() {
 		// Rectangles are mutable
-		return new Rectangle(this.m_boundingBox);
+		return (this.m_boundingBox);
 	}
 	
 	public EntityTypes getType() {
@@ -136,7 +136,7 @@ public class Centipede implements Entity {
 	private void recalcBoundingBox() {
 		int x = m_location.x - SQUARE_SIZE / 2;
 		int y = m_location.y - SQUARE_SIZE / 2;
-		m_boundingBox = new Rectangle( x, y, SQUARE_SIZE, SQUARE_SIZE );
+		m_boundingBox =  Rectangle.fromUpperLeft( x, y, SQUARE_SIZE, SQUARE_SIZE );
 	}
 
 }

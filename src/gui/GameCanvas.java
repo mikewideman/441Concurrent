@@ -6,7 +6,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
-import java.awt.Rectangle;
+import game.Rectangle;
 import javax.swing.JPanel;
 
 /** The drawing of the actual game */
@@ -37,8 +37,8 @@ class GameCanvas extends JPanel {
 				// System.out.println("Error: Image not loaded for "+thing);
 				// else
 				if (img != null)
-					g2.drawImage(sprite.getImage(), box.x, box.y, box.width,
-							box.height, null);
+					g2.drawImage(sprite.getImage(), box.getX(), box.getY(), box.getWidth(),
+							box.getHeight(), null);
 			}
 		}
 

@@ -1,7 +1,7 @@
 package gui;
 
 import java.awt.Image;
-import java.awt.Rectangle;
+import game.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -39,7 +39,7 @@ public abstract class EntitySprite {
 	public boolean shouldBeDrawn() {
 		// drawn if location is positive
 		Rectangle box = myEntity.getBoundingBox();
-		return myEntity != null && box.x >= 0 && box.y >= 0;
+		return myEntity != null && box.getX() >= 0 && box.getY() >= 0;
 	}
 
 	/**

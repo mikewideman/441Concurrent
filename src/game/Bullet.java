@@ -8,7 +8,7 @@ import gui.EntitySprite;
 
 
 import java.awt.Point;
-import java.awt.Rectangle;
+import game.Rectangle;
 
 
 
@@ -95,7 +95,7 @@ public class Bullet implements Entity, Runnable {
 	{
 		int x = m_location.x - WIDTH / 2;
 		int y = m_location.y - HEIGHT / 2;
-		m_boundingBox = new Rectangle( x, y, WIDTH, HEIGHT );
+		m_boundingBox = Rectangle.fromUpperLeft( x, y, WIDTH, HEIGHT );
 	}
 	
 	public void updateLocation(int x, int y)

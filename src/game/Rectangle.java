@@ -1,4 +1,4 @@
-
+package game;
 public class Rectangle {
 	private int x,y,width,height;
 

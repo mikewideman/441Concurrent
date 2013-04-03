@@ -1,7 +1,7 @@
 package game;
 import gui.EntitySprite;
 
-import java.awt.Rectangle;
+import game.Rectangle;
 import java.awt.geom.Point2D;
 
 
@@ -21,7 +21,7 @@ public interface Entity {
 	 * As specified in the Rectangle doc, the location x,y is the upper left.
 	 * @return
 	 */
-	public Rectangle getBoundingBox();
+	public game.Rectangle getBoundingBox();
 	
 	public EntityTypes getType();
 
