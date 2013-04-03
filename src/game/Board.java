@@ -1,5 +1,6 @@
 package game;
 
+import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.concurrent.locks.ReentrantLock;
@@ -147,9 +148,9 @@ public class Board {
             entity.collidesWith(collision);
         }
         
-	if (wallCollision) {
-                entity.collidesWith(null); 
-	}
+        if (wallCollision) {
+        	entity.collidesWith(new Mushroom(this, new Point())); 
+		}
 	}
 
     /**
