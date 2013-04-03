@@ -118,14 +118,26 @@ public class Centipede implements Entity {
 		
 	}
 
+	/**
+	 * 
+	 * @return true if the segment is the head of the Centipede
+	 */
 	public boolean isHead(){
 		return this.m_isHead;
 	}
 	
+	/**
+	 * 
+	 * @return the (value of the) direction in which this Centipede is traveling
+	 */
 	public Direction getDirection(){
 		return Direction.valueOf(this.m_direction.toString());
 	}
 	
+	/**
+	 * A Centipede will move in a line, notifying its children segments to move
+	 * along with it.
+	 */
 	public void move() {
 		if (this.isDead()) {
 			/*
