@@ -99,14 +99,17 @@ public class Centipede implements Entity {
 		return this.m_sprite;
 	}
 
-	public Point2D getLocation() {
-		// TODO Auto-generated method stub
-		return null;
+	public int[] getLocation() {
+		return new int[]{this.m_boundingBox.x, this.m_boundingBox.y};
 	}
 
 	public Rectangle getBoundingBox() {
 		// Rectangles are mutable
 		return new Rectangle(this.m_boundingBox);
+	}
+	
+	public EntityTypes getType() {
+		return EntityTypes.CENTIPEDE;
 	}
 	
 	public Centipede makeCentipede(	int length,
@@ -135,5 +138,7 @@ public class Centipede implements Entity {
 		int y = m_location.y - SQUARE_SIZE / 2;
 		m_boundingBox = new Rectangle( x, y, SQUARE_SIZE, SQUARE_SIZE );
 	}
+
+	
 
 }
