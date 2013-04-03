@@ -230,6 +230,7 @@ public class Centipede implements Entity {
 	public void die() {
 		if (this.m_nextSegment != null) {
 			this.m_nextSegment.becomeHead();
+			//this.m_nextSegment.m_isHead = true;	this is also possible
 		}
 		this.m_location=new Point(-1,-1);//this is how we die
 		m_board.createEntity(this.m_location.x, this.m_location.y, EntityTypes.MUSHROOM);
@@ -239,18 +240,36 @@ public class Centipede implements Entity {
 	/**
 	 * Become a head.
 	 */
+	/*
+	 * 	m_isHead is accessible to Centipede.
+	 * 	we could afford not to use this method.
+	 */
 	protected void becomeHead(){
 		this.m_isHead=true;
 	}
+	
+	/**
+	 * A centipede is dead if it is located at -1, -1.
+	 * 
+	 * @return true if this is the case.
+	 */
 	public boolean isDead(){
-		return this.m_location.getX()<0 && this.m_location.getY()<0;
+		return ((this.m_location.getX()<0) && (this.m_location.getY()<0));
 	}
 	
+	/**
+	 * @return the reference to the Sprite representing this segment.
+	 */
 	public EntitySprite getSprite() {
-		// Sprites are immutable
+		// Sprites are immutable - thread safe
 		return this.m_sprite;
 	}
 
+	/**
+	 * Get the location of this segment.
+	 * 
+	 * @return an int[] formatted as {x,y}.
+	 */
 	//TODO: I'm confused, isn't this supposed to be center, or is it upper left???
 	public int[] getLocation() {
 //		return new int[]{this.m_boundingBox.getX(), this.m_boundingBox.getY()};
@@ -263,6 +282,9 @@ public class Centipede implements Entity {
 		return (this.m_boundingBox);
 	}
 	
+	/**
+	 * @return EntityTypes.CENTIPEDE
+	 */
 	public EntityTypes getType() {
 		return EntityTypes.CENTIPEDE;
 	}
