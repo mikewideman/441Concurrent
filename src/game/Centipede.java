@@ -13,6 +13,7 @@ import java.awt.geom.Point2D;
  */
 public class Centipede implements Entity {
 	
+	public static final int DEFAULT_CHAIN_LENGTH = 12;
 	private boolean 			m_isHead;
 	
 	/**
@@ -81,6 +82,38 @@ public class Centipede implements Entity {
 		this.m_boundingBox = null;
 	}
 	
+	
+	/**
+	 * Generate a chain of centipedes 
+	 * @param board
+	 * @param p
+	 * @param nRemain number of centipedes in the chain to make
+	 * @param dir the Direction
+	 * @return
+	 */
+	public static Centipede generateChain(Board board, Point p, int nRemain, Direction dir) {
+		return Centipede.generateChain(board, p, nRemain, dir, true);
+		
+	}
+	
+	/**
+	 * Generate a chain of centipedes recursively
+	 * @param board
+	 * @param p
+	 * @param isHead use true on first call, recursive calls are false
+	 * @param nRemain number of centipedes in the chain to make
+	 * @param dir the Direction
+	 * @return
+	 */
+	public static Centipede generateChain(Board board, Point p, int nRemain, Direction dir, boolean isHead) {
+		Centipede nextInChain = null;
+		if (nRemain > 0)//if not the last in chain, generate more chain.
+			nextInChain = Centipede.generateChain(board, p, nRemain-1, dir, false);
+		Centipede me = new Centipede(false, board, p, dir, nextInChain);
+		return me;
+		
+	}
+
 	public boolean isHead(){
 		return this.m_isHead;
 	}
