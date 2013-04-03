@@ -62,9 +62,8 @@ public class Bullet implements Entity, Runnable {
 	 * Remove from board
 	 */
 	public void die() 
-	{	
-		//commented out until board is implemented
-		m_board.move( -1, -1, this );
+	{
+		updateLocation(-1, -1);			
 	}
 
 	/**
