@@ -15,6 +15,8 @@ public interface Entity {
 	
 	public EntitySprite getSprite();
 	
+	public void updateLocation(int x, int y);
+	
 	public int[] getLocation();
 		
 	/**The box to draw. 

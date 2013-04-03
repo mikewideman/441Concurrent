@@ -41,13 +41,19 @@ public class Mushroom implements Entity, Runnable{
 		m_boundingBox = Rectangle.fromUpperLeft( x, y, SQUARE_SIZE, SQUARE_SIZE );
 	}
 	
-	
+	/**
+	 * This Entity method does nothing for mushrooms because they cannot move.
+	 */
 	public void move() 
 	{
 		//Mushrooms do not move
 		return;
 	}
 
+	/**
+	 * Mushrooms get hurt if they are hit by a bullet.
+	 * They ignore other collisions.
+	 */
 	public void collidesWith(Entity entity) 
 	{
 		if( entity.getType() == EntityTypes.BULLET )
@@ -56,35 +62,51 @@ public class Mushroom implements Entity, Runnable{
 		}
 	}
 
+	/**
+	 * Decrement health.
+	 * If health is below 0, remove ourselves from the board.
+	 */
 	public void die() 
 	{
 		m_curHealth--;
 		if ( m_curHealth <= 0 )
 		{
-			//commented out until board is implemented
-			//m_board.move( -1, -1, this );
+			m_board.move( -1, -1, this );
 		}
 	}
 
 
+	/**
+	 * Return a sprite representation of the entity.
+	 */
 	public EntitySprite getSprite() 
 	{
 		return m_sprite;
 	}
 
-
+	/**
+	 * Return our current location.
+	 */
 	public int[] getLocation()
 	{
+		//don't hand out the actual Point object due to concurrency issues
 		return new int[]{m_location.x, m_location.y};
 	}
 
 
+	/**
+	 * Return our bounding box.
+	 * We can hand out the rectangle directly because it's immutable.
+	 */
 	public Rectangle getBoundingBox() 
 	{
 		return m_boundingBox;
 	}
 
 
+	/**
+	 * This run loop is unnecessary, but included for consistency with other entities.
+	 */
 	public void run() 
 	{
 		while ( m_curHealth > 0 )
@@ -109,6 +131,13 @@ public class Mushroom implements Entity, Runnable{
 	
 	public EntityTypes getType() {
 		return m_type;
+	}
+
+	
+	public void updateLocation(int x, int y) 
+	{
+		m_location.x = x;
+		m_location.y = y;
 	}
 
 }

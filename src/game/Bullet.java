@@ -45,42 +45,56 @@ public class Bullet implements Entity, Runnable {
 	 */
 	public void move() 
 	{
-		//commented out until board is implemented
-		//m_board.move( m_location.x + MOVE_DX, m_location.y + MOVE_DY );
+		m_board.move( m_location.x + MOVE_DX, m_location.y + MOVE_DY, this );
 	}
 
+	/**
+	 * Called when another entity collides with this one.
+	 * Bullets will die whenever they collide with anything.
+	 */
 	public void collidesWith(Entity entity)
 	{
 		//bullets disappear when they collide with anything.
 		die();
 	}
 
-	
+	/**
+	 * Remove from board
+	 */
 	public void die() 
 	{	
 		//commented out until board is implemented
-		//m_board.move( -1, -1 );
+		m_board.move( -1, -1, this );
 	}
 
-	
+	/**
+	 * Returns a sprite representation of the entity.
+	 */
 	public EntitySprite getSprite() 
 	{
 		return m_sprite;
 	}
 
-
+	/**
+	 * Return the location of our center point.
+	 */
 	public int[] getLocation() 
 	{
 		return new int[]{m_location.x, m_location.y};
 	}
 
-
+	/**
+	 * Return the bounding box that surrounds the entity.
+	 */
 	public Rectangle getBoundingBox() 
 	{	
 		return m_boundingBox;
 	}
 
-
+	/**
+	 * This run loop allows the bullet to be run as a thread.
+	 * Bullets will move on every step until they are removed from the board, then they die
+	 */
 	public void run() {
 		m_active = true;
 		while ( m_active )
@@ -91,6 +105,9 @@ public class Bullet implements Entity, Runnable {
 		
 	}
 	
+	/**
+	 * Recalculate the bounding box. Used when the location is modified.
+	 */
 	private void recalcBoundingBox()
 	{
 		int x = m_location.x - WIDTH / 2;
@@ -98,13 +115,18 @@ public class Bullet implements Entity, Runnable {
 		m_boundingBox = Rectangle.fromUpperLeft( x, y, WIDTH, HEIGHT );
 	}
 	
+	/**
+	 * Update our location to a new value.
+	 */
 	public void updateLocation(int x, int y)
 	{
 		m_location.move(x, y);
 		recalcBoundingBox();
 	}
 
-
+	/**
+	 * Return entity types.
+	 */
 	public EntityTypes getType()
 	{
 		return m_type;
