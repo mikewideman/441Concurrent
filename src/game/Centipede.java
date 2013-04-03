@@ -311,6 +311,18 @@ public class Centipede implements Entity {
 						this.m_direction = Direction.LEFT;
 					}
 				} else {*/ //You may want to not run into things downward, because it's probably what you ran into before
+				
+					/*
+					 * [ ](v)(<)(<)(<)(<)
+					 *    [ ]
+					 *    
+					 * In this example the centipede needs to know well enough
+					 * to turn to the right and walk over itself. I think it
+					 * should actually move down again after that in order to
+					 * avoid a situation where this situation occurs twice in
+					 * one row (i.e. the centipede never moves down)
+					 */
+				
 					this.m_direction = Direction.DOWN;
 //				}
 			}
@@ -325,19 +337,24 @@ public class Centipede implements Entity {
 	public void die() {
 		synchronized (this.m_nextSegment) {
 			if (this.m_nextSegment != null) {
-				this.m_nextSegment.becomeHead();
-				//this.m_nextSegment.m_isHead = true;	this is also possible
+				//this.m_nextSegment.becomeHead();
+				this.m_nextSegment.m_isHead = true;
+				
+				/*
+				 * Spawn a new thread and have the new head start running
+				 */
 			}
 		}
 
 		this.m_board.createEntity(this.m_location.x, this.m_location.y, EntityTypes.MUSHROOM);
-		//TODO: this.m_board.removeEntity()
+		this.m_board.removeEntity(this);
 		
 		this.m_isDead = true;
 		
-		synchronized(this) {
+		/*synchronized(this) {
 			this.m_location = new Point(-1,-1);//this is how we die
-		}
+		}*/
+		
 		//TODO: notify the previous segment that its next segment is dead.
 		
 	}
@@ -349,9 +366,9 @@ public class Centipede implements Entity {
 	 * 	m_isHead is accessible to Centipede.
 	 * 	we could afford not to use this method.
 	 */
-	protected synchronized void becomeHead(){
+	/*protected synchronized void becomeHead(){
 		this.m_isHead = true;
-	}
+	}*/
 	
 	/**
 	 * A centipede is dead if it is located at -1, -1.
