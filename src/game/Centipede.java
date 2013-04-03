@@ -329,13 +329,15 @@ public class Centipede implements Entity {
 				//this.m_nextSegment.m_isHead = true;	this is also possible
 			}
 		}
-		synchronized(this) {
-			this.m_location = new Point(-1,-1);//this is how we die
-		}
+
 		this.m_board.createEntity(this.m_location.x, this.m_location.y, EntityTypes.MUSHROOM);
 		//TODO: this.m_board.removeEntity()
 		
 		this.m_isDead = true;
+		
+		synchronized(this) {
+			this.m_location = new Point(-1,-1);//this is how we die
+		}
 		//TODO: notify the previous segment that its next segment is dead.
 		
 	}
@@ -413,6 +415,7 @@ public class Centipede implements Entity {
 	public synchronized void updateLocation(int x, int y) {
 		this.m_location.x = x;
 		this.m_location.y = y;
+		recalcBoundingBox();
 	}
 
 }

@@ -29,7 +29,7 @@ public class BoardGenerator {
 		for (int r = 0; r < MUSHROOM_CONFIG.length; r++) {
 			for (int c = 0; c < MUSHROOM_CONFIG[r].length; c++) {
 				if (MUSHROOM_CONFIG[r][c] == 1) {
-					board.createEntity(r * Board.TILE_SIZE, c * Board.TILE_SIZE, EntityTypes.MUSHROOM);
+//					board.createEntity(r * Board.TILE_SIZE, c * Board.TILE_SIZE, EntityTypes.MUSHROOM);
 				}
 			}
 		}

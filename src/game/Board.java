@@ -143,7 +143,8 @@ public class Board {
 	                    // entity to make the rare occasional chain reaction a little simpler.
 	                    // this won't be *perfect* for things like tiny bullets, but it'll be
 	                    // acceptably close.
-	                	System.out.println(entity + " collided with " + other);
+	                	if (entity.getType()!=other.getType())//just suppress some useless messages
+	                		System.out.println(entity + " collided with " + other);
 	                    other.collidesWith(entity);
 	                    collisions.add(other);
 	                }

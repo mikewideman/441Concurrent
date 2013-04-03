@@ -28,6 +28,7 @@ public class CentipedeSprite extends EntitySprite {
 			return headCache.get(centi.getDirection());
 	}
 
+
 	protected void cacheImages() {
 		if (bodyImage == null) {// only need to do this once on class level
 			BufferedImage body = readImage("Body.bmp");
