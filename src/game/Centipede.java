@@ -262,12 +262,21 @@ public class Centipede implements Entity {
 			 * Tell your next segment to move (since non-head segments don't
 			 * have a thread to do that for them)
 			 */
-			if (this.m_nextSegment!=null)
+			boolean nextIsDead = false;
+			if (this.m_nextSegment!=null) {					//	lol
 				synchronized (this.m_nextSegment) {
-					if (this.m_nextSegment != null) {
-						this.m_nextSegment.move();
+					if (this.m_nextSegment != null) {		//	what
+						if (!this.m_nextSegment.m_isDead)
+							this.m_nextSegment.move();
+						} else {
+							nextIsDead = true;
 					}
 				}
+				if (nextIsDead) {
+					this.m_nextSegment = null;
+				}
+			}
+			
 		}
 	}
 
@@ -357,6 +366,11 @@ public class Centipede implements Entity {
 		
 		//TODO: notify the previous segment that its next segment is dead.
 		
+		/*
+		 * Well actually, I could have the previous one check when it does
+		 * tells its next segment to move().
+		 */
+		
 	}
 	
 	/**
@@ -423,12 +437,18 @@ public class Centipede implements Entity {
 	
 	private void recalcBoundingBox() {
 		int[] p = getLocation();
-		m_boundingBox =  Rectangle.fromCenter( 	p[0],
-												p[1],
-												Board.TILE_SIZE,
-												Board.TILE_SIZE);
+		this.m_boundingBox =  Rectangle.fromCenter( p[0],
+													p[1],
+													Board.TILE_SIZE,
+													Board.TILE_SIZE);
 	}
 
+	/**
+	 * Update this Centipede's location.
+	 * 
+	 * @param x	the new x-coordinate
+	 * @param y	the new y-coordinate
+	 */
 	public synchronized void updateLocation(int x, int y) {
 		this.m_location.x = x;
 		this.m_location.y = y;
