@@ -87,8 +87,8 @@ public class Board {
         // This should be fine with the below code,
         // since the locks are reentrant.
         boolean wallCollision = false;
-	if ((x < 0 || x >= (TILE_SIZE * WIDTH_PIXELS)) 
-	|| (y < 0 || y >= (TILE_SIZE * HEIGHT_PIXELS))) {
+	if ((x < 0 || x >= (WIDTH_PIXELS)) 
+	|| (y < 0 || y >= (HEIGHT_PIXELS))) {
 		wallCollision = true;
 		x = currLoc[0];
 		y = currLoc[1];
