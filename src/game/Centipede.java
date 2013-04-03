@@ -40,6 +40,12 @@ public class Centipede implements Entity {
 	private int					m_speedCount;
 	
 	/**
+	 * An increment counter which when equal to SQUARE_SIZE will signal the
+	 * need for the centipede to change to moving left or right.
+	 */
+	private int					m_vertAmount;
+	
+	/**
 	 * The default decrement counter value.
 	 */
 	private final int			DEFAULT_SPEED_COUNT = 1000;
@@ -68,6 +74,7 @@ public class Centipede implements Entity {
 		this.m_nextSegment = nextSeg;
 		this.m_speedFactor = SQUARE_SIZE;
 		this.m_speedCount = DEFAULT_SPEED_COUNT;
+		this.m_vertAmount = 0;
 		
 		// Set by the factory method
 		this.m_sprite = null;
@@ -100,10 +107,22 @@ public class Centipede implements Entity {
 									this.m_location.y, this);
 				break;
 			case DOWN:
+				boolean vertChangeBiggerThanSquare = 
+							((this.m_vertAmount + moveAmount) > SQUARE_SIZE);
+				moveAmount = (vertChangeBiggerThanSquare) ?
+									SQUARE_SIZE-this.m_vertAmount : moveAmount;
+				this.m_vertAmount = (vertChangeBiggerThanSquare) ?
+									0 : this.m_vertAmount + moveAmount;
 				this.m_board.move(this.m_location.x,
 									this.m_location.y + moveAmount, this);
 				break;
 			case UP:
+				vertChangeBiggerThanSquare = 
+							((this.m_vertAmount + moveAmount) > SQUARE_SIZE);
+				moveAmount = (vertChangeBiggerThanSquare) ?
+									SQUARE_SIZE-this.m_vertAmount : moveAmount;
+				this.m_vertAmount = (vertChangeBiggerThanSquare) ?
+									0 : this.m_vertAmount + moveAmount;
 				this.m_board.move(this.m_location.x,
 									this.m_location.y - moveAmount, this);
 				break;
@@ -188,6 +207,12 @@ public class Centipede implements Entity {
 		int x = m_location.x - SQUARE_SIZE / 2;
 		int y = m_location.y - SQUARE_SIZE / 2;
 		m_boundingBox =  Rectangle.fromUpperLeft( x, y, SQUARE_SIZE, SQUARE_SIZE );
+	}
+
+	@Override
+	public void updateLocation(int x, int y) {
+		this.m_location.x = x;
+		this.m_location.y = y;
 	}
 
 }
