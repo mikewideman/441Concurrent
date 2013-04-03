@@ -1,7 +1,6 @@
 package stub;
 
 import java.awt.Point;
-import java.awt.Rectangle;
 import java.awt.geom.Point2D;
 
 import game.Board;
@@ -9,6 +8,7 @@ import game.Centipede;
 import game.Direction;
 import gui.CentipedeSprite;
 import gui.EntitySprite;
+import game.Rectangle;
 
 public class StubCentipede extends Centipede {
 	private boolean isHead;
@@ -17,7 +17,7 @@ public class StubCentipede extends Centipede {
 	private Board myBoard;
 	/**Generates some random properties and reports them**/
 	public StubCentipede(Board b) {
-		super();
+		super(true,b,getLocation(),Direction.LEFT,null);
 		isHead = Math.random()<=0.5;
 		direction = Direction.values()[(int)(Math.random()*4)];
 		mySprite = new CentipedeSprite(this);	// "this" escapes!!
@@ -36,13 +36,12 @@ public class StubCentipede extends Centipede {
 	public EntitySprite getSprite(){
 		return mySprite;
 	}
-	public Point2D getLocation(){
-		return new Point((int)(Math.random()*myBoard.getWidth()), (int)(Math.random()*myBoard.getHeight()));
+	public int[] getLocation(){
+		return new int[]{(int)(Math.random()*myBoard.getWidth()), (int)(Math.random()*myBoard.getHeight())};
 	}
 
 	public Rectangle getBoundingBox() {
 		int radius = 10;
-		Point2D loc = getLocation();
-		return new Rectangle((int)loc.getX()-radius,(int)loc.getY()-radius,radius*2,radius*2);
-	}
+		int[] loc = getLocation();
+		return Rectangle.fromUpperLeft(loc[0]-radius,loc[1]-radius,radius*2,radius*2);	}
 }

@@ -1,16 +1,16 @@
 package stub;
 
 import java.awt.Point;
-import java.awt.Rectangle;
 import java.awt.geom.Point2D;
 
 import game.Board;
 import game.Direction;
 import game.Player;
+import game.Rectangle;
 
 public class StubPlayer extends Player {
 
-	@Override
+
 	public void fire() {
 		// TODO Auto-generated method stub
 		System.out.println("Player fires");
@@ -18,8 +18,8 @@ public class StubPlayer extends Player {
 
 	public Rectangle getBoundingBox() {
 		int radius = 10;
-		Point2D loc = getLocation();
-		return new Rectangle((int)loc.getX()-radius,(int)loc.getY()-radius,radius*2,radius*2);
+		int[] loc = getLocation();
+		return Rectangle.fromUpperLeft(loc[0]-radius,loc[1]-radius,radius*2,radius*2);
 	}
 
 	Point loc;
@@ -28,7 +28,7 @@ public class StubPlayer extends Player {
 		this.loc=location;
 	}
 
-	@Override
+
 	public void beginMove(Direction direction) {
 		// TODO Auto-generated method stub
 		System.out.println("Player begins moving "+direction);
@@ -36,10 +36,10 @@ public class StubPlayer extends Player {
 	}
 
 
-	@Override
-	public Point getLocation() {
+
+	public int[] getLocation() {
 		// TODO Auto-generated method stub
-		return loc;
+		return new int[]{loc.x, loc.y};
 	}
 
 	@Override
