@@ -16,6 +16,7 @@ public class Board {
 	 * All entities should use this, not their own definition.
      *
      * Values are based on size of the actual arcade game's play area.
+     * (15x16 grid of tiles)
 	 */
 	public static final int TILE_SIZE = 16;
 	public static final int WIDTH_PIXELS = 240;
@@ -81,6 +82,18 @@ public class Board {
         // Should be safe to ask the entity for its location, considering
         // that it's not going to move while it's moving.
         int[] currLoc = entity.getLocation();
+        // if it's trying to go out of bounds, make its
+        // destination == its current location.
+        // This should be fine with the below code,
+        // since the locks are reentrant.
+        boolean wallCollision = false;
+	if (x < 0 || x >= (TILE_SIZE * WIDTH_PIXELS) 
+	|| (y < 0 || y >= (TILE_SIZE * HEIGHT_PIXELS)) {
+		wallCollision = true;
+		x = currLoc[0];
+		y = currLoc[1];
+	}
+
         ReentrantLock currentTile = getTile(currLoc[0], currLoc[1]);
 	        ReentrantLock goalTile = getTile(x, y);
 
@@ -124,6 +137,12 @@ public class Board {
         for (Entity collision : collisions) {
             entity.collidesWith(collision);
         }
+        
+	        if (wallCollision) {
+	        	// need an interaction object for walll collisions,
+	        	// or could just do a entity.collidesWith(null).
+	        	// Opinions?
+	        }
 	}
 
     /**
