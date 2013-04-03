@@ -20,7 +20,12 @@ public class Board {
 		
 		/*
 		 * At some point we have to lock on the entity in order to give it an
-		 * update as to its current location (and direction).
+		 * update as to its current location (and direction). If a collision is
+		 * going to occur at this point, we can't have our cake and eat it too:
+		 * it won't be possible to getLocation() of the other entity to detect
+		 * the collision if it's being locked. Board has to keep track of the
+		 * locations to which the Entities are requesting to move, so that it
+		 * can detect a collision.
 		 */
 		
 		int size = quads.size();
