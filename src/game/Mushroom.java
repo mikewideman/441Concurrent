@@ -9,11 +9,12 @@ import gui.MushroomSprite;
 public class Mushroom implements Entity, Runnable{
 
 
-	private Board 			m_board;
-	private int 			m_curHealth;
-	private Point			m_location;
-	private EntitySprite 	m_sprite;
-	private Rectangle 		m_boundingBox;
+	private Board 					m_board;
+	private int 					m_curHealth;
+	private Point					m_location;
+	private EntitySprite 			m_sprite;
+	private Rectangle 				m_boundingBox;
+	private final EntityTypes		m_type;
 	
 	//Maximum and starting health of the mushroom.
 	private final int MAX_HEALTH 	= 4;
@@ -27,10 +28,13 @@ public class Mushroom implements Entity, Runnable{
 		m_curHealth = MAX_HEALTH;
 		m_location 	= location;
 		m_sprite = new MushroomSprite(this);
-		
+		m_type = EntityTypes.MUSHROOM;
 		recalcBoundingBox();
 	}
 	
+	/**
+	 * Recalculates the bounding box for the mushroom based on current location.
+	 */
 	private void recalcBoundingBox()
 	{
 		int x = m_location.x - SQUARE_SIZE / 2;
@@ -47,7 +51,10 @@ public class Mushroom implements Entity, Runnable{
 
 	public void collidesWith(Entity entity) 
 	{
-		
+		if( entity.getType() == EntityTypes.BULLET )
+		{
+			die();
+		}
 	}
 
 	public void die() 
@@ -67,9 +74,9 @@ public class Mushroom implements Entity, Runnable{
 	}
 
 
-	public Point getLocation()
+	public int[] getLocation()
 	{
-		return m_location;
+		return new int[]{m_location.x, m_location.y};
 	}
 
 
@@ -98,6 +105,11 @@ public class Mushroom implements Entity, Runnable{
 	public int getHealth()
 	{
 		return 5;
+	}
+
+	
+	public EntityTypes getType() {
+		return m_type;
 	}
 
 }

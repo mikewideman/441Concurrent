@@ -10,25 +10,33 @@ import java.awt.Rectangle;
 
 public class Player implements Entity , Runnable {
 
-	private Board 			m_board;
-	private Point			m_location;
-	private PlayerSprite 	m_sprite;
-	private Rectangle 		m_boundingBox;
-
+	private Board 					m_board;
+	private Point					m_location;
+	private PlayerSprite 			m_sprite;
+	private Rectangle 				m_boundingBox;
+	private Direction				m_direction;
+	
+	//true if we're currently moving, false otherwise. This must never escape.
+	private boolean					m_moving;
+	private final EntityTypes		m_type;
 	
 	private final int SQUARE_SIZE = 50;
+	private final int STEP_SIZE	  = 50; //distance moved in one turn
 	
 	private final int BULLET_SPAWN_DX = 0;
 	private final int BULLET_SPAWN_DY = -50;
+	
 	
 	public Player( Board board, Point location )
 	{
 		m_board 	= board;
 		m_location 	= location;
 
+		m_type = EntityTypes.PLAYER;
 		m_sprite = new PlayerSprite(this);
 		
 		recalcBoundingBox();
+		m_moving = false;
 	}
 	
 	
@@ -48,12 +56,13 @@ public class Player implements Entity , Runnable {
 	
 	public void beginMove(Direction direction)
 	{
-		
+		m_direction = direction;
+		m_moving 	= true;
 	}
 	
 	public void endMove()
 	{
-		
+		m_moving = false;
 	}
 	
 	private void recalcBoundingBox()
@@ -71,13 +80,30 @@ public class Player implements Entity , Runnable {
 	
 	public void move() 
 	{
-		//Player movement is based on keyboard input and is not implemented in this method
+		//business commented out until board is implemented
+		if( m_direction == Direction.LEFT )
+		{
+			//m_board.move( m_location.x - STEP_SIZE, m_location.y );
+		}
+		else if( m_direction == Direction.RIGHT )
+		{
+			//m_board.move( m_location.x + STEP_SIZE, m_location.y );			}
+		}
+
 	}
 
 
 	public void collidesWith(Entity entity) 
 	{
-
+		if( entity.getType() == EntityTypes.CENTIPEDE )
+		{
+			die();
+		}
+		else if ( entity.getType() == EntityTypes.MUSHROOM ) 
+		{
+			m_moving = false;
+		}
+		
 		
 	}
 
@@ -94,9 +120,9 @@ public class Player implements Entity , Runnable {
 	}
 
 	
-	public Point getLocation() 
+	public int[] getLocation() 
 	{
-		return m_location;
+		return new int[]{m_location.x, m_location.y};
 	}
 	/**Stops moved initiated by beginMove. Note that the player (for now) does not need to move diagonally.**/
 	public void stopMove() {
@@ -108,13 +134,15 @@ public class Player implements Entity , Runnable {
 
 
 	public void run() {
-		
+		while ( m_location.x != -1 ) 
+		{
+			move();
+			Thread.yield();
+		}
 	}
 
-
-	public int getRadius() {
-		// TODO Auto-generated method stub
-		return 0;
+	public EntityTypes getType() {
+		return m_type;
 	}
 
 }

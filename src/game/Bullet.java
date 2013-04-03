@@ -1,4 +1,7 @@
-
+/**
+ * Bullet -- A bullet entity, spawned by a player. Travels towards the top of the board
+ * until it either collides with something or leaves the board.
+ */
 package game;
 import gui.BulletSprite;
 import gui.EntitySprite;
@@ -12,15 +15,18 @@ import java.awt.Rectangle;
 public class Bullet implements Entity, Runnable {
 
 
-	private Board 			m_board;
-	private Point			m_location;
-	private EntitySprite 		m_sprite;
-	private Rectangle 		m_boundingBox;
-	private boolean			m_active;
+	private Board 					m_board;
+	private Point					m_location;
+	private EntitySprite 			m_sprite;
+	private Rectangle 				m_boundingBox;
+	private boolean					m_active;
+	private final EntityTypes		m_type;
 	
+	//The height/width of a bullet entity, in pixels. Useful for determining bounding box.
 	private final int HEIGHT 	= 50;
 	private final int WIDTH 	= 10;
 	
+	//The distance moved by a bullet in each step
 	private final int MOVE_DX = 0;
 	private final int MOVE_DY = -10;
 	
@@ -29,10 +35,14 @@ public class Bullet implements Entity, Runnable {
 		m_board 	= board;
 		m_location 	= location;
 		m_sprite = new BulletSprite(this);
+		m_type = EntityTypes.BULLET;
 		
 		recalcBoundingBox();
 	}
 	
+	/**
+	 * Asks the board to move
+	 */
 	public void move() 
 	{
 		//commented out until board is implemented
@@ -41,7 +51,8 @@ public class Bullet implements Entity, Runnable {
 
 	public void collidesWith(Entity entity)
 	{
-		
+		//bullets disappear when they collide with anything.
+		die();
 	}
 
 	
@@ -58,9 +69,9 @@ public class Bullet implements Entity, Runnable {
 	}
 
 
-	public Point getLocation() 
+	public int[] getLocation() 
 	{
-		return m_location;
+		return new int[]{m_location.x, m_location.y};
 	}
 
 
@@ -91,6 +102,12 @@ public class Bullet implements Entity, Runnable {
 	{
 		m_location.move(x, y);
 		recalcBoundingBox();
+	}
+
+
+	public EntityTypes getType()
+	{
+		return m_type;
 	}
 
 }
