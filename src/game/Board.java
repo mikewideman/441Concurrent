@@ -17,6 +17,12 @@ public class Board {
 	}
 	
 	public void move(int x, int y, Entity entity) {
+		
+		/*
+		 * At some point we have to lock on the entity in order to give it an
+		 * update as to its current location (and direction).
+		 */
+		
 		int size = quads.size();
 		if (size) {
 			// figure out which one of the quads
