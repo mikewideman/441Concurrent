@@ -133,9 +133,12 @@ public class Board {
 	            if (other != entity) {
 	                int[] otherLoc = other.getLocation();
 	                // again, compare by reference is fine for this
+	                
 	                //dont consider oob collisions, it's not worth it
-	                if (!isOOB(otherLoc[0], otherLoc[1]) && getTile(otherLoc[0], otherLoc[1]) == goalTile) {
-	                    // resolve collisions for current occupants of the tile,
+//	                if (!isOOB(otherLoc[0], otherLoc[1]) && getTile(otherLoc[0], otherLoc[1]) == goalTile) {
+	               
+	                if (entity.getBoundingBox().overlaps(other.getBoundingBox())){    
+	                // resolve collisions for current occupants of the tile,
 	                    // but wait until the end to handle them for the moving
 	                    // entity to make the rare occasional chain reaction a little simpler.
 	                    // this won't be *perfect* for things like tiny bullets, but it'll be

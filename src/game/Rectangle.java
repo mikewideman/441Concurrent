@@ -53,6 +53,15 @@ public class Rectangle {
 	public boolean contains(Rectangle other){
 		return this.contains(other.getX(), other.getY()) && this.contains(other.getX()+other.getWidth(), other.getY()+other.getHeight());
 	}
+	
+	/**
+	 * Do two rectangles touch?
+	 * @param other
+	 * @return
+	 */
+	public boolean overlaps(Rectangle other){
+		return !((this.y+this.height) < other.getY() || this.y > (other.getY()+other.getHeight()) || (this.x+this.width) < other.getX() || this.x > (other.getX()+other.getWidth()) );
+	}
 	public int getX() {
 		return x;
 	}
