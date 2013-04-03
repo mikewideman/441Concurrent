@@ -54,8 +54,10 @@ public class Bullet implements Entity, Runnable {
 	 */
 	public void collidesWith(Entity entity)
 	{
-		//bullets disappear when they collide with anything.
-		die();
+		if( entity.getType() != EntityTypes.PLAYER )
+		{
+			die();
+		}
 	}
 
 	/**

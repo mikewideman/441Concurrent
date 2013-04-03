@@ -2,11 +2,6 @@ package game;
 
 import gui.GUI;
 
-import java.awt.Point;
-
-import stub.StubBoard;
-import stub.StubPlayer;
-
 public class Driver {
 	
 	static final int[][] MUSHROOM_CONFIG = {
