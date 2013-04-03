@@ -21,8 +21,24 @@ public class Centipede implements Entity {
 	private Direction			m_direction;
 	private Centipede			m_nextSegment;
 	
-	private final int SQUARE_SIZE = 50;
+	/**
+	 * The factor by which the square size will be divided to provide movement
+	 * rate.
+	 */
+	private int					m_speedFactor;
 	
+	/**
+	 * A decrement counter which when equal to 0 will signal the need for the
+	 * speed factor to increase.
+	 */
+	private int					m_speedCount;
+	
+	/**
+	 * The default decrement counter value.
+	 */
+	private final int			DEFAULT_SPEED_COUNT = 1000;
+	
+	private final int			SQUARE_SIZE = 50;
 	
 	/**
 	 * Construction of a Centipede requires a factory method in order to
@@ -43,6 +59,8 @@ public class Centipede implements Entity {
 		this.m_location = loc;
 		this.m_direction = dir;
 		this.m_nextSegment = nextSeg;
+		this.m_speedFactor = SQUARE_SIZE;
+		this.m_speedCount = DEFAULT_SPEED_COUNT;
 		
 		// Set by the factory method
 		this.m_sprite = null;
@@ -58,6 +76,13 @@ public class Centipede implements Entity {
 	}
 	
 	public void move() {
+		if (--this.m_speedCount == 0) {
+			if (this.m_speedFactor != SQUARE_SIZE) {
+				++this.m_speedFactor;
+			}
+			this.m_speedCount = DEFAULT_SPEED_COUNT;
+		}
+		int moveAmount = SQUARE_SIZE / this.m_speedFactor;
 		switch(this.m_direction) {
 			case LEFT:
 				
