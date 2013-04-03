@@ -155,6 +155,6 @@ public class Board {
      * @return a synchronized list of all entities
      */
     public Iterable<Entity> getAllEntities() {
-		return Collections.synchronizedList(entities);
+		return Collections.synchronizedList(entities);//TODO: synchronized or immutable???
     }
 }

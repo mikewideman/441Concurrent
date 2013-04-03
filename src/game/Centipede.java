@@ -78,8 +78,12 @@ public class Centipede implements Entity {
 		this.m_vertAmount = 0;
 		
 		// Set by the factory method
-		this.m_sprite = null;
-		this.m_boundingBox = null;
+		//TODO: WHYY?????
+//		this.m_sprite = null;
+//		this.m_boundingBox = null;
+		
+		recalcBoundingBox();
+		this.m_sprite = new CentipedeSprite(this);
 	}
 	
 	
@@ -213,6 +217,7 @@ public class Centipede implements Entity {
 		return this.m_sprite;
 	}
 
+	//TODO: I'm confused, isn't this supposed to be center, or is it upper left???
 	public int[] getLocation() {
 		return new int[]{this.m_boundingBox.getX(), this.m_boundingBox.getY()};
 	}
