@@ -160,6 +160,7 @@ public class Board {
         }
         
         if (wallCollision) {
+        	System.out.println(entity + " collided with the wall");
         	entity.collidesWith(new Mushroom(this, new Point())); 
 		}
 	}
@@ -207,6 +208,9 @@ public class Board {
     	
     	return newEntity;
 
+    }
+    public void addCentipedeBody(Centipede c){
+    	entities.add(c);
     }
     
     public void removeEntity(Entity e) {

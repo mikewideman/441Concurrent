@@ -25,7 +25,7 @@ public class BoardGenerator {
 	public static Board generateLevel(){
 		Board board = new Board();
 //		Player p = (Player) board.createEntity(playerStartX, playerStartY, EntityTypes.PLAYER);
-		board.createEntity(board.WIDTH_PIXELS, board.TILE_SIZE, EntityTypes.CENTIPEDE);
+		board.createEntity(board.WIDTH_PIXELS-board.TILE_SIZE*5, board.TILE_SIZE*2, EntityTypes.CENTIPEDE);
 		for (int r = 0; r < MUSHROOM_CONFIG.length; r++) {
 			for (int c = 0; c < MUSHROOM_CONFIG[r].length; c++) {
 				if (MUSHROOM_CONFIG[r][c] == 1) {
