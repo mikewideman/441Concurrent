@@ -23,8 +23,8 @@ public class Bullet implements Entity, Runnable {
 	private final EntityTypes		m_type;
 	
 	//The height/width of a bullet entity, in pixels. Useful for determining bounding box.
-	private final int HEIGHT 	= 50;
-	private final int WIDTH 	= 10;
+	private final int HEIGHT 	= Board.TILE_SIZE;
+	private final int WIDTH 	= Board.TILE_SIZE/3;
 	
 	//The distance moved by a bullet in each step
 	private final int MOVE_DX = 0;
@@ -110,9 +110,11 @@ public class Bullet implements Entity, Runnable {
 	 */
 	private void recalcBoundingBox()
 	{
-		int x = m_location.x - WIDTH / 2;
-		int y = m_location.y - HEIGHT / 2;
-		m_boundingBox = Rectangle.fromUpperLeft( x, y, WIDTH, HEIGHT );
+//		int x = m_location.x - WIDTH / 2;
+//		int y = m_location.y - HEIGHT / 2;
+//		m_boundingBox = Rectangle.fromUpperLeft( x, y, WIDTH, HEIGHT );
+		int[] p = getLocation();
+		m_boundingBox =  Rectangle.fromCenter( p[0], p[1], WIDTH, HEIGHT );
 	}
 	
 	/**

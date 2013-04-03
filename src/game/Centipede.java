@@ -51,7 +51,7 @@ public class Centipede implements Entity {
 	 */
 	private final int			DEFAULT_SPEED_COUNT = 1000;
 	
-	private final int			SQUARE_SIZE = 50;
+	private final int			SQUARE_SIZE = Board.TILE_SIZE;
 	
 	/**
 	 * Construction of a Centipede requires a factory method in order to
@@ -219,7 +219,9 @@ public class Centipede implements Entity {
 
 	//TODO: I'm confused, isn't this supposed to be center, or is it upper left???
 	public int[] getLocation() {
-		return new int[]{this.m_boundingBox.getX(), this.m_boundingBox.getY()};
+//		return new int[]{this.m_boundingBox.getX(), this.m_boundingBox.getY()};
+		Point p = m_location;
+		return new int[]{p.x,p.y};
 	}
 
 	public Rectangle getBoundingBox() {
@@ -254,9 +256,8 @@ public class Centipede implements Entity {
 	}
 	
 	private void recalcBoundingBox() {
-		int x = m_location.x - SQUARE_SIZE / 2;
-		int y = m_location.y - SQUARE_SIZE / 2;
-		m_boundingBox =  Rectangle.fromUpperLeft( x, y, SQUARE_SIZE, SQUARE_SIZE );
+		int[] p = getLocation();
+		m_boundingBox =  Rectangle.fromCenter( p[0], p[1], SQUARE_SIZE, SQUARE_SIZE );
 	}
 
 	public void updateLocation(int x, int y) {

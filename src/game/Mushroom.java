@@ -19,7 +19,7 @@ public class Mushroom implements Entity{
 	private final int MAX_HEALTH 	= 4;
 	
 	//Length of one side of the Mushroom's bounding box (in pixels)
-	private final int SQUARE_SIZE 	= 50;
+	private final int SQUARE_SIZE 	= Board.TILE_SIZE;
 	
 	public Mushroom(Board board, Point location)
 	{
@@ -36,9 +36,11 @@ public class Mushroom implements Entity{
 	 */
 	private void recalcBoundingBox()
 	{
-		int x = m_location.x - SQUARE_SIZE / 2;
-		int y = m_location.y - SQUARE_SIZE / 2;
-		m_boundingBox = Rectangle.fromUpperLeft( x, y, SQUARE_SIZE, SQUARE_SIZE );
+//		int x = m_location.x - SQUARE_SIZE / 2;
+//		int y = m_location.y - SQUARE_SIZE / 2;
+//		m_boundingBox = Rectangle.fromUpperLeft( x, y, SQUARE_SIZE, SQUARE_SIZE );
+		int[] p = getLocation();
+		m_boundingBox =  Rectangle.fromCenter( p[0], p[1], SQUARE_SIZE, SQUARE_SIZE );
 	}
 	
 	/**

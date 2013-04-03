@@ -20,7 +20,7 @@ public class Player implements Entity , Runnable {
 	private boolean					m_moving;
 	private final EntityTypes		m_type;
 	
-	private final int SQUARE_SIZE = 50;
+	private final int SQUARE_SIZE = Board.TILE_SIZE;
 	private final int STEP_SIZE	  = 50; //distance moved in one turn
 	
 	private final int BULLET_SPAWN_DX = 0;
