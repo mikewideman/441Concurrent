@@ -124,13 +124,6 @@ public class Board {
 		currentTile.lock();
 		goalTile.lock();
 
-		/*
-		 * NOT SURE I GET THIS. So you lock the currentTile, then IMMEDIATELY
-		 * unlock it? Also you go to the location before the collision handling,
-		 * so they will just encounter the same collision on every request. If a
-		 * centipede runs into a mushroom and turns, it will still be in the
-		 * mushroom on the next call.
-		 */
 		// okay, move where you wanted to move,
 		// and unlock the space you no longer occupy.
 		entity.updateLocation(x, y);
@@ -167,12 +160,9 @@ public class Board {
 		}
 
 		// We can unlock the goal tile now because the entity has now moved into
-		// that
-		// space and we know what it collided with. It's important to unlock
-		// this tile
-		// first to avoid deadlock scenarios caused by possibly complicated
-		// collision resolution
-		// involving more than two entities.
+		// that space and we know what it collided with. It's important to unlock
+		// this tile first to avoid deadlock scenarios caused by possibly complicated
+		// collision resolution involving more than two entities.
 		goalTile.unlock();
 
 		// now resolve all the collisions for the moved entity
@@ -245,8 +235,7 @@ public class Board {
 	 * Add a centipede segment to the field, but don't start it as its own
 	 * thread.
 	 * 
-	 * @param c
-	 *            the centipede segment to add.
+	 * @param c the centipede segment to add.
 	 */
 	public void addCentipedeBody(Centipede c) {
 		synchronized (entities) {
@@ -257,8 +246,7 @@ public class Board {
 	/**
 	 * Safely remove an entity from the board.
 	 * 
-	 * @param e
-	 *            the entity to remove
+	 * @param e the entity to remove
 	 */
 	public void removeEntity(Entity e) {
 		synchronized (entities) {
