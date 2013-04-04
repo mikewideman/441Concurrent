@@ -23,7 +23,6 @@ public class PlayerController implements KeyListener, MouseListener,
 	}
 
 	public void keyPressed(KeyEvent e) {
-		// TODO Auto-generated method stub
 		switch (e.getKeyCode()) {
 		case KeyEvent.VK_LEFT:
 			thePlayer.beginMove(Direction.LEFT);
@@ -53,23 +52,19 @@ public class PlayerController implements KeyListener, MouseListener,
 	}
 
 	public void keyTyped(KeyEvent arg0) {
-		// TODO Auto-generated method stub
-
+		return;
 	}
 
 	public void mouseClicked(MouseEvent e) {
-
-
+		return;
 	}
 
 	public void mouseEntered(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-
+		return;
 	}
 
 	public void mouseExited(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-
+		return;
 	}
 
 	public void mousePressed(MouseEvent arg0) {
@@ -78,13 +73,11 @@ public class PlayerController implements KeyListener, MouseListener,
 	}
 
 	public void mouseReleased(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-
+		return;
 	}
 
 	public void mouseDragged(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-
+		return;
 	}
 
 	public void mouseMoved(MouseEvent e) {

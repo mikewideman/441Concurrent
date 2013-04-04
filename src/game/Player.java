@@ -109,7 +109,6 @@ public class Player implements Entity , Runnable {
 	 */
 	public void move() 
 	{
-		//business commented out until board is implemented
 		//if moving is off, then don't continue with move
 		if (!m_moving) return;
 		if( m_direction == Direction.LEFT && m_location.x>0)
@@ -157,7 +156,6 @@ public class Player implements Entity , Runnable {
 	 */
 	public void die() 
 	{
-		//commenting out until board is implemented
 		m_board.move( -1, -1, this );
 	}
 

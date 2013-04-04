@@ -13,7 +13,14 @@ import game.Rectangle;
  */
 public class Centipede implements Entity {
 
+	/**
+	 * The default length of the Centipede
+	 */
 	public static final int DEFAULT_CHAIN_LENGTH = 12;
+	
+	/**
+	 * True if this segment is the head... only heads have thread agency
+	 */
 	private boolean m_isHead;
 
 	/**
@@ -21,12 +28,26 @@ public class Centipede implements Entity {
 	 * need to turn right)
 	 */
 	private boolean m_movingLeftward;
+	
+	/*
+	 * Stuff we share with a lot of other stuff
+	 */
+	
 	private Board m_board;
 	private Point m_location;
 	private EntitySprite m_sprite;
 	private Rectangle m_boundingBox;
 	private Direction m_direction;
+	
+	/**
+	 * The next segment in line.
+	 */
 	private Centipede m_nextSegment;
+	
+	/**
+	 * True if dead - used to let the previous segment know it may lose its
+	 * reference to this segment.
+	 */
 	private boolean m_isDead;
 
 	/**
@@ -81,15 +102,9 @@ public class Centipede implements Entity {
 		this.m_vertAmount = 0;
 
 		// Set by the factory method
-		// TODO: WHYY?????
 		this.m_sprite = null;
 		this.m_boundingBox = null;
 
-		/*
-		 * You CANNOT let "this" escape. -Andrew
-		 */
-		// recalcBoundingBox();
-		// this.m_sprite = new CentipedeSprite(this);
 	}
 
 	/**
@@ -147,8 +162,6 @@ public class Centipede implements Entity {
 	 *            The location where the head segment will be.
 	 * @return the new Centipede
 	 */
-	// What is this? is this supposed to be static? Idk, I just wrote another
-	// one.
 	public static Centipede makeCentipede(int length, Board board,
 			Point headLocation) {
 		Centipede head = null;
@@ -195,11 +208,7 @@ public class Centipede implements Entity {
 	 */
 	private void move() {
 		if (this.m_isDead) {
-			/*
-			 * Are we going to delete the dead segments or are we going to
-			 * dummify them?
-			 */
-
+			//
 		} else {
 			if (--this.m_speedCount == 0) {
 				if (this.m_speedFactor > 0) {
@@ -208,18 +217,8 @@ public class Centipede implements Entity {
 				this.m_speedCount = DEFAULT_SPEED_COUNT;
 			}
 
-			/*
-			 * Might want a different calculation here - the idea is to start at
-			 * 1 and slowly increase
-			 */
 			int moveAmount = Board.TILE_SIZE - this.m_speedFactor;
-			//System.out.println("moveAmt: " +moveAmount);
 
-			/*
-			 * Ideally, this method is being called sequentially, so there ought
-			 * to be no need to synchronize on the Direction.
-			 */
-			//System.out.println("I'm going "+m_direction);
 			Direction d;
 			synchronized(this.m_direction) {
 				d = Direction.valueOf(this.m_direction.toString());
@@ -236,7 +235,6 @@ public class Centipede implements Entity {
 										this);
 					break;
 				case DOWN:
-					//System.out.println("case: Down");
 					/*
 					 * If the movement rate would move you down more than the
 					 * tile size, you have to stop at the tile size limit.
@@ -324,6 +322,9 @@ public class Centipede implements Entity {
 		}
 	}
 
+	/**
+	 * move() until dead
+	 */
 	public void run() {
 		while (!(this.m_isDead)) {
 			move();
@@ -344,9 +345,6 @@ public class Centipede implements Entity {
 	 * @param entity
 	 *            the Entity with which the Centipede collided
 	 */
-	/*
-	 * We should consider passing the EntityType instead for safety's sake.
-	 */
 	public void collidesWith(EntityTypes entityType) {
 
 		if (entityType == EntityTypes.BULLET) {
@@ -354,20 +352,9 @@ public class Centipede implements Entity {
 		}
 		else if ( entityType == EntityTypes.MUSHROOM ) 
 		{
-			synchronized(this.m_direction) {//does this synchronization do anything? (is it synchronized on direction anywhere else?)
+			synchronized(this.m_direction) {
 				if(this.m_direction == Direction.DOWN ||
 						this.m_direction == Direction.UP) {
-					
-					/*
-					 * [ ](v)(<)(<)(<)(<)
-					 *    [ ]
-					 *    
-					 * In this example the centipede needs to know well enough
-					 * to turn to the right and walk over itself. I think it
-					 * should actually move down again after that in order to
-					 * avoid a situation where this situation occurs twice in
-					 * one row (i.e. the centipede never moves down)
-					 */
 					System.out.println("turning to horz b/c coll");
 					if (this.m_movingLeftward) {
 						this.m_direction = Direction.RIGHT;
@@ -375,9 +362,9 @@ public class Centipede implements Entity {
 						this.m_direction = Direction.LEFT;
 					}
 					this.m_movingLeftward = (!this.m_movingLeftward);
-				} else { //You may want to not run into things downward, because it's probably what you ran into before
+				} else {
 					this.m_direction = Direction.DOWN;
-					this.m_vertAmount = 1;//hackish
+					this.m_vertAmount = 1;	//hackish
 					System.out.println("it's goin down");
 				}
 			}
@@ -392,7 +379,6 @@ public class Centipede implements Entity {
 	public void die() {
 		synchronized (this.m_nextSegment) {
 			if (this.m_nextSegment != null) {
-				// this.m_nextSegment.becomeHead();
 				this.m_nextSegment.m_isHead = true;
 				this.m_nextSegment.m_direction = Direction.DOWN;
 
@@ -407,42 +393,7 @@ public class Centipede implements Entity {
 		this.m_board.removeEntity(this);
 
 		this.m_isDead = true;
-
-		/*
-		 * synchronized(this) { this.m_location = new Point(-1,-1);//this is how
-		 * we die }
-		 */
-
-		// TODO: notify the previous segment that its next segment is dead.
-
-		/*
-		 * Well actually, I could have the previous one check when it does tells
-		 * its next segment to move().
-		 */
-
 	}
-
-	/**
-	 * Become a head.
-	 */
-	/*
-	 * m_isHead is accessible to Centipede. we could afford not to use this
-	 * method.
-	 */
-	/*
-	 * protected synchronized void becomeHead(){ this.m_isHead = true; }
-	 */
-
-	/**
-	 * A centipede is dead if it is located at -1, -1.
-	 * 
-	 * @return true if this is the case.
-	 */
-	/*
-	 * public boolean isDead(){ boolean isDead; synchronized(this.m_location) {
-	 * isDead = ((this.m_location.getX()<0) && (this.m_location.getY()<0)); }
-	 * return isDead; }
-	 */
 
 	/**
 	 * @return the reference to the Sprite representing this segment.
@@ -457,12 +408,9 @@ public class Centipede implements Entity {
 	 * 
 	 * @return an int[] formatted as {x,y}.
 	 */
-	// TODO: I'm confused, isn't this supposed to be center, or is it upper
-	// left???
+
 	public int[] getLocation() {
-		// return new int[]{this.m_boundingBox.getX(),
-		// this.m_boundingBox.getY()};
-		Point p = m_location; // synchronization, reference issue
+		Point p = m_location;
 		return new int[] { p.x, p.y };
 	}
 

@@ -31,8 +31,8 @@ public class MushroomSprite extends EntitySprite {
 			return;
 		imgCache = new HashMap<Integer, Image>();
 		BufferedImage img = readImage("Mushroom.bmp");
-		// image is divided into sections == to the # lives left being the
-		// healthiest
+		/* image is divided into sections == to the # lives left being the
+		 healthiest*/
 		int subimageWidth = img.getWidth() / LIVES;
 		for (int l = LIVES; l > 0; l--) {
 			BufferedImage lifeImg = img.getSubimage(
@@ -48,7 +48,6 @@ public class MushroomSprite extends EntitySprite {
 	}
 
 	public boolean shouldBeDrawn() {
-		// TODO Auto-generated method stub
 		return super.shouldBeDrawn()
 				&& imgCache.containsKey(myEntity.getHealth());
 	}

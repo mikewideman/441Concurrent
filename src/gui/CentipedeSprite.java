@@ -23,7 +23,6 @@ public class CentipedeSprite extends EntitySprite {
 	}
 
 	public Image getImage() {
-		// TODO Auto-generated method stub
 		if (!centi.isHead())
 			return bodyImage;
 		else
@@ -31,12 +30,11 @@ public class CentipedeSprite extends EntitySprite {
 	}
 
 	protected void cacheImages() {
-		if (bodyImage == null) {// only need to do this once on class level
+		if (bodyImage == null) {	// only need to do this once on class level
 			BufferedImage body = readImage("Body.bmp");
 			BufferedImage body1 = body.getSubimage(0, 0, body.getWidth() / 2,
 					body.getHeight());
-			bodyImage = body1; // normally you'd alternate between 2 to animate
-			// but I'm lazy
+			bodyImage = body1;
 		}
 		if (headCache == null) {
 			headCache = new HashMap<Direction, Image>();
@@ -44,8 +42,6 @@ public class CentipedeSprite extends EntitySprite {
 			BufferedImage head = readImage("Head.bmp");
 			int quarter = head.getHeight() / 4;
 			int half = head.getWidth() / 2;
-			// again, the second images are nice animations, but I'm not
-			// supporting that now
 			headCache.put(Direction.LEFT,
 					head.getSubimage(0, quarter * 0, half, quarter));
 			headCache.put(Direction.RIGHT,

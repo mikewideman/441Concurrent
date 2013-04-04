@@ -37,8 +37,7 @@ public class GUI extends JFrame {
 		// listen for user input
 		canvas.addMouseListener(controller);
 		canvas.addMouseMotionListener(controller);
-		this.addKeyListener(controller);// okay, so the canvas doesn't actually
-										// have focus
+		this.addKeyListener(controller);
 
 		this.canvas = canvas;
 		add(canvas);

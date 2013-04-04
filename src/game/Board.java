@@ -58,8 +58,8 @@ public class Board {
 	 * @return the reentrant lock guarding the tile
 	 */
 	private ReentrantLock getTile(int x, int y) {
-		// if x or y are < TILE_SIZE,
-		// this truncates the division and indexes 0.
+		/* if x or y are < TILE_SIZE,
+		 this truncates the division and indexes 0.*/
 		return tiles[x / TILE_SIZE][y / TILE_SIZE];
 	}
 
@@ -77,23 +77,13 @@ public class Board {
 	 */
 	public void move(int x, int y, Entity entity) {
 
-		/*
-		 * At some point we have to lock on the entity in order to give it an
-		 * update as to its current location (and direction). If a collision is
-		 * going to occur at this point, we can't have our cake and eat it too:
-		 * it won't be possible to getLocation() of the other entity to detect
-		 * the collision if it's being locked. Board has to keep track of the
-		 * locations to which the Entities are requesting to move, so that it
-		 * can detect a collision.
-		 */
-
-		// Should be safe to ask the entity for its location, considering
-		// that it's not going to move while it's moving.
+		/* Should be safe to ask the entity for its location, considering
+		 that it's not going to move while it's moving.*/
 		int[] currLoc = entity.getLocation();
-		// if it's trying to go out of bounds, make its
-		// destination == its current location.
-		// This should be fine with the below code,
-		// since the locks are reentrant.
+		/* if it's trying to go out of bounds, make its
+		 destination == its current location.
+		 This should be fine with the below code,
+		 since the locks are reentrant.*/
 		boolean wallCollision = false;
 		ReentrantLock currentTile;
 		ReentrantLock goalTile;
@@ -109,11 +99,11 @@ public class Board {
 
 		if (isOOB(x, y)) {// going out of bounds
 			wallCollision = true;
-			if (startedOutOfBounds)// started out and going out, there's no hope
-									// for you. Cancel.
+			if (startedOutOfBounds)	/*started out and going out, there's no hope
+									 * for you. Cancel. */
 				return;
-			goalTile = getTile(currLoc[0], currLoc[1]);// started out but going
-														// in.
+			goalTile = getTile(currLoc[0], currLoc[1]);	/* started out but going
+														 * in. */
 		} else {
 			goalTile = getTile(x, y);
 
@@ -133,23 +123,23 @@ public class Board {
 		// find and resolve collections
 		synchronized (entities) {
 			for (Entity other : entities) {
-				// yes, compare by reference, can't
-				// collide with oneself.
+				// yes, compare by reference, can't collide with oneself.
 				if (other != entity) {
 					if (entity.getBoundingBox()
 							.overlaps(other.getBoundingBox())) {
-						// resolve collisions for current occupants of the tile,
-						// but wait until the end to handle them for the moving
-						// entity to make the rare occasional chain reaction a
-						// little simpler.
-						// this won't be *perfect* for things like tiny bullets,
-						// but it'll be
-						// acceptably close.
-						if (entity.getType() != other.getType()) // just
-																	// suppress
-																	// some
-																	// useless
-																	// messages
+						/* resolve collisions for current occupants of the tile,
+						 but wait until the end to handle them for the moving
+						 entity to make the rare occasional chain reaction a
+						 little simpler.
+						 this won't be *perfect* for things like tiny bullets,
+						 but it'll be
+						 acceptably close.*/
+						if (entity.getType() != other.getType()) /* just
+																  * suppress
+																  * some
+																  * useless
+																  * messages
+																  */
 							System.out.println(entity + " collided with "
 									+ other);
 						other.collidesWith(entity.getType());
@@ -159,10 +149,12 @@ public class Board {
 			}
 		}
 
-		// We can unlock the goal tile now because the entity has now moved into
-		// that space and we know what it collided with. It's important to unlock
-		// this tile first to avoid deadlock scenarios caused by possibly complicated
-		// collision resolution involving more than two entities.
+		/* 
+		 * We can unlock the goal tile now because the entity has now moved into
+		 * that space and we know what it collided with. It's important to
+		 * unlock this tile first to avoid deadlock scenarios caused by possibly
+		 * complicated collision resolution involving more than two entities.
+		 */
 		goalTile.unlock();
 
 		// now resolve all the collisions for the moved entity
@@ -220,11 +212,10 @@ public class Board {
 		synchronized (entities) {
 			entities.add(newEntity);
 		}
-		// Mushrooms don't need a thread, don't
-		// run them.
+		// Mushrooms don't need a thread, don't run them.
 		if (!(type == EntityTypes.MUSHROOM)) {
-			(new Thread(newEntity)).start();// start the entity in it's own
-											// thread.
+			(new Thread(newEntity)).start();/* start the entity in it's own
+											 * thread. */
 		}
 
 		return newEntity;
