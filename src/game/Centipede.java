@@ -217,6 +217,10 @@ public class Centipede implements Entity {
 										this);
 					break;
 				case DOWN:
+					/*
+					 * If the movement rate would move you down more than the
+					 * tile size, you have to stop at the tile size limit.
+					 */
 					boolean vertChangeBiggerThanTileSize = 
 											((this.m_vertAmount + moveAmount)
 												> Board.TILE_SIZE);
@@ -229,8 +233,16 @@ public class Centipede implements Entity {
 					this.m_board.move(	this.m_location.x,
 										this.m_location.y + moveAmount,
 										this);
+					if(vertChangeBiggerThanTileSize) {
+						// tell next segment it can move down now
+						this.m_nextSegment.m_direction = Direction.DOWN;
+					}
 					break;
 				case UP:
+					/*
+					 * If the movement rate would move you up more than the
+					 * tile size, you have to stop at the tile size limit.
+					 */
 					vertChangeBiggerThanTileSize =
 											((this.m_vertAmount + moveAmount)
 												> Board.TILE_SIZE);
@@ -243,13 +255,18 @@ public class Centipede implements Entity {
 					this.m_board.move(	this.m_location.x,
 										this.m_location.y - moveAmount,
 										this);
+					if(vertChangeBiggerThanTileSize) {
+						// tell next segment it can move up now
+						this.m_nextSegment.m_direction = Direction.UP;
+					}
 					break;
 			}
 			
 			// need to change direction after moving down a box size
-			if (this.m_vertAmount == 0 && (
-					this.m_direction == Direction.DOWN ||
-					this.m_direction == Direction.UP )) {
+			if (	this.m_vertAmount == 0 && 
+					(this.m_direction == Direction.DOWN ||
+					this.m_direction == Direction.UP ))
+			{
 				if (this.m_movingLeftward) {
 					this.m_direction = Direction.RIGHT;
 				} else {
@@ -313,14 +330,9 @@ public class Centipede implements Entity {
 		else if ( entity.getType() == EntityTypes.MUSHROOM ) 
 		{
 			synchronized(this.m_direction) {//does this synchronization do anything? (is it synchronized on direction anywhere else?)
-				/*if(this.m_direction == Direction.DOWN) {
-					if (this.m_movingLeftward) {
-						this.m_direction = Direction.RIGHT;
-					} else {
-						this.m_direction = Direction.LEFT;
-					}
-				} else {*/ //You may want to not run into things downward, because it's probably what you ran into before
-				
+				if(this.m_direction == Direction.DOWN ||
+						this.m_direction == Direction.UP) {
+					
 					/*
 					 * [ ](v)(<)(<)(<)(<)
 					 *    [ ]
@@ -331,9 +343,15 @@ public class Centipede implements Entity {
 					 * avoid a situation where this situation occurs twice in
 					 * one row (i.e. the centipede never moves down)
 					 */
-				
+					
+					if (this.m_movingLeftward) {
+						this.m_direction = Direction.RIGHT;
+					} else {
+						this.m_direction = Direction.LEFT;
+					}
+				} else { //You may want to not run into things downward, because it's probably what you ran into before
 					this.m_direction = Direction.DOWN;
-//				}
+				}
 			}
 		}
 		
