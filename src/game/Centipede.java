@@ -30,8 +30,7 @@ public class Centipede implements Entity {
 	private boolean m_isDead;
 
 	/**
-	 * The factor by which the tile size will be divided to provide movement
-	 * rate.
+	 * The amount subtracted from the tile size to get the delta of movement.
 	 */
 	private int m_speedFactor;
 
@@ -50,7 +49,7 @@ public class Centipede implements Entity {
 	/**
 	 * The default decrement counter value.
 	 */
-	private final static int DEFAULT_SPEED_COUNT = 1000;
+	private final static int DEFAULT_SPEED_COUNT = 10000000;
 
 	/**
 	 * Construction of a Centipede requires a factory method in order to create
@@ -76,7 +75,7 @@ public class Centipede implements Entity {
 		this.m_direction = dir;
 		this.m_nextSegment = nextSeg;
 		this.m_isDead = false;
-		this.m_speedFactor = Board.TILE_SIZE;
+		this.m_speedFactor = Board.TILE_SIZE-1;
 		this.m_speedCount = DEFAULT_SPEED_COUNT;
 		this.m_vertAmount = 0;
 
@@ -202,8 +201,8 @@ public class Centipede implements Entity {
 
 		} else {
 			if (--this.m_speedCount == 0) {
-				if (this.m_speedFactor != Board.TILE_SIZE) {
-					++this.m_speedFactor;
+				if (this.m_speedFactor > 0) {
+					--this.m_speedFactor;
 				}
 				this.m_speedCount = DEFAULT_SPEED_COUNT;
 			}
@@ -212,7 +211,7 @@ public class Centipede implements Entity {
 			 * Might want a different calculation here - the idea is to start at
 			 * 1 and slowly increase
 			 */
-			int moveAmount = Board.TILE_SIZE / this.m_speedFactor;
+			int moveAmount = Board.TILE_SIZE - this.m_speedFactor;
 
 			/*
 			 * Ideally, this method is being called sequentially, so there ought
