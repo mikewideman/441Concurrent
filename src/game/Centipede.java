@@ -47,7 +47,8 @@ public class Centipede implements Entity {
 	private int m_vertAmount;
 
 	/**
-	 * The default decrement counter value.
+	 * The default decrement counter value. Should be a sufficiently large
+	 * number so that a Centipede speeds up only periodically.
 	 */
 	private final static int DEFAULT_SPEED_COUNT = 10000000;
 
