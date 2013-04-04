@@ -81,9 +81,9 @@ public abstract class EntitySprite {
 	 */
 	protected BufferedImage readImage(String filename) {
 		BufferedImage img = null;
-		String path = IMG_DIR + File.separator + filename;
+		String path = ".."+File.separator+IMG_DIR + File.separator + filename;
 		try {
-			img = ImageIO.read(new File(path));
+			img = ImageIO.read((this.getClass().getResource(path)));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			System.out.println("Cannot read image file " + path);
