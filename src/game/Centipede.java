@@ -248,7 +248,6 @@ public class Centipede implements Entity {
 					this.m_vertAmount = (vertChangeBiggerThanTileSize)
 										? 0
 										: this.m_vertAmount + moveAmount;
-					System.out.println("vertAmount is "+m_vertAmount);
 					this.m_board.move(	this.m_location.x,
 										this.m_location.y + moveAmount,
 										this);
@@ -289,7 +288,6 @@ public class Centipede implements Entity {
 					(d == Direction.DOWN ||
 					d == Direction.UP ))
 			{
-				System.out.println("turning to horz b/c done move vert");
 				synchronized(this.m_direction) {
 					if (this.m_movingLeftward) {
 						this.m_direction = Direction.RIGHT;
@@ -355,7 +353,6 @@ public class Centipede implements Entity {
 			synchronized(this.m_direction) {
 				if(this.m_direction == Direction.DOWN ||
 						this.m_direction == Direction.UP) {
-					System.out.println("turning to horz b/c coll");
 					if (this.m_movingLeftward) {
 						this.m_direction = Direction.RIGHT;
 					} else {
@@ -365,7 +362,6 @@ public class Centipede implements Entity {
 				} else {
 					this.m_direction = Direction.DOWN;
 					this.m_vertAmount = 1;	//hackish
-					System.out.println("it's goin down");
 				}
 			}
 		}
