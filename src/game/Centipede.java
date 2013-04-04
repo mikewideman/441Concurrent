@@ -240,8 +240,8 @@ public class Centipede implements Entity {
 					moveAmount = (vertChangeBiggerThanTileSize)
 										? Board.TILE_SIZE-this.m_vertAmount
 										: moveAmount;
-					this.m_vertAmount = (vertChangeBiggerThanTileSize) ?
-										0
+					this.m_vertAmount = (vertChangeBiggerThanTileSize)
+										? 0
 										: this.m_vertAmount + moveAmount;
 					this.m_board.move(	this.m_location.x,
 										this.m_location.y + moveAmount,
@@ -378,6 +378,7 @@ public class Centipede implements Entity {
 			if (this.m_nextSegment != null) {
 				// this.m_nextSegment.becomeHead();
 				this.m_nextSegment.m_isHead = true;
+				this.m_nextSegment.m_direction = Direction.DOWN;
 
 				/*
 				 * Spawn a new thread and have the new head start running
