@@ -248,7 +248,7 @@ public class Centipede implements Entity {
 					this.m_board.move(	this.m_location.x,
 										this.m_location.y + moveAmount,
 										this);
-					if(vertChangeBiggerThanTileSize) {
+					if(vertChangeBiggerThanTileSize && this.m_nextSegment!=null) {
 						// tell next segment it can move down now
 						this.m_nextSegment.m_direction = Direction.DOWN;
 					}
@@ -366,6 +366,7 @@ public class Centipede implements Entity {
 					this.m_movingLeftward = (!this.m_movingLeftward);
 				} else { //You may want to not run into things downward, because it's probably what you ran into before
 					this.m_direction = Direction.DOWN;
+					this.m_vertAmount = 1;//hackish
 					System.out.println("it's goin down");
 				}
 			}
