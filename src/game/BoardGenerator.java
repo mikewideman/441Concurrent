@@ -4,7 +4,7 @@ import java.util.Random;
 
 public class BoardGenerator {
 
-	static final int MUSHROOM_START_ROW = 2;
+	static final int MUSHROOM_START_ROW = 3;
 	static final int PLAYER_SAFE_ROWS = 3;
 	static final int MUSHROOM_FREQUENCY = 8;
 	static final Random generator = new Random();

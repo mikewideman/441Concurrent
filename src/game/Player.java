@@ -16,8 +16,6 @@ public class Player implements Entity , Runnable {
 	private Rectangle 				m_boundingBox;
 	private Direction				m_direction;
 	
-	//true if we're currently moving, false otherwise. This must never escape.
-	private boolean					m_moving;
 	private final EntityTypes		m_type;
 	
 	private final int SQUARE_SIZE = Board.TILE_SIZE;
@@ -38,7 +36,6 @@ public class Player implements Entity , Runnable {
 		m_sprite = new PlayerSprite(this);
 		
 		recalcBoundingBox();
-		m_moving = false;
 	}
 	
 	
@@ -47,7 +44,6 @@ public class Player implements Entity , Runnable {
 	*/
 	public void moveToLocation( int x, int y )
 	{
-		//commenting out until board is implemented
 		m_board.move( x, y, this );
 	}
 	
@@ -67,7 +63,6 @@ public class Player implements Entity , Runnable {
 	public void beginMove(Direction direction)
 	{
 		m_direction = direction;
-		m_moving 	= true;
 	}
 	
 	/**
@@ -75,7 +70,6 @@ public class Player implements Entity , Runnable {
 	 */
 	public void endMove()
 	{
-		m_moving = false;
 	}
 	
 	/**
@@ -104,7 +98,6 @@ public class Player implements Entity , Runnable {
 	 */
 	public void move() 
 	{
-		//business commented out until board is implemented
 		if( m_direction == Direction.LEFT )
 		{
 			m_board.move( m_location.x - STEP_SIZE, m_location.y, this );
@@ -123,18 +116,12 @@ public class Player implements Entity , Runnable {
 	 * Bullet collisions should be impossible since player movement is side-to-side.
 	 * If a bullet collision happens for some reason, we do nothing and the bullet will go away.
 	 */
-	public void collidesWith(Entity entity) 
+	public void collidesWith(EntityTypes entityType) 
 	{
-		if( entity.getType() == EntityTypes.CENTIPEDE )
+		if( entityType == EntityTypes.CENTIPEDE )
 		{
 			die();
-		}
-		else if ( entity.getType() == EntityTypes.MUSHROOM ) 
-		{
-			m_moving = false;
-		}
-		
-		
+		}		
 	}
 
 	/**
@@ -142,8 +129,8 @@ public class Player implements Entity , Runnable {
 	 */
 	public void die() 
 	{
-		//commenting out until board is implemented
-		m_board.move( -1, -1, this );
+		// this should cause some kind of yet to be specified
+		// game over scenario.
 	}
 
 	/**

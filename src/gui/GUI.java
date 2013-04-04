@@ -1,21 +1,21 @@
 package gui;
 
-import java.awt.Cursor;
-import java.awt.Point;
-import java.awt.Toolkit;
-import java.awt.image.BufferedImage;
 import game.*;
 
 import javax.swing.JFrame;
 
 /** A container for the game UI and any other UI elements */
 public class GUI extends JFrame {
+	
+	/**
+	 * Swing serialiation uid.
+	 */
+	private static final long serialVersionUID = -3825544726520970140L;
+	
 	private GameCanvas canvas;
 	public GUI(Player player, Board board) {
 		super();
 		
-		
-
 		/*Window configuration */
 		this.setTitle("Centipede");
 		// note: may have to add size if other ui elements are added
@@ -48,7 +48,7 @@ public class GUI extends JFrame {
 	 */
 	public void setBoard(Board b, Player p){
 		createCanvas(b,p);
-		this.setSize(b.WIDTH_PIXELS, b.HEIGHT_PIXELS);
+		this.setSize(Board.WIDTH_PIXELS, Board.HEIGHT_PIXELS);
 	}
 
 }

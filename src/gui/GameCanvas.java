@@ -16,6 +16,10 @@ import javax.swing.JPanel;
 
 /** The drawing of the actual game */
 class GameCanvas extends JPanel {
+	/**
+	 * Swing serialiation uid.
+	 */
+	private static final long serialVersionUID = -5175961592157333634L;
 	private Board theBoard;
 	private AnimThread animator;
 
@@ -28,8 +32,6 @@ class GameCanvas extends JPanel {
 		Cursor blankCursor = Toolkit.getDefaultToolkit().createCustomCursor(
 				cursorImg, new Point(0, 0), "blank cursor");
 		this.setCursor(blankCursor);
-
-		
 		
 		animator = new AnimThread();
 		animator.start();
@@ -47,12 +49,7 @@ class GameCanvas extends JPanel {
 				// will be drawn to fill the bounding box. Remember, box's x, y
 				// is upper l
 				Rectangle box = thing.getBoundingBox();
-//				System.out.println("drawing "+sprite+" at "+box);
-
 				Image img = sprite.getImage();
-				// if (img==null)
-				// System.out.println("Error: Image not loaded for "+thing);
-				// else
 				if (img != null)
 					g2.drawImage(sprite.getImage(), box.getX(), box.getY(), box.getWidth(),
 							box.getHeight(), null);

@@ -304,13 +304,13 @@ public class Centipede implements Entity {
 	/*
 	 * We should consider passing the EntityType instead for safety's sake.
 	 */
-	public void collidesWith(Entity entity) {
+	public void collidesWith(EntityTypes entityType) {
 		
-		if( entity.getType() == EntityTypes.BULLET )
+		if( entityType == EntityTypes.BULLET )
 		{
 			die();
 		}
-		else if ( entity.getType() == EntityTypes.MUSHROOM ) 
+		else if ( entityType == EntityTypes.MUSHROOM ) 
 		{
 			synchronized(this.m_direction) {//does this synchronization do anything? (is it synchronized on direction anywhere else?)
 				/*if(this.m_direction == Direction.DOWN) {

@@ -56,10 +56,9 @@ public class Mushroom implements Entity{
 	 * Mushrooms get hurt if they are hit by a bullet.
 	 * They ignore other collisions.
 	 */
-	public void collidesWith(Entity entity) 
+	public void collidesWith(EntityTypes entityType) 
 	{
-		if( entity.getType() == EntityTypes.BULLET )
-		{
+		if( entityType == EntityTypes.BULLET ) {
 			die();
 		}
 	}

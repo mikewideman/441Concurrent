@@ -52,10 +52,9 @@ public class Bullet implements Entity, Runnable {
 	 * Called when another entity collides with this one.
 	 * Bullets will die whenever they collide with anything.
 	 */
-	public void collidesWith(Entity entity)
+	public void collidesWith(EntityTypes entityType)
 	{
-		if( entity.getType() != EntityTypes.PLAYER )
-		{
+		if( entityType != EntityTypes.PLAYER ) {
 			die();
 		}
 	}

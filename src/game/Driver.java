@@ -2,6 +2,10 @@ package game;
 
 import gui.GUI;
 
+/**
+ * Run a multithreaded approximation of the classic arcade game "Centipede". 
+ *
+ */
 public class Driver {
 
 	public static void main(String[] args) {

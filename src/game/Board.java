@@ -147,7 +147,7 @@ public class Board {
 	                    // acceptably close.
 	                	if (entity.getType() != other.getType()) //just suppress some useless messages
 	                		System.out.println(entity + " collided with " + other);
-	                    other.collidesWith(entity);
+	                    other.collidesWith(entity.getType());
 	                    collisions.add(other);
 	                }
 	            }
@@ -162,12 +162,12 @@ public class Board {
 
         // now resolve all the collisions for the moved entity
         for (Entity collision : collisions) {
-            entity.collidesWith(collision);
+            entity.collidesWith(collision.getType());
         }
         
         if (wallCollision) {
         	System.out.println(entity + " collided with the wall");
-        	entity.collidesWith(new Mushroom(this, new Point())); 
+        	entity.collidesWith(EntityTypes.MUSHROOM); 
 		}
 	}
 	
