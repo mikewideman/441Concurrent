@@ -18,12 +18,24 @@ public class Mushroom implements Entity {
 
 	// Length of one side of the Mushroom's bounding box (in pixels)
 	private final int SQUARE_SIZE = Board.TILE_SIZE;
-
-	public Mushroom(Board board, Point location) {
+	
+	/**
+	 * Safely create a new mushroom and set up its sprite so
+	 * as not to let the mushroom escape during construction.
+	 * @param board the game board
+	 * @param location the point which the mushroom should occupy
+	 * @return a new Mushroom
+	 */
+	public static Mushroom createMushroom(Board board, Point location) {
+		Mushroom m = new Mushroom(board, location);
+		m.m_sprite = new MushroomSprite(m);
+		return m;
+	}
+	
+	private Mushroom(Board board, Point location) {
 		m_board = board;
 		m_curHealth = MAX_HEALTH;
 		m_location = location;
-		m_sprite = new MushroomSprite(this);
 		m_type = EntityTypes.MUSHROOM;
 		recalcBoundingBox();
 	}
@@ -32,26 +44,16 @@ public class Mushroom implements Entity {
 	 * Recalculates the bounding box for the mushroom based on current location.
 	 */
 	private void recalcBoundingBox() {
-		// int x = m_location.x - SQUARE_SIZE / 2;
-		// int y = m_location.y - SQUARE_SIZE / 2;
-		// m_boundingBox = Rectangle.fromUpperLeft( x, y, SQUARE_SIZE,
-		// SQUARE_SIZE );
 		int[] p = getLocation();
 		m_boundingBox = Rectangle.fromCenter(p[0], p[1], SQUARE_SIZE,
 				SQUARE_SIZE);
 	}
 
 	/**
-	 * This Entity method does nothing for mushrooms because they cannot move.
-	 */
-	public void move() {
-		// Mushrooms do not move
-		return;
-	}
-
-	/**
 	 * Mushrooms get hurt if they are hit by a bullet. They ignore other
 	 * collisions.
+	 * 
+	 * @param entityType the type of entity this collided with.
 	 */
 	public void collidesWith(EntityTypes entityType) {
 		if (entityType == EntityTypes.BULLET) {
@@ -71,6 +73,8 @@ public class Mushroom implements Entity {
 
 	/**
 	 * Return a sprite representation of the entity.
+	 * 
+	 * @return this mushroom's EntitySprite
 	 */
 	public EntitySprite getSprite() {
 		return m_sprite;
@@ -78,6 +82,8 @@ public class Mushroom implements Entity {
 
 	/**
 	 * Return our current location.
+	 * 
+	 * @return an int array containing the mushroom's x,y coords.
 	 */
 	public int[] getLocation() {
 		// don't hand out the actual Point object due to concurrency issues
@@ -87,6 +93,8 @@ public class Mushroom implements Entity {
 	/**
 	 * Return our bounding box. We can hand out the rectangle directly because
 	 * it's immutable.
+	 * 
+	 * @return this mushroom's bounding Game.Rectangle
 	 */
 	public Rectangle getBoundingBox() {
 		return m_boundingBox;
@@ -107,16 +115,29 @@ public class Mushroom implements Entity {
 	 * lowest health (still alive) outside of interval [1, #Life images] will
 	 * prevent drawing
 	 * 
-	 * @return
+	 * @return this mushroom's current health
 	 */
 	public int getHealth() {
 		return this.m_curHealth;
 	}
 
+	/**
+	 * Return the mushroom's entity type.
+	 * 
+	 * @return EntityTypes.MUSHROOM
+	 */
 	public EntityTypes getType() {
 		return m_type;
 	}
-
+	
+	/**
+	 * Adjust this mushroom's location to a
+	 * new pair of coords without invoking a
+	 * full move.
+	 * 
+	 * @param x new x coord to move to
+	 * @param y new y coord to move to
+	 */
 	public void updateLocation(int x, int y) {
 		m_location.x = x;
 		m_location.y = y;

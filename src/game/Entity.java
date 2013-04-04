@@ -57,6 +57,10 @@ public interface Entity extends Runnable {
 	 */
 	public game.Rectangle getBoundingBox();
 
+	/**
+	 * Return the entity's type for collision resolution.
+	 * @return this entity's EntityTypes value
+	 */
 	public EntityTypes getType();
 
 }

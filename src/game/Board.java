@@ -214,7 +214,7 @@ public class Board {
 		java.awt.Point p = new java.awt.Point(x, y);
 		switch (type) {
 		case MUSHROOM:
-			newEntity = new Mushroom(this, p);
+			newEntity = Mushroom.createMushroom(this, p);
 			break;
 		case PLAYER:
 			newEntity = new Player(this, p);
