@@ -218,6 +218,7 @@ public class Centipede implements Entity {
 			 * Ideally, this method is being called sequentially, so there ought
 			 * to be no need to synchronize on the Direction.
 			 */
+			System.out.println("I'm going "+m_direction);
 			switch(this.m_direction) {
 				case LEFT:
 					this.m_board.move(	this.m_location.x - moveAmount,
@@ -243,6 +244,7 @@ public class Centipede implements Entity {
 					this.m_vertAmount = (vertChangeBiggerThanTileSize) ?
 										0
 										: this.m_vertAmount + moveAmount;
+					System.out.println("vertAmount is "+m_vertAmount);
 					this.m_board.move(	this.m_location.x,
 										this.m_location.y + moveAmount,
 										this);
@@ -280,6 +282,7 @@ public class Centipede implements Entity {
 					(this.m_direction == Direction.DOWN ||
 					this.m_direction == Direction.UP ))
 			{
+				System.out.println("turning to horz b/c done move vert");
 				if (this.m_movingLeftward) {
 					this.m_direction = Direction.RIGHT;
 				} else {
@@ -354,7 +357,7 @@ public class Centipede implements Entity {
 					 * avoid a situation where this situation occurs twice in
 					 * one row (i.e. the centipede never moves down)
 					 */
-					
+					System.out.println("turning to horz b/c coll");
 					if (this.m_movingLeftward) {
 						this.m_direction = Direction.RIGHT;
 					} else {
@@ -363,6 +366,7 @@ public class Centipede implements Entity {
 					this.m_movingLeftward = (!this.m_movingLeftward);
 				} else { //You may want to not run into things downward, because it's probably what you ran into before
 					this.m_direction = Direction.DOWN;
+					System.out.println("it's goin down");
 				}
 			}
 		}
