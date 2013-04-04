@@ -50,7 +50,7 @@ public class Centipede implements Entity {
 	 * The default decrement counter value. Should be a sufficiently large
 	 * number so that a Centipede speeds up only periodically.
 	 */
-	private final static int DEFAULT_SPEED_COUNT = 10000000;
+	private final static int DEFAULT_SPEED_COUNT = 1000;
 
 	/**
 	 * Construction of a Centipede requires a factory method in order to create
@@ -213,13 +213,18 @@ public class Centipede implements Entity {
 			 * 1 and slowly increase
 			 */
 			int moveAmount = Board.TILE_SIZE - this.m_speedFactor;
+			//System.out.println("moveAmt: " +moveAmount);
 
 			/*
 			 * Ideally, this method is being called sequentially, so there ought
 			 * to be no need to synchronize on the Direction.
 			 */
-			System.out.println("I'm going "+m_direction);
-			switch(this.m_direction) {
+			//System.out.println("I'm going "+m_direction);
+			Direction d;
+			synchronized(this.m_direction) {
+				d = Direction.valueOf(this.m_direction.toString());
+			}
+			switch(d) {
 				case LEFT:
 					this.m_board.move(	this.m_location.x - moveAmount,
 										this.m_location.y,
@@ -231,6 +236,7 @@ public class Centipede implements Entity {
 										this);
 					break;
 				case DOWN:
+					//System.out.println("case: Down");
 					/*
 					 * If the movement rate would move you down more than the
 					 * tile size, you have to stop at the tile size limit.
@@ -278,15 +284,20 @@ public class Centipede implements Entity {
 			}
 
 			// need to change direction after moving down a box size
+			synchronized(this.m_direction) {
+				d = Direction.valueOf(this.m_direction.toString());
+			}
 			if (	this.m_vertAmount == 0 && 
-					(this.m_direction == Direction.DOWN ||
-					this.m_direction == Direction.UP ))
+					(d == Direction.DOWN ||
+					d == Direction.UP ))
 			{
 				System.out.println("turning to horz b/c done move vert");
-				if (this.m_movingLeftward) {
-					this.m_direction = Direction.RIGHT;
-				} else {
-					this.m_direction = Direction.LEFT;
+				synchronized(this.m_direction) {
+					if (this.m_movingLeftward) {
+						this.m_direction = Direction.RIGHT;
+					} else {
+						this.m_direction = Direction.LEFT;
+					}
 				}
 				this.m_movingLeftward = !(this.m_movingLeftward);
 			}
