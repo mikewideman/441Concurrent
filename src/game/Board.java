@@ -139,19 +139,13 @@ public class Board {
 	            // yes, compare by reference, can't
 	            // collide with oneself.
 	            if (other != entity) {
-	                int[] otherLoc = other.getLocation();
-	                // again, compare by reference is fine for this
-	                
-	                //dont consider oob collisions, it's not worth it
-//	                if (!isOOB(otherLoc[0], otherLoc[1]) && getTile(otherLoc[0], otherLoc[1]) == goalTile) {
-	               
 	                if (entity.getBoundingBox().overlaps(other.getBoundingBox())){    
-	                // resolve collisions for current occupants of the tile,
+	                	// resolve collisions for current occupants of the tile,
 	                    // but wait until the end to handle them for the moving
 	                    // entity to make the rare occasional chain reaction a little simpler.
 	                    // this won't be *perfect* for things like tiny bullets, but it'll be
 	                    // acceptably close.
-	                	if (entity.getType()!=other.getType())//just suppress some useless messages
+	                	if (entity.getType() != other.getType()) //just suppress some useless messages
 	                		System.out.println(entity + " collided with " + other);
 	                    other.collidesWith(entity);
 	                    collisions.add(other);
@@ -191,9 +185,11 @@ public class Board {
     /**
      * Place a new entity, such as a brand new mushroom,
      * centipede, etc, on the play board.
-     * Then run the entity;
+     * Then run the entity.
      *
-     * @param newEntity the new entity to add to the board
+     * @param x		the x coord at which to create the entity
+     * @param y		the y coord at which to create the entity
+     * @param type the type of entity to add to the board
      */
     public Entity createEntity(int x, int y, EntityTypes type) {
     	Entity newEntity = null;
@@ -204,27 +200,42 @@ public class Board {
     		break;
     	case PLAYER:
     		newEntity = new Player(this, p);
-    		(new Thread(newEntity)).start();//start the entity in it's own thread.
     		break;
     	case BULLET:
     		newEntity = new Bullet(this, p);
-    		(new Thread(newEntity)).start();//start the entity in it's own thread.
     		break;
     	case CENTIPEDE:
-//    		newEntity = Centipede.generateChain(this, p, Centipede.DEFAULT_CHAIN_LENGTH, Direction.LEFT);
     		newEntity = Centipede.makeCentipede(Centipede.DEFAULT_CHAIN_LENGTH, this, new Point(x,y));
-    		(new Thread(newEntity)).start();//start the entity in it's own thread.
     		break;
     	}
-    	entities.add(newEntity);
+    	synchronized(entities) {
+    		entities.add(newEntity);
+    	}
+    	// Mushrooms don't need a thread, don't
+    	// run them.
+    	if (!(type == EntityTypes.MUSHROOM)) {
+    		(new Thread(newEntity)).start();//start the entity in it's own thread.
+    	}
     	
     	return newEntity;
 
     }
+    
+    /**
+     * Add a centipede segment to the field, but
+     * don't start it as its own thread.
+     * @param c the centipede segment to add.
+     */
     public void addCentipedeBody(Centipede c){
-    	entities.add(c);
+    	synchronized(entities) {
+    		entities.add(c);
+    	}
     }
     
+    /**
+     * Safely remove an entity from the board.
+     * @param e the entity to remove
+     */
     public void removeEntity(Entity e) {
     	synchronized(entities) {
     		entities.remove(e);
