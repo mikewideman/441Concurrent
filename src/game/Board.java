@@ -134,14 +134,6 @@ public class Board {
 						 this won't be *perfect* for things like tiny bullets,
 						 but it'll be
 						 acceptably close.*/
-						if (entity.getType() != other.getType()) /* just
-																  * suppress
-																  * some
-																  * useless
-																  * messages
-																  */
-							System.out.println(entity + " collided with "
-									+ other);
 						other.collidesWith(entity.getType());
 						collisions.add(other);
 					}
@@ -163,7 +155,6 @@ public class Board {
 		}
 
 		if (wallCollision) {
-			System.out.println(entity + " collided with the wall");
 			entity.collidesWith(EntityTypes.MUSHROOM);
 		}
 	}
