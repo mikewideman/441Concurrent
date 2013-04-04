@@ -14,8 +14,8 @@ public class StubBoard extends Board {
 		// entities.add(new StubCentipede(this));
 		// entities.add(new StubCentipede(this));
 		// entities.add(new StubCentipede(this));
-		entities.add(new Bullet(this, new Point(300, 200)));
-		entities.add(new Mushroom(this, new Point(300, 220)));
+		entities.add(Bullet.createBullet(this, new Point(300, 200)));
+		entities.add(Mushroom.createMushroom(this, new Point(300, 220)));
 
 	}
 

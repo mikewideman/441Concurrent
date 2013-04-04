@@ -1,7 +1,6 @@
 package stub;
 
 import java.awt.Point;
-import java.awt.geom.Point2D;
 
 import game.Board;
 import game.Direction;

@@ -28,12 +28,23 @@ public class Bullet implements Entity, Runnable {
 	private final int MOVE_DX = 0;
 	private final int MOVE_DY = -1;
 
-	public Bullet(Board board, Point location) {
+	/**
+	 * Safely create a new bullet and set up its sprite so
+	 * as not to let a ref to the bullet escape during construction.
+	 * @param board the game board
+	 * @param location the point which the bullet should occupy
+	 * @return a new Bullet
+	 */
+	public static Bullet createBullet(Board board, Point location) {
+		Bullet b = new Bullet(board, location);
+		b.m_sprite = new BulletSprite(b);
+		return b;
+	}
+	
+	private Bullet(Board board, Point location) {
 		m_board = board;
 		m_location = location;
-		m_sprite = new BulletSprite(this);
 		m_type = EntityTypes.BULLET;
-
 		recalcBoundingBox();
 	}
 

@@ -217,10 +217,10 @@ public class Board {
 			newEntity = Mushroom.createMushroom(this, p);
 			break;
 		case PLAYER:
-			newEntity = new Player(this, p);
+			newEntity = Player.createPlayer(this, p);
 			break;
 		case BULLET:
-			newEntity = new Bullet(this, p);
+			newEntity = Bullet.createBullet(this, p);
 			break;
 		case CENTIPEDE:
 			newEntity = Centipede.makeCentipede(Centipede.DEFAULT_CHAIN_LENGTH,

@@ -26,12 +26,23 @@ public class Player implements Entity, Runnable {
 	public static final int START_Y = Board.HEIGHT_PIXELS
 			- (Board.TILE_SIZE * 2);
 
-	public Player(Board board, Point location) {
+	/**
+	 * Safely create a new player and set up its sprite so
+	 * as not to let a ref to the player escape during construction.
+	 * @param board the game board
+	 * @param location the point which the player should occupy
+	 * @return a new Player
+	 */
+	public static Player createPlayer(Board board, Point location) {
+		Player p = new Player(board, location);
+		p.m_sprite = new PlayerSprite(p);
+		return p;
+	}
+	
+	protected Player(Board board, Point location) {
 		m_board = board;
 		m_location = location;
-
 		m_type = EntityTypes.PLAYER;
-		m_sprite = new PlayerSprite(this);
 
 		recalcBoundingBox();
 	}
