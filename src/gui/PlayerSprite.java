@@ -14,20 +14,17 @@ public class PlayerSprite extends EntitySprite {
 	}
 
 	protected void cacheImages() {
-		// TODO Auto-generated method stub
 		if (playerImg != null)
 			return;
 		playerImg = readImage("Player.bmp");
 	}
 
 	public Image getImage() {
-		// TODO Auto-generated method stub
 		return playerImg;
 	}
 
 	@Override
 	public boolean shouldBeDrawn() {
-		// TODO Auto-generated method stub
 		return true;
 	}
 

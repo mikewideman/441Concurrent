@@ -88,8 +88,6 @@ public class Player implements Entity , Runnable {
 	 */
 	public void fire()
 	{
-		//commenting out until board is implemented
-		System.out.println("FIRE!");
 		m_board.createEntity( m_location.x + BULLET_SPAWN_DX, m_location.y + BULLET_SPAWN_DY, EntityTypes.BULLET );
 	}
 
@@ -140,13 +138,13 @@ public class Player implements Entity , Runnable {
 	 * Bullet collisions should be impossible since player movement is side-to-side.
 	 * If a bullet collision happens for some reason, we do nothing and the bullet will go away.
 	 */
-	public void collidesWith(Entity entity) 
+	public void collidesWith(EntityTypes entity) 
 	{
-		if( entity.getType() == EntityTypes.CENTIPEDE )
+		if( entity == EntityTypes.CENTIPEDE )
 		{
 			die();
 		}
-		else if ( entity.getType() == EntityTypes.MUSHROOM ) 
+		else if ( entity == EntityTypes.MUSHROOM ) 
 		{
 			m_moving = false;
 		}
@@ -210,4 +208,16 @@ public class Player implements Entity , Runnable {
 		return m_type;
 	}
 
+	/**
+	 * Safely create a new player and set up its sprite so
+	 * as not to let a ref to the player escape during construction.
+	 * @param board the game board
+	 * @param location the point which the player should occupy
+	 * @return a new Player
+	 */
+	public static Player createPlayer(Board board, Point location) {
+		Player p = new Player(board, location);
+		p.m_sprite = new PlayerSprite(p);
+		return p;
+	}
 }

@@ -30,7 +30,6 @@ public class CentipedeSprite extends EntitySprite {
 			return headCache.get(centi.getDirection());
 	}
 
-
 	protected void cacheImages() {
 		if (bodyImage == null) {// only need to do this once on class level
 			BufferedImage body = readImage("Body.bmp");
@@ -47,14 +46,14 @@ public class CentipedeSprite extends EntitySprite {
 			int half = head.getWidth() / 2;
 			// again, the second images are nice animations, but I'm not
 			// supporting that now
-			headCache.put(Direction.LEFT, head.getSubimage(0, quarter * 0,
-					half, quarter));
-			headCache.put(Direction.RIGHT, head.getSubimage(0, quarter * 1,
-					half, quarter));
-			headCache.put(Direction.DOWN, head.getSubimage(0, quarter * 2,
-					half, quarter));
-			headCache.put(Direction.UP, head.getSubimage(0, quarter * 3, half,
-					quarter));
+			headCache.put(Direction.LEFT,
+					head.getSubimage(0, quarter * 0, half, quarter));
+			headCache.put(Direction.RIGHT,
+					head.getSubimage(0, quarter * 1, half, quarter));
+			headCache.put(Direction.DOWN,
+					head.getSubimage(0, quarter * 2, half, quarter));
+			headCache.put(Direction.UP,
+					head.getSubimage(0, quarter * 3, half, quarter));
 
 		}
 

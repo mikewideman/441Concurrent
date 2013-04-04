@@ -1,35 +1,36 @@
 package game;
 
+import java.util.Random;
+
+/**
+ * BoardGenerator
+ * 
+ * Creates a randomly generated Centipede level.
+ *
+ */
 public class BoardGenerator {
 
-	static final int[][] MUSHROOM_CONFIG = {
-	       {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-	       {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-	       {0,0,1,0,0,0,0,0,0,0,0,0,0,0,0},
-	       {0,0,1,1,0,0,0,0,0,0,0,0,0,0,0},
-	       {0,0,1,0,0,0,0,0,0,0,1,1,0,0,0},
-	       {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-	       {0,0,0,1,0,0,0,0,0,0,0,0,0,0,0},
-	       {0,0,1,0,0,0,0,0,0,1,1,0,0,0,0},
-	       {0,0,1,0,0,0,0,0,0,0,1,0,0,0,0},
-	       {0,0,0,0,1,0,0,0,0,0,0,1,0,0,0},
-	       {0,0,0,0,1,0,0,0,0,0,0,0,0,0,0},
-	       {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-	       {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-	       {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-	       {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-	       {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}};
-	
-	static final int playerStartY = 600;
-	static final int playerStartX = 300;
-	public static Board generateLevel(){
+	static final int MUSHROOM_START_ROW = 4;
+	static final int PLAYER_SAFE_ROWS = 3;
+	static final int MUSHROOM_FREQUENCY = 8;
+	static final Random generator = new Random();
+
+	/**
+	 * Generate a new play board for Centipede. The new board will be randomly
+	 * populated with Mushrooms between MUSHROOM_START_ROW and PLAYER_SAFE_ROWS.
+	 * 
+	 * @return a new board, populated with mushrooms.
+	 */
+	public static Board generateLevel() {
 		Board board = new Board();
-//		Player p = (Player) board.createEntity(playerStartX, playerStartY, EntityTypes.PLAYER);
-		board.createEntity(board.WIDTH_PIXELS-board.TILE_SIZE*5, board.TILE_SIZE*2, EntityTypes.CENTIPEDE);
-		for (int r = 0; r < MUSHROOM_CONFIG.length; r++) {
-			for (int c = 0; c < MUSHROOM_CONFIG[r].length; c++) {
-				if (MUSHROOM_CONFIG[r][c] == 1) {
-					board.createEntity(r * Board.TILE_SIZE, c * Board.TILE_SIZE, EntityTypes.MUSHROOM);
+
+		board.createEntity(Board.WIDTH_PIXELS - Board.TILE_SIZE * 5,
+				Board.TILE_SIZE * 2, EntityTypes.CENTIPEDE);
+		for (int x = 0; x < (Board.WIDTH_PIXELS / Board.TILE_SIZE); x++) {
+			for (int y = MUSHROOM_START_ROW; y < ((Board.HEIGHT_PIXELS / Board.TILE_SIZE) - PLAYER_SAFE_ROWS); y++) {
+				if (generator.nextInt(10) > 8) {
+					board.createEntity(x * Board.TILE_SIZE,
+							y * Board.TILE_SIZE, EntityTypes.MUSHROOM);
 				}
 			}
 		}
