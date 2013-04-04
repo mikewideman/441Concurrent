@@ -36,8 +36,8 @@ public class MushroomSprite extends EntitySprite {
 		int subimageWidth = img.getWidth() / LIVES;
 		for (int l = LIVES; l > 0; l--) {
 			BufferedImage lifeImg = img.getSubimage(
-					(LIVES - l) * subimageWidth, 0, subimageWidth, img
-							.getHeight());
+					(LIVES - l) * subimageWidth, 0, subimageWidth,
+					img.getHeight());
 			imgCache.put(l, lifeImg);
 		}
 	}

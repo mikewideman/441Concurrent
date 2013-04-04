@@ -32,7 +32,7 @@ class GameCanvas extends JPanel {
 		Cursor blankCursor = Toolkit.getDefaultToolkit().createCustomCursor(
 				cursorImg, new Point(0, 0), "blank cursor");
 		this.setCursor(blankCursor);
-		
+
 		animator = new AnimThread();
 		animator.start();
 	}
@@ -51,8 +51,8 @@ class GameCanvas extends JPanel {
 				Rectangle box = thing.getBoundingBox();
 				Image img = sprite.getImage();
 				if (img != null)
-					g2.drawImage(sprite.getImage(), box.getX(), box.getY(), box.getWidth(),
-							box.getHeight(), null);
+					g2.drawImage(sprite.getImage(), box.getX(), box.getY(),
+							box.getWidth(), box.getHeight(), null);
 			}
 		}
 

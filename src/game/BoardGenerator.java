@@ -18,7 +18,8 @@ public class BoardGenerator {
 	public static Board generateLevel() {
 		Board board = new Board();
 
-		board.createEntity(Board.WIDTH_PIXELS-Board.TILE_SIZE*5, Board.TILE_SIZE*2, EntityTypes.CENTIPEDE);
+		board.createEntity(Board.WIDTH_PIXELS - Board.TILE_SIZE * 5,
+				Board.TILE_SIZE * 2, EntityTypes.CENTIPEDE);
 		for (int x = 0; x < (Board.WIDTH_PIXELS / Board.TILE_SIZE); x++) {
 			for (int y = MUSHROOM_START_ROW; y < ((Board.HEIGHT_PIXELS / Board.TILE_SIZE) - PLAYER_SAFE_ROWS); y++) {
 				if (generator.nextInt(10) > 8) {
@@ -30,4 +31,3 @@ public class BoardGenerator {
 		return board;
 	}
 }
-
