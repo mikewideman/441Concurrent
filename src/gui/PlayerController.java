@@ -37,6 +37,9 @@ public class PlayerController implements KeyListener, MouseListener,
 		case KeyEvent.VK_UP:
 			thePlayer.beginMove(Direction.UP);
 			break;
+		case KeyEvent.VK_SPACE:
+			thePlayer.fire();
+			break;
 		}
 
 	}
@@ -55,7 +58,7 @@ public class PlayerController implements KeyListener, MouseListener,
 	}
 
 	public void mouseClicked(MouseEvent e) {
-		thePlayer.fire();
+
 
 	}
 
@@ -70,7 +73,7 @@ public class PlayerController implements KeyListener, MouseListener,
 	}
 
 	public void mousePressed(MouseEvent arg0) {
-		// TODO Auto-generated method stub
+		thePlayer.fire();
 
 	}
 

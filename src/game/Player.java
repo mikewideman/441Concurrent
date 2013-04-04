@@ -21,13 +21,19 @@ public class Player implements Entity , Runnable {
 	private final EntityTypes		m_type;
 	
 	private final int SQUARE_SIZE = Board.TILE_SIZE;
-	private final int STEP_SIZE	  = 50; //distance moved in one turn
+	private final int STEP_SIZE	  = 1; //distance moved in one turn
+	
+	/**
+	 * How much of the screen is the player allowed to move in, from the bottom.
+	 */
+	private final double FRACTION_PLAYABLE = 0.20;
 	
 	private final int BULLET_SPAWN_DX = 0;
 	private final int BULLET_SPAWN_DY = -16;
 	
 	public static final int START_X = Board.WIDTH_PIXELS/2;
 	public static final int START_Y = Board.HEIGHT_PIXELS - (Board.TILE_SIZE * 2);
+	private static final double UPDATES_PER_SECOND = 60;
 	
 	public Player( Board board, Point location )
 	{
@@ -48,6 +54,7 @@ public class Player implements Entity , Runnable {
 	public void moveToLocation( int x, int y )
 	{
 		//commenting out until board is implemented
+		if (y>Board.HEIGHT_PIXELS*(1-FRACTION_PLAYABLE))
 		m_board.move( x, y, this );
 	}
 	
@@ -70,14 +77,23 @@ public class Player implements Entity , Runnable {
 		m_moving 	= true;
 	}
 	
-	/**
-	 * Stop moving. The player will no longer move of its own accord.
-	 */
-	public void endMove()
-	{
-		m_moving = false;
+	/**Stops moved initiated by beginMove. Note that the player (for now) does not need to move diagonally.**/
+	public void stopMove() {
+		m_moving=false;
 	}
-	
+
+
+	/**
+	 * Create a bullet in front of us.
+	 */
+	public void fire()
+	{
+		//commenting out until board is implemented
+		System.out.println("FIRE!");
+		m_board.createEntity( m_location.x + BULLET_SPAWN_DX, m_location.y + BULLET_SPAWN_DY, EntityTypes.BULLET );
+	}
+
+
 	/**
 	 * Recalculate the bounding box based on our current location.
 	 */
@@ -89,15 +105,6 @@ public class Player implements Entity , Runnable {
 	}
 	
 	/**
-	 * Create a bullet in front of us.
-	 */
-	public void fire()
-	{
-		//commenting out until board is implemented
-		m_board.createEntity( m_location.x + BULLET_SPAWN_DX, m_location.y + BULLET_SPAWN_DY, EntityTypes.BULLET );
-	}
-	
-	/**
 	 * Requests movement from the board based on our current velocity.
 	 * Not to be confused with moveToLocation, which requests
 	 * a move directly to the given location.
@@ -105,13 +112,23 @@ public class Player implements Entity , Runnable {
 	public void move() 
 	{
 		//business commented out until board is implemented
-		if( m_direction == Direction.LEFT )
+		//if moving is off, then don't continue with move
+		if (!m_moving) return;
+		if( m_direction == Direction.LEFT && m_location.x>0)
 		{
-			m_board.move( m_location.x - STEP_SIZE, m_location.y, this );
+			m_board.move( m_location.x - STEP_SIZE, m_location.y, this);
 		}
-		else if( m_direction == Direction.RIGHT )
+		else if( m_direction == Direction.RIGHT && m_location.x<Board.WIDTH_PIXELS)
 		{
 			m_board.move( m_location.x + STEP_SIZE, m_location.y, this );			
+		}
+		else if( m_direction == Direction.UP && m_location.y>0 && m_location.y>Board.HEIGHT_PIXELS*(1-FRACTION_PLAYABLE))
+		{
+			m_board.move( m_location.x, m_location.y - STEP_SIZE, this );			
+		}
+		else if( m_direction == Direction.DOWN && m_location.y<Board.HEIGHT_PIXELS)
+		{
+			m_board.move( m_location.x, m_location.y + STEP_SIZE, this );			
 		}
 		recalcBoundingBox();
 	}
@@ -162,10 +179,6 @@ public class Player implements Entity , Runnable {
 	{
 		return new int[]{m_location.x, m_location.y};
 	}
-	/**Stops moved initiated by beginMove. Note that the player (for now) does not need to move diagonally.**/
-	public void stopMove() {
-	}
-
 	/**
 	 * Return our bounding box.
 	 */
@@ -182,6 +195,10 @@ public class Player implements Entity , Runnable {
 		while ( m_location.x != -1 ) 
 		{
 			move();
+			try {
+				Thread.sleep((long) ((1.0 / UPDATES_PER_SECOND) * 1000));
+			} catch (InterruptedException e) {
+			}
 			Thread.yield();
 		}
 	}
