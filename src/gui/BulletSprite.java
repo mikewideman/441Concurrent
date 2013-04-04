@@ -10,7 +10,6 @@ public class BulletSprite extends EntitySprite {
 	public BulletSprite(Bullet entityToManage) {
 		super(entityToManage);
 		this.myEntity = entityToManage;
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
@@ -23,7 +22,6 @@ public class BulletSprite extends EntitySprite {
 
 	@Override
 	public Image getImage() {
-		// TODO Auto-generated method stub
 		return img;
 	}
 

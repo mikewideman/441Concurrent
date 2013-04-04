@@ -1,36 +1,66 @@
 package game;
+
 import gui.EntitySprite;
 
-import game.Rectangle;
-import java.awt.geom.Point2D;
+public interface Entity extends Runnable {
 
-
-public interface Entity extends Runnable{
-	
-	/*
-	 * move() should be private since every Runnable Entity is going to call
-	 * its move() over and over but no one else will - so no one should know
-	 * anything about move().
+	/**
+	 * Notify this entity that it has collided with something, and that it
+	 * should act accordingly.
+	 * 
+	 * @param entityType
+	 *            the type of thing it collided with
 	 */
-	//TODO: remove this method
-	//public void move();
-	
-	public void collidesWith(Entity entity);
-	
+	public void collidesWith(EntityTypes entityType);
+
+	/**
+	 * Perform whatever action should be performed when this entity is damaged
+	 * or killed during the game. Generally, die() will end this entity's
+	 * running thread and remove the entity from the board. Some entities may
+	 * have more complicated die() behaviors that require multiple 'deaths' for
+	 * them to be removed.
+	 */
 	public void die();
-	
+
+	/**
+	 * Return this entity's sprite for drawing on the UI.
+	 * 
+	 * @return this entity's EntitySprite
+	 */
 	public EntitySprite getSprite();
-	
+
+	/**
+	 * Cause the entity to update its internal location.
+	 * 
+	 * @param x
+	 *            new x coord
+	 * @param y
+	 *            new y coord
+	 */
 	public void updateLocation(int x, int y);
-	
+
+	/**
+	 * Return the location of this entity on the play board as an [x,y] int
+	 * array.
+	 * 
+	 * @return int array of entity's x,y coords
+	 */
 	public int[] getLocation();
-		
-	/**The box to draw. 
+
+	/**
+	 * Return the box that defines the bounds of this entity for drawing and
+	 * collision purposes.
+	 * 
 	 * As specified in the Rectangle doc, the location x,y is the upper left.
-	 * @return
+	 * 
+	 * @return a bounding Rectangle
 	 */
 	public game.Rectangle getBoundingBox();
-	
+
+	/**
+	 * Return the entity's type for collision resolution.
+	 * @return this entity's EntityTypes value
+	 */
 	public EntityTypes getType();
 
 }

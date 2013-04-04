@@ -55,7 +55,7 @@ public abstract class EntitySprite {
 	// /** A list of filenames of the images that will be cached on construction
 	// **/
 	// protected abstract String[] imagesNeeded();
-	//	
+	//
 	// /**
 	// * Cache images from imagesNeeded() if they are not already.
 	// *
