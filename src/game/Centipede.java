@@ -50,7 +50,7 @@ public class Centipede implements Entity {
 	 * The default decrement counter value. Should be a sufficiently large
 	 * number so that a Centipede speeds up only periodically.
 	 */
-	private final static int DEFAULT_SPEED_COUNT = 1000;
+	private final static int DEFAULT_SPEED_COUNT = Integer.MAX_VALUE;
 
 	/**
 	 * Construction of a Centipede requires a factory method in order to create

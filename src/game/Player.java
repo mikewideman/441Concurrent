@@ -3,6 +3,8 @@ import gui.EntitySprite;
 import gui.PlayerSprite;
 
 import java.awt.Point;
+import java.util.Vector;
+
 import game.Rectangle;
 
 
@@ -15,7 +17,7 @@ public class Player implements Entity , Runnable {
 	private PlayerSprite 			m_sprite;
 	private Rectangle 				m_boundingBox;
 	private Direction				m_direction;
-	
+	private Vector<PlayerDeathListener> listeners;
 	//true if we're currently moving, false otherwise. This must never escape.
 	private boolean					m_moving;
 	private final EntityTypes		m_type;
@@ -45,6 +47,8 @@ public class Player implements Entity , Runnable {
 		
 		recalcBoundingBox();
 		m_moving = false;
+		
+		listeners = new Vector<PlayerDeathListener>();
 	}
 	
 	
@@ -159,6 +163,8 @@ public class Player implements Entity , Runnable {
 	{
 		//commenting out until board is implemented
 		m_board.move( -1, -1, this );
+		for (PlayerDeathListener morbid : listeners)
+			morbid.playerDied();
 	}
 
 	/**
@@ -219,5 +225,8 @@ public class Player implements Entity , Runnable {
 		Player p = new Player(board, location);
 		p.m_sprite = new PlayerSprite(p);
 		return p;
+	}
+	public void addDeathListener(PlayerDeathListener dl){
+		listeners.add(dl);
 	}
 }
