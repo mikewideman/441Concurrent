@@ -49,7 +49,7 @@ public class Bullet implements Entity, Runnable {
 	}
 
 	/**
-	 * Asks the board to move
+	 * Make a move on the board.
 	 */
 	public void move() {
 		m_board.move(m_location.x + MOVE_DX, m_location.y + MOVE_DY, this);
@@ -66,7 +66,8 @@ public class Bullet implements Entity, Runnable {
 	}
 
 	/**
-	 * Remove from board
+	 * Kill this bullet, ending its
+	 * run loop and removing it from the board.
 	 */
 	public void die() {
 		m_board.removeEntity(this);
@@ -74,21 +75,27 @@ public class Bullet implements Entity, Runnable {
 	}
 
 	/**
-	 * Returns a sprite representation of the entity.
+	 * Returns a sprite representation of the bullet.
+	 * 
+	 * @return this Bullet's EntitySprite
 	 */
 	public EntitySprite getSprite() {
 		return m_sprite;
 	}
 
 	/**
-	 * Return the location of our center point.
+	 * Return the location of the bullet's center point.
+	 * 
+	 * @param an int array of the Bullet's x,y coords
 	 */
 	public int[] getLocation() {
 		return new int[] { m_location.x, m_location.y };
 	}
 
 	/**
-	 * Return the bounding box that surrounds the entity.
+	 * Return the bounding box that surrounds the bullet.
+	 * 
+	 * @return this Bullet's bounding Game.Rectangle
 	 */
 	public Rectangle getBoundingBox() {
 		return m_boundingBox;
@@ -96,7 +103,8 @@ public class Bullet implements Entity, Runnable {
 
 	/**
 	 * This run loop allows the bullet to be run as a thread. Bullets will move
-	 * on every step until they are removed from the board, then they die
+	 * on every step until they collide with something, then they die and are
+	 * removed from the board.
 	 */
 	public void run() {
 		m_active = true;

@@ -2,6 +2,12 @@ package game;
 
 import java.util.Random;
 
+/**
+ * BoardGenerator
+ * 
+ * Creates a randomly generated Centipede level.
+ *
+ */
 public class BoardGenerator {
 
 	static final int MUSHROOM_START_ROW = 4;
